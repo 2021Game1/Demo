@@ -1,5 +1,5 @@
 #include "CSceneGame.h"
-
+#include "glut.h"
 
 void CSceneGame::Init() {
 
