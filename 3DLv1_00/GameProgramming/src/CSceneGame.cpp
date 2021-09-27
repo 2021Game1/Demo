@@ -7,5 +7,7 @@ void CSceneGame::Init() {
 
 void CSceneGame::Update() {
 
+	glBegin(GL_TRIANGLES);
+
 }
 
