@@ -39,6 +39,9 @@
     <ClCompile Include="src\Update.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\CVector.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CKey.h">
@@ -63,6 +66,9 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Update.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CVector.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
