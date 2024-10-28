@@ -1,0 +1,2068 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{05e59e8f-acd7-4d0a-bd9a-a5c6bd690bd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem">
+      <UniqueIdentifier>{85f7f144-4dc3-4734-bdfc-756a9e704971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Math">
+      <UniqueIdentifier>{e3e4a3ec-c611-4226-abac-9a41b3859468}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Model">
+      <UniqueIdentifier>{a9e7af69-90a7-440c-b3ea-28d6313d2c27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Task">
+      <UniqueIdentifier>{453161b1-eb5b-40dc-a61f-fb4c9e91356b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\UI">
+      <UniqueIdentifier>{93383a33-a196-413e-a7c6-2dfe09ecd721}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Collider">
+      <UniqueIdentifier>{87aa1e71-3b0d-4bbb-a1bf-7c214a8ac584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\System">
+      <UniqueIdentifier>{88b3af3d-95a5-4b6c-b691-57f42b478603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character">
+      <UniqueIdentifier>{72debf50-9646-4186-80a0-951072c29999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Scene">
+      <UniqueIdentifier>{7ddeeb75-320d-4391-819c-2a0c8f8f0538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Effect">
+      <UniqueIdentifier>{25224d48-fbee-4330-9c49-651acfb6e52a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Object">
+      <UniqueIdentifier>{8459ca36-5981-4aeb-9308-c456d0366b48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Object\Character">
+      <UniqueIdentifier>{2f1bc137-2900-4b8e-850a-cde32072c819}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Scene">
+      <UniqueIdentifier>{af5b623e-17c3-4308-b3ba-410f9a5b9c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Debug">
+      <UniqueIdentifier>{03c92fc0-53b3-405c-a2df-311b825d8127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field">
+      <UniqueIdentifier>{acbeca61-006d-429d-8391-45dc7983885d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object">
+      <UniqueIdentifier>{944b0643-4c32-4f86-9d33-49cba7329b64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI">
+      <UniqueIdentifier>{4e84a726-ab3b-43f0-bba8-569c8da5127e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Test">
+      <UniqueIdentifier>{571be4f5-8b86-49e5-8524-29f89ae925fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\CharaObject">
+      <UniqueIdentifier>{7e6dead6-fe0b-4bc1-9359-b06809b96d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\EnemyUI">
+      <UniqueIdentifier>{eec507f6-3712-4c19-8ec6-7d16afda7243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Resource">
+      <UniqueIdentifier>{25e6b34e-6c0b-4b3b-a041-930632c047be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Stage">
+      <UniqueIdentifier>{d3f6f30b-a43b-4594-a54d-50e54fad00e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\ObjectUI">
+      <UniqueIdentifier>{19fac913-bfa6-4a91-b01f-a5d1d6f9cbcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Menu">
+      <UniqueIdentifier>{9669176f-0ce1-45a8-8d3d-52f9c5a31d66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\CharaObject\ItemObject">
+      <UniqueIdentifier>{dc46f484-423a-4ed6-b568-80985fcc2bcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\Count">
+      <UniqueIdentifier>{4cc6ce07-bb8a-446e-abf7-467f09ea938b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\PlayerUI">
+      <UniqueIdentifier>{7162809b-e06e-4d22-91bf-02cf1bc08ac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BaseSystem\Sound">
+      <UniqueIdentifier>{99ead9f6-35af-4e55-a66f-ec4ac8d90924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Stage\StageButton">
+      <UniqueIdentifier>{bb7528d6-387a-4e81-9128-6d76c0dc78ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick">
+      <UniqueIdentifier>{36ee6e20-5892-4dae-864d-5f5dba831dd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\StageUI">
+      <UniqueIdentifier>{65edd1ba-a62e-4bc5-b2bb-c2778c75654e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\CharaObject\ItemObject\ScoreItem">
+      <UniqueIdentifier>{6b0a682a-82d7-4a26-b431-14798fec0f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Efect">
+      <UniqueIdentifier>{1f06131d-1388-4f68-899d-6666226df8db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Efect\Frame">
+      <UniqueIdentifier>{960f9dc4-3473-475d-8bbc-7c479f820381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Efect\Slash">
+      <UniqueIdentifier>{3c696925-e909-43f7-bc6b-122af3e1de4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Cutin">
+      <UniqueIdentifier>{4974ca3f-ffce-45f3-bd28-b769e581a665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Event">
+      <UniqueIdentifier>{a4ce8104-9429-4a75-999f-de5924e0c353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Obstacle">
+      <UniqueIdentifier>{7e77bf34-d6ee-4dab-92fe-fc4da37a50bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Event\CStage3">
+      <UniqueIdentifier>{c2282c42-2a77-47b8-ba71-dd800d09e091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\TitleUI">
+      <UniqueIdentifier>{cbd501c6-ad8e-49bb-b26a-fc8b88ef6f03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\CharaObject\ItemObject\Base">
+      <UniqueIdentifier>{4aafe6c2-ae65-421e-aae2-8518ddc0d799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Camera">
+      <UniqueIdentifier>{0bb16836-ad1a-45fd-a159-0877e33227b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Obstacle\Tree">
+      <UniqueIdentifier>{56c8349e-1aa1-4aba-83c4-df0dacdb2535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Base">
+      <UniqueIdentifier>{4b7506e8-1553-42c7-a75b-a512e205b582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField">
+      <UniqueIdentifier>{e908e2d7-ce6c-4401-88e1-c5d02e7eecb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\StageMenuObject">
+      <UniqueIdentifier>{3875cf59-8261-4da2-b78f-dacb23697950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Obstacle\Stone">
+      <UniqueIdentifier>{0cd870da-3d3e-4c91-be6d-0152ba717c67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\RotateFloor">
+      <UniqueIdentifier>{5313c1e3-7ba3-4b1d-b6e2-8cc97e165de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Rise and Fall">
+      <UniqueIdentifier>{ad2c4745-385f-47c4-8ddf-73e1d298c9c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Climb">
+      <UniqueIdentifier>{96336d34-2da2-4683-a065-8c6126cccd46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Number">
+      <UniqueIdentifier>{28ca20d6-1cfd-497d-83fc-7a283ab8c1c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Jumping">
+      <UniqueIdentifier>{651c9820-0a14-41e9-9399-0748baea403c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\DamageObj">
+      <UniqueIdentifier>{61011042-e6a6-4f89-96fa-62c811fd51cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle">
+      <UniqueIdentifier>{ab959107-9551-479c-b10a-52c9a3b447ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Appear And Disappear">
+      <UniqueIdentifier>{f9df5cca-add3-4d28-9ede-47960e546235}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Flamethrower">
+      <UniqueIdentifier>{9ce2efc1-6863-4473-9b86-a0395460806c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Item">
+      <UniqueIdentifier>{e969756a-7c40-4d68-9b73-507dafd5b581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Signboard">
+      <UniqueIdentifier>{b41979df-acdb-442f-a8c5-4eec93784d8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\SavePoint">
+      <UniqueIdentifier>{fe68f4dc-5d5e-4a3b-ac06-7132459a4e4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Tilt">
+      <UniqueIdentifier>{01c20729-3848-4910-a3a0-205ccc0a6e9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Item\Block">
+      <UniqueIdentifier>{586d0040-316e-4c2c-9d54-1a2cb1ce6fb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Item\TreasureChest">
+      <UniqueIdentifier>{852bf0c2-3ce8-41e0-b79c-fa603cf30100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Efect\Biribiri">
+      <UniqueIdentifier>{a9907928-0826-4362-bb2c-a9e6f9efd978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Beam">
+      <UniqueIdentifier>{3629aab8-9ae9-4f08-a3b2-1b040a2734be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Efect\Player Smoke">
+      <UniqueIdentifier>{9f204d38-7b78-4ce2-9b0e-cb4ee32353aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Efect\Buffs">
+      <UniqueIdentifier>{1dd8907e-ef5f-40c8-91f7-50212c9ff3e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\CharaObject\ItemObject\Meat">
+      <UniqueIdentifier>{3e61bafc-ce4a-48a7-9c2f-3c759cefcdf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField\Plains Stage">
+      <UniqueIdentifier>{8230eb2a-cd73-46fd-a8a6-42bc0bc7436b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField\Hops and Hoops">
+      <UniqueIdentifier>{5c86c9a6-6d72-4ac3-b2e1-e5b0c3c6efd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField\One Shot Floor">
+      <UniqueIdentifier>{f6680b2a-bf95-41c3-86cd-5603534d97cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField\Selection">
+      <UniqueIdentifier>{9901a5ec-a369-4b04-a29a-f7c921369769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Stage\Manager">
+      <UniqueIdentifier>{a19b7b9e-7c06-4700-8f3f-07ab33aa60b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField\Sky">
+      <UniqueIdentifier>{bf915bce-875e-45d7-9e24-66b57661232e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Lightning">
+      <UniqueIdentifier>{4fd87ac9-132b-4421-9fac-2815b4a7a7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage2">
+      <UniqueIdentifier>{f4ae6d36-5d55-42fb-bcd3-454deb16102f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage3">
+      <UniqueIdentifier>{83d70674-9d63-44ba-9655-a1d7656f6cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Efect\Buffs\Circle">
+      <UniqueIdentifier>{c263252d-a22c-4d1c-a462-c8f42125ba43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Propeller">
+      <UniqueIdentifier>{0664de9d-590d-4b14-95b2-44c2f13f6af6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko">
+      <UniqueIdentifier>{e29cfbb4-10ed-452e-ac22-0b938acc45aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase">
+      <UniqueIdentifier>{40a2b6d4-98bd-4291-abaf-d2d9ab66b788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Event\CStage2">
+      <UniqueIdentifier>{2b4cff37-9416-432b-9ad6-64a02f6f1909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Obstacle\Base">
+      <UniqueIdentifier>{fa8195ab-53b7-4e1c-825d-209e44d4b0f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\Player">
+      <UniqueIdentifier>{0d174a58-76d1-47db-99b2-47a5c26c7247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\ObjectUI\Button">
+      <UniqueIdentifier>{5820160b-9258-4e0b-87f8-10047015b0d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\ObjectUI\Treasure Chest">
+      <UniqueIdentifier>{679ae5ac-8bd8-40aa-9eed-85c7e21cf768}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\ObjectUI\Climb">
+      <UniqueIdentifier>{cbd0818b-8f5f-4f7c-964f-90c29eb960c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Reflection">
+      <UniqueIdentifier>{88698ee9-e8b1-456b-aa14-4de096be3f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Reflection\Base">
+      <UniqueIdentifier>{90d3afe1-f0f8-413b-b974-a1f5b0bd06f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Reflection\ReflectionKinoko">
+      <UniqueIdentifier>{e5ef79fd-e8bb-466d-b7f3-d6895184a77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Jumping\PointLine">
+      <UniqueIdentifier>{05e86614-8b35-4902-a7ed-d87b3224ba82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\MoveLine">
+      <UniqueIdentifier>{25fe477c-8147-48ba-904a-89823572669e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Ending">
+      <UniqueIdentifier>{3432f6ea-78c5-4dd9-814e-2a38d389d1af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Operation Instructions">
+      <UniqueIdentifier>{13ccc36a-6270-4cbc-a919-604d28d71d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField\Title Stage">
+      <UniqueIdentifier>{fe26ba35-e2ae-42aa-8aa6-2f62e348779c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Jumping\Spring">
+      <UniqueIdentifier>{eb222605-0916-4904-9eec-ffcff45fd0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField\Seesaw Stage">
+      <UniqueIdentifier>{62773cc0-5e73-49e0-82e8-3f2810d8500f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Tilt\Base">
+      <UniqueIdentifier>{527f0ee6-4f99-4799-bf41-c42083e21966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\Enemy">
+      <UniqueIdentifier>{6d5f08c6-c82d-45ac-bb9b-370e6b8b5825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\CharaObject\Sword">
+      <UniqueIdentifier>{d9ea124f-ff19-4f5e-abc5-fb57181fc500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage4">
+      <UniqueIdentifier>{045cace2-37c1-49a1-8f90-df86c90888f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\EnemyUI\PicoChan">
+      <UniqueIdentifier>{fc6f9d8a-b545-4790-83d8-56bb5eba4e27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\CharaObject\ItemObject\SpikyBall">
+      <UniqueIdentifier>{10188671-a706-4b33-9725-1702b6099b7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Item">
+      <UniqueIdentifier>{eb428df2-373d-43f1-a9d3-6e273ef7d9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Item\SpikyBall">
+      <UniqueIdentifier>{22de713a-7d63-4968-b2e3-89142a2570b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Character\Player\Attack">
+      <UniqueIdentifier>{0f5aae12-c7fd-4003-bc8c-c3e1f6191132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase">
+      <UniqueIdentifier>{082bb57d-a2a3-45fd-bd35-e8f856e61ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Cannon">
+      <UniqueIdentifier>{073cb453-b754-4cc8-b367-73e91aa9e28c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate">
+      <UniqueIdentifier>{0a9a9cfb-27d0-4282-9896-db911f03601e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle">
+      <UniqueIdentifier>{bbea09d7-e1e7-491f-88c8-eaee1ab568be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Circle">
+      <UniqueIdentifier>{65a80193-36d8-4834-80ed-fadee7bdb54d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Move">
+      <UniqueIdentifier>{b437c77a-7026-48a0-9cd3-9681e2f3ce0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle\Move">
+      <UniqueIdentifier>{47952965-2a8f-4365-bb90-0724c6f98168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle\Always">
+      <UniqueIdentifier>{fb9d3c05-2393-4d40-9728-f0ce72f77231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Number\MoveTo">
+      <UniqueIdentifier>{337109b9-950c-4bb4-b071-93409bbd7fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Number\Move">
+      <UniqueIdentifier>{75354b76-bcef-4c2c-9fb9-9a2c17a26a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Cannon\CannonBall">
+      <UniqueIdentifier>{987994eb-453a-4c61-849d-cdbd4a209717}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\Object\Gimmick\Cannon\CannonBase">
+      <UniqueIdentifier>{5e6d3a75-19f0-4a57-9afd-0310d89f0e71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field\StageField\Final Stage">
+      <UniqueIdentifier>{ab18269c-e776-441b-8e3b-6aac8a98dccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Tutorial">
+      <UniqueIdentifier>{a31afc56-a910-4022-8f2b-daa8c5f36368}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CCollider.cpp">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CColliderLine.cpp">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CColliderMesh.cpp">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CColliderTriangle.cpp">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CCollisionManager.cpp">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CMatrix.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CMyShader.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CShader.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CVector.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CMaterial.cpp">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CModel.cpp">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CModelX.cpp">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CTriangle.cpp">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CCamera.cpp">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CInput.cpp">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CTexture.cpp">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CTransform.cpp">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CTaskManager.cpp">
+      <Filter>ソース ファイル\BaseSystem\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CFont.cpp">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CEffect.cpp">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CBillBoard.cpp">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CTask.cpp">
+      <Filter>ソース ファイル\BaseSystem\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CObjectBase.cpp">
+      <Filter>ソース ファイル\BaseSystem\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CCharaBase.cpp">
+      <Filter>ソース ファイル\BaseSystem\Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CColliderSphere.cpp">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CSceneBase.cpp">
+      <Filter>ソース ファイル\BaseSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CSceneManager.cpp">
+      <Filter>ソース ファイル\BaseSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CColor.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CTextureFont.cpp">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CText.cpp">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CUIBase.cpp">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\Maths.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CQuaternion.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CDebugPrint.cpp">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CXCharacter.cpp">
+      <Filter>ソース ファイル\Game\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTitleScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CGameScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CImage.cpp">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CharaStatus.cpp">
+      <Filter>ソース ファイル\Game\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CClearScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CGameOverScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CDebugProfiler.cpp">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CDebugTimer.cpp">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CDebugCamera.cpp">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CDebugInput.cpp">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CColBasecpp.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CBootMenuScene.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CColLine.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CColQuad.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CColSphere.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CColTriangle.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CCollisionTestScene.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CMeasure.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\Primitive.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\System.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CGun.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CWeapon.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CBullet.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CWeaponEnemy.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CGamePause.cpp">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CBulletEffect.cpp">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CRect.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CBillBoardImage.cpp">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CYukariGauge.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CKick.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CResourceManager.cpp">
+      <Filter>ソース ファイル\BaseSystem\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CResource.cpp">
+      <Filter>ソース ファイル\BaseSystem\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSoldierFrame.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSoldierGauge.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage1.cpp">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage2.cpp">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CYukariFrame.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CSignboardPause.cpp">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSignboardUI.cpp">
+      <Filter>ソース ファイル\Game\UI\ObjectUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CTrailEffect.cpp">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CLineEffect.cpp">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CGameMenu.cpp">
+      <Filter>ソース ファイル\Game\UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CEnemyManager.cpp">
+      <Filter>ソース ファイル\Game\Character\Count</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStaminaGauge.cpp">
+      <Filter>ソース ファイル\Game\UI\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CUIGauge.cpp">
+      <Filter>ソース ファイル\Game\UI\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRecoveryObject.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CSoundManager.cpp">
+      <Filter>ソース ファイル\BaseSystem\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CSound.cpp">
+      <Filter>ソース ファイル\BaseSystem\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CInvincible.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CFade.cpp">
+      <Filter>ソース ファイル\BaseSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CBGMManager.cpp">
+      <Filter>ソース ファイル\BaseSystem\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CBGMData.cpp">
+      <Filter>ソース ファイル\BaseSystem\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CExclamationMark.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CVanguardGauge.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageSelectionStage.cpp">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTree1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageTime.cpp">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageButton.cpp">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageMenu.cpp">
+      <Filter>ソース ファイル\Game\UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\PlayerItem.cpp">
+      <Filter>ソース ファイル\Game\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CInventoryMenu.cpp">
+      <Filter>ソース ファイル\Game\UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CHealingPotion.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CScore.cpp">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CBlueMedal.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\ScoreItem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CColliderCapsule.cpp">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test\CColCapsule.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\Easing.cpp">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CFlame.cpp">
+      <Filter>ソース ファイル\Game\Efect\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CFlamethrower.cpp">
+      <Filter>ソース ファイル\Game\Efect\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CBounds.cpp">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSlash.cpp">
+      <Filter>ソース ファイル\Game\Efect\Slash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CAttackPotion.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage3.cpp">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CScreenItem.cpp">
+      <Filter>ソース ファイル\Game\UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCutInCamera.cpp">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCutInTest.cpp">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCutInDeath.cpp">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCutInClear.cpp">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CResult.cpp">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CObstacleWall.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CBlueMedalEvent.cpp">
+      <Filter>ソース ファイル\Game\Field\Event\CStage3</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CButton.cpp">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CExpandButton.cpp">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseSystem\CUIManager.cpp">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTitleUI.cpp">
+      <Filter>ソース ファイル\Game\UI\TitleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CAttackObjectBase.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CInvincibleObjectBase.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CItemObjectBase.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMedalObjectBase.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CResultScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCutInResult.cpp">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CGameCamera.cpp">
+      <Filter>ソース ファイル\Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageSelectCamera.cpp">
+      <Filter>ソース ファイル\Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CGoalBase.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CGoalObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRideabeObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CField.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage1MenuObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\StageMenuObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage1Button.cpp">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage3MenuObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\StageMenuObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage3Button.cpp">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStone1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle\Stone</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRotateFloor.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRotateFloorGimmick.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRotateFloorTimeGimmick.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRotationg.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRisingObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Rise and Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CFallingObjects.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Rise and Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNumberFloor1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CDamageObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CAppearFloor.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Appear And Disappear</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CDisappearFloor.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Appear And Disappear</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CFixedFlamethrower.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Flamethrower</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSignboard.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Signboard</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSavePoint1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\SavePoint</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSeesaw.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Tilt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CHatenaBlock.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Item\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRengaBlock.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Item\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTreasureChest.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Item\TreasureChest</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRotateFloorGimmickOpposition.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CBiribiri.cpp">
+      <Filter>ソース ファイル\Game\Efect\Biribiri</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CRingBeamer.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Beam</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSavePoint2.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\SavePoint</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSmoke.cpp">
+      <Filter>ソース ファイル\Game\Efect\Player Smoke</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CHealingUpBuffs.cpp">
+      <Filter>ソース ファイル\Game\Efect\Buffs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CInvincibleBuffs.cpp">
+      <Filter>ソース ファイル\Game\Efect\Buffs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CAttackUpBuffs.cpp">
+      <Filter>ソース ファイル\Game\Efect\Buffs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMeatObjectBase.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMeatUI.cpp">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMeat1.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Meat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMeat2.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Meat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMeat3.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Meat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPlainsStageField.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Plains Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPlainsStageFallCol.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Plains Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CHopsAndHoopsField.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Hops and Hoops</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\COneShotFloorField.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\One Shot Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageSelection.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Selection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CGameManager.cpp">
+      <Filter>ソース ファイル\Game\Stage\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageManager.cpp">
+      <Filter>ソース ファイル\Game\Stage\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageBase.cpp">
+      <Filter>ソース ファイル\Game\Stage\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage2Button.cpp">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage2MenuObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\StageMenuObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CHopsAndHoopsFallCol.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Hops and Hoops</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStageSky.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CElectricLaser.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Lightning</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CClimbWall.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CWireMeshClimbWall.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CWireMeshMoveClimbWall.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMetalLadder.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CInsideCircleEffect.cpp">
+      <Filter>ソース ファイル\Game\Efect\Buffs\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\COutsideCircleEffect.cpp">
+      <Filter>ソース ファイル\Game\Efect\Buffs\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPropeller.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Propeller</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinokoLeftRight.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinokoUpDown.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinoko.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinokoMove.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinokoRotate.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinokoTurnRight.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinokoTurnLeft.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMeat1Event.cpp">
+      <Filter>ソース ファイル\Game\Field\Event\CStage2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinokoHigh.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CObstacle.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CHighKinoko.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCutInDeathJump.cpp">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CResultAnnouncement.cpp">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPlayer.cpp">
+      <Filter>ソース ファイル\Game\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CJumpingKinokoMoveTo.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CButton1UI.cpp">
+      <Filter>ソース ファイル\Game\UI\ObjectUI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTreasureChestUI.cpp">
+      <Filter>ソース ファイル\Game\UI\ObjectUI\Treasure Chest</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CClimbUI.cpp">
+      <Filter>ソース ファイル\Game\UI\ObjectUI\Climb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CReflectionKinoko.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CReflectionObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CReflectionActionKinoko.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\ReflectionKinoko</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CReflectionLeftRightKinoko.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\ReflectionKinoko</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CReflectionMove.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPointLine.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\PointLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleLine.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\MoveLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStuffedRoll.cpp">
+      <Filter>ソース ファイル\Game\UI\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStuffedRollScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\COperationUI.cpp">
+      <Filter>ソース ファイル\Game\UI\Operation Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTitleStage.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Title Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTitlePlayer.cpp">
+      <Filter>ソース ファイル\Game\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CApplication.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSpringObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\Spring</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSpring.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\Spring</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage4Button.cpp">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSeesawAdventure.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Seesaw Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage4.cpp">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CStage4MenuObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\StageMenuObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSeesawObject.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Tilt\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSplitSeesaw.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Tilt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSeesawStageFallCol.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Seesaw Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CEnemy.cpp">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSoldier.cpp">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CUnityChan.cpp">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CVanguard.cpp">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CYukari.cpp">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPicoChan.cpp">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMajicSword.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\Sword</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMajicSwordEnemy.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\Sword</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPicoSword.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\Sword</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSeesawClimb.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage4</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPicoChanUI.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI\PicoChan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CShadowMap.cpp">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSpikyBall.cpp">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\SpikyBall</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CSpikyBallUI.cpp">
+      <Filter>ソース ファイル\Game\UI\Item\SpikyBall</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTitleMenu.cpp">
+      <Filter>ソース ファイル\Game\UI\TitleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPlayerAttack.cpp">
+      <Filter>ソース ファイル\Game\Character\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNumberFloorBase.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNumberFloor2.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNumberFloor3.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCannon.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\COneShotFallCol.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\One Shot Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFlLeft1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFlRight1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFlRight2.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFlLeft2.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFl1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFl2.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFl3.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFlRight3.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCircleNbFlLeft3.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNeedleLeftRight.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNeedleUpDown.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CAlwaysVerticalNeedle.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle\Always</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMoveToNbFl1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\MoveTo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMoveToNbFl2.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\MoveTo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CMoveToNbFl3.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\MoveTo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNbFlMove1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNbFlUpDown1.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNbFlMove2.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNbFlMove3.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNbFlUpDown2.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CNbFlUpDown3.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCannonBall.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon\CannonBall</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CHorizontalCannonBall.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon\CannonBall</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CHorizontalCannon.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CPowerfulCannon.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CCannonBase.cpp">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon\CannonBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CFinalStageField.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Final Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CFinalStageFallCol.cpp">
+      <Filter>ソース ファイル\Game\Field\StageField\Final Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\CTutorialUI.cpp">
+      <Filter>ソース ファイル\Game\UI\Tutorial</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\BaseSystem\CCollider.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CColliderLine.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CColliderMesh.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CColliderTriangle.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CCollisionManager.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CMatrix.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CMyShader.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CShader.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CVector.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CMaterial.h">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CModel.h">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CModelX.h">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CVertex.h">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CTriangle.h">
+      <Filter>ソース ファイル\BaseSystem\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CCamera.h">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CInput.h">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CTexture.h">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CTransform.h">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CTask.h">
+      <Filter>ソース ファイル\BaseSystem\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CTaskManager.h">
+      <Filter>ソース ファイル\BaseSystem\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CFont.h">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CEffect.h">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CBillBoard.h">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\TaskPriority.h">
+      <Filter>ソース ファイル\BaseSystem\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\TaskPauseType.h">
+      <Filter>ソース ファイル\BaseSystem\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\ColliderType.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CObjectBase.h">
+      <Filter>ソース ファイル\BaseSystem\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CCharaBase.h">
+      <Filter>ソース ファイル\BaseSystem\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\ObjectTag.h">
+      <Filter>ソース ファイル\BaseSystem\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CollisionLayer.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CColliderSphere.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CSceneBase.h">
+      <Filter>ソース ファイル\BaseSystem\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CSceneManager.h">
+      <Filter>ソース ファイル\BaseSystem\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\SceneType.h">
+      <Filter>ソース ファイル\BaseSystem\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CColor.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CTextureFont.h">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Define.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CText.h">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CUIBase.h">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\Maths.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CQuaternion.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CDebugPrint.h">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CXCharacter.h">
+      <Filter>ソース ファイル\Game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTitleScene.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CGameScene.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CImage.h">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CharaStatus.h">
+      <Filter>ソース ファイル\Game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CClearScene.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CGameOverScene.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CDebugProfiler.h">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CDebugTimer.h">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CDebugCamera.h">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CDebugInput.h">
+      <Filter>ソース ファイル\BaseSystem\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CColBase.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CBootMenuScene.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CColLine.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CColQuad.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CColSphere.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CColTriangle.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CCollisionTestScene.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CMeasure.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\Primitive.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\System.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CGun.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CWeapon.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CBullet.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CWeaponEnemy.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CGamePause.h">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CBulletEffect.h">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CRect.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CBillBoardImage.h">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CYukariGauge.h">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CKick.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CResourceManager.h">
+      <Filter>ソース ファイル\BaseSystem\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CResource.h">
+      <Filter>ソース ファイル\BaseSystem\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSoldierFrame.h">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSoldierGauge.h">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage1.h">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage2.h">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CYukariFrame.h">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CSignboardPause.h">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSignboardUI.h">
+      <Filter>ソース ファイル\Game\UI\ObjectUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CTrailEffect.h">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CLineEffect.h">
+      <Filter>ソース ファイル\BaseSystem\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CGameMenu.h">
+      <Filter>ソース ファイル\Game\UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CEnemyManager.h">
+      <Filter>ソース ファイル\Game\Character\Count</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStaminaGauge.h">
+      <Filter>ソース ファイル\Game\UI\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CUIGauge.h">
+      <Filter>ソース ファイル\Game\UI\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRecoveryObject.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CSoundManager.h">
+      <Filter>ソース ファイル\BaseSystem\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CSound.h">
+      <Filter>ソース ファイル\BaseSystem\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CInvincible.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CFade.h">
+      <Filter>ソース ファイル\BaseSystem\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CBGMManager.h">
+      <Filter>ソース ファイル\BaseSystem\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CBGMData.h">
+      <Filter>ソース ファイル\BaseSystem\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CExclamationMark.h">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CVanguardGauge.h">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageSelectionStage.h">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTree1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageTime.h">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageButton.h">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageMenu.h">
+      <Filter>ソース ファイル\Game\UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\PlayerItem.h">
+      <Filter>ソース ファイル\Game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CInventoryMenu.h">
+      <Filter>ソース ファイル\Game\UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CHealingPotion.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CScore.h">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CBlueMedal.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\ScoreItem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CColliderCapsule.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\CColCapsule.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\Easing.h">
+      <Filter>ソース ファイル\BaseSystem\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CFlame.h">
+      <Filter>ソース ファイル\Game\Efect\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CFlamethrower.h">
+      <Filter>ソース ファイル\Game\Efect\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CBounds.h">
+      <Filter>ソース ファイル\BaseSystem\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSlash.h">
+      <Filter>ソース ファイル\Game\Efect\Slash</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CAttackPotion.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage3.h">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CScreenItem.h">
+      <Filter>ソース ファイル\Game\UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCutInCamera.h">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCutInTest.h">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCutInDeath.h">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCutInClear.h">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CResult.h">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CObstacleWall.h">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CBlueMedalEvent.h">
+      <Filter>ソース ファイル\Game\Field\Event\CStage3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CButton.h">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CExpandButton.h">
+      <Filter>ソース ファイル\BaseSystem\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseSystem\CUIManager.h">
+      <Filter>ソース ファイル\BaseSystem\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CAttackObjectBase.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CInvincibleObjectBase.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CItemObjectBase.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMedalObjectBase.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CResultScene.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCutInResult.h">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CGameCamera.h">
+      <Filter>ソース ファイル\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageSelectCamera.h">
+      <Filter>ソース ファイル\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CGoalBase.h">
+      <Filter>ソース ファイル\Game\Field\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CGoalObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRideableObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CField.h">
+      <Filter>ソース ファイル\Game\Field\StageField</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage1MenuObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\StageMenuObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage1Button.h">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage3MenuObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\StageMenuObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage3Button.h">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStone1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle\Stone</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRotateFloor.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRotateFloorGimmick.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRotateFloorTimeGimmick.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRotationg.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRisingObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Rise and Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CFallingObjects.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Rise and Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNumberFloor1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CDamageObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CAppearFloor.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Appear And Disappear</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CDisappearFloor.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Appear And Disappear</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CFixedFlamethrower.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Flamethrower</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSignboard.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Signboard</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSavePoint1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\SavePoint</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSeesaw.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Tilt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CHatenaBlock.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Item\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRengaBlock.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Item\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTreasureChest.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Item\TreasureChest</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRotateFloorGimmickOpposition.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\RotateFloor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CBiribiri.h">
+      <Filter>ソース ファイル\Game\Efect\Biribiri</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CRingBeamer.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSavePoint2.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\SavePoint</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSmoke.h">
+      <Filter>ソース ファイル\Game\Efect\Player Smoke</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CHealingUpBuffs.h">
+      <Filter>ソース ファイル\Game\Efect\Buffs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CInvincibleBuffs.h">
+      <Filter>ソース ファイル\Game\Efect\Buffs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CAttackUpBuffs.h">
+      <Filter>ソース ファイル\Game\Efect\Buffs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMeatObjectBase.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMeatUI.h">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMeat1.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Meat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMeat2.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Meat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMeat3.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\Meat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPlainsStageField.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Plains Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPlainsStageFallCol.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Plains Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CHopsAndHoopsField.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Hops and Hoops</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\COneShotFloorField.h">
+      <Filter>ソース ファイル\Game\Field\StageField\One Shot Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageSelection.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Selection</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CGameManager.h">
+      <Filter>ソース ファイル\Game\Stage\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageManager.h">
+      <Filter>ソース ファイル\Game\Stage\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageBase.h">
+      <Filter>ソース ファイル\Game\Stage\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage2Button.h">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage2MenuObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\StageMenuObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CHopsAndHoopsFallCol.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Hops and Hoops</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStageSky.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Sky</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CElectricLaser.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Lightning</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CClimbWall.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CWireMeshClimbWall.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CWireMeshMoveClimbWall.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMetalLadder.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CInsideCircleEffect.h">
+      <Filter>ソース ファイル\Game\Efect\Buffs\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\COutsideCircleEffect.h">
+      <Filter>ソース ファイル\Game\Efect\Buffs\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPropeller.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Propeller</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinokoLeftRight.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinokoUpDown.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinoko.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinokoMove.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinokoRotate.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinokoTurnRight.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinokoTurnLeft.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMeat1Event.h">
+      <Filter>ソース ファイル\Game\Field\Event\CStage2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinokoHigh.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CObstacle.h">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CHighKinoko.h">
+      <Filter>ソース ファイル\Game\Field\Object\Obstacle\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCutInDeathJump.h">
+      <Filter>ソース ファイル\Game\Cutin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CResultAnnouncement.h">
+      <Filter>ソース ファイル\Game\UI\StageUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPlayer.h">
+      <Filter>ソース ファイル\Game\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CJumpingKinokoMoveTo.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\KInoko\KInokoBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CButton1UI.h">
+      <Filter>ソース ファイル\Game\UI\ObjectUI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTreasureChestUI.h">
+      <Filter>ソース ファイル\Game\UI\ObjectUI\Treasure Chest</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CClimbUI.h">
+      <Filter>ソース ファイル\Game\UI\ObjectUI\Climb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CReflectionKinoko.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CReflectionObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CReflectionActionKinoko.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\ReflectionKinoko</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CReflectionLeftRightKinoko.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\ReflectionKinoko</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CReflectionMove.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Reflection\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPointLine.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\PointLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleLine.h">
+      <Filter>ソース ファイル\Game\Field\Object\MoveLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStuffedRoll.h">
+      <Filter>ソース ファイル\Game\UI\Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStuffedRollScene.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\COperationUI.h">
+      <Filter>ソース ファイル\Game\UI\Operation Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTitleStage.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Title Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTitlePlayer.h">
+      <Filter>ソース ファイル\Game\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CApplication.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTitleUI.h">
+      <Filter>ソース ファイル\Game\UI\TitleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSpringObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\Spring</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSpring.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Jumping\Spring</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage4Button.h">
+      <Filter>ソース ファイル\Game\Stage\StageButton</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSeesawAdventure.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Seesaw Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage4.h">
+      <Filter>ソース ファイル\Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CStage4MenuObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\StageMenuObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSeesawObject.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Tilt\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSplitSeesaw.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Tilt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSeesawStageFallCol.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Seesaw Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CEnemy.h">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSoldier.h">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CUnityChan.h">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CVanguard.h">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CYukari.h">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPicoChan.h">
+      <Filter>ソース ファイル\Game\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMajicSword.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\Sword</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMajicSwordEnemy.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\Sword</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPicoSword.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\Sword</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSeesawClimb.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Climb\Stage4</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPicoChanUI.h">
+      <Filter>ソース ファイル\Game\UI\EnemyUI\PicoChan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CShadowMap.h">
+      <Filter>ソース ファイル\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSpikyBall.h">
+      <Filter>ソース ファイル\Game\Character\CharaObject\ItemObject\SpikyBall</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CSpikyBallUI.h">
+      <Filter>ソース ファイル\Game\UI\Item\SpikyBall</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTitleMenu.h">
+      <Filter>ソース ファイル\Game\UI\TitleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPlayerAttack.h">
+      <Filter>ソース ファイル\Game\Character\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNumberFloorBase.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNumberFloor2.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNumberFloor3.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCannon.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\COneShotFallCol.h">
+      <Filter>ソース ファイル\Game\Field\StageField\One Shot Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFlLeft1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFlRight1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFlRight2.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFlLeft2.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFl1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFl2.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFl3.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFlRight3.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCircleNbFlLeft3.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Rotate\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNeedleLeftRight.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNeedleUpDown.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CAlwaysVerticalNeedle.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\DamageObj\Needle\Always</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMoveToNbFl1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\MoveTo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMoveToNbFl2.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\MoveTo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CMoveToNbFl3.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\MoveTo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNbFlMove1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNbFlUpDown1.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNbFlMove2.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNbFlMove3.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\NumberFloorBase\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNbFlUpDown2.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CNbFlUpDown3.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Number\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCannonBall.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon\CannonBall</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CHorizontalCannonBall.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon\CannonBall</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CHorizontalCannon.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CPowerfulCannon.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CCannonBase.h">
+      <Filter>ソース ファイル\Game\Field\Object\Gimmick\Cannon\CannonBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CFinalStageField.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Final Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CFinalStageFallCol.h">
+      <Filter>ソース ファイル\Game\Field\StageField\Final Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\CTutorialUI.h">
+      <Filter>ソース ファイル\Game\UI\Tutorial</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
