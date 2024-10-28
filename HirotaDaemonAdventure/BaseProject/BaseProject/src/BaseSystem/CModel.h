@@ -7,12 +7,13 @@
 #include "CVertex.h"
 #include "CResource.h"
 #include "CColor.h"
+#include "CModelX.h"
 
 /*
 モデルクラス
 モデルデータの入力や表示
 */
-class CModel : public CResource
+class CModel : public CModelX
 {
 	friend CResourceManager;
 public:

@@ -21,4 +21,19 @@ public:
 	//	void Render(CModel *mesh);
 };
 
+class CMyShader2 : public CShader
+{
+public:
+	void Render();
+private:
+	int mFrameSize;
+	int mVertexSize;
+	CMatrix* mpCombinedMatrix;
+	CMatrix* mpSkinningMatrix;
+	CVertex* mpVertex;
+	CMaterial* mpMaterial;
+
+	void Material(CMaterial* pMaterial);
+};
+
 #endif

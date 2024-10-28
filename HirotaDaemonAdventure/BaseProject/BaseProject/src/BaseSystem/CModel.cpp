@@ -394,6 +394,9 @@ void CModel::Render(const CMatrix& m)
 
 void CModel::CreateVertexBuffer()
 {
+	//ƒƒbƒVƒ…–ˆ‚Éˆê‰ñì¬‚·‚ê‚Î‚æ‚¢
+	if (mMyVertexBufferId > 0)
+		return;
 	mpVertexes = new CVertex[mTriangles.size() * 3];
 	int idx = 0;
 	for (int i = 0; i < mpMaterials.size(); i++)
