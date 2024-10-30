@@ -24,16 +24,26 @@ public:
 class CMyShader2 : public CShader
 {
 public:
+	void Update(
+		int FrameSize,
+		CMatrix* pSkinningMatrix,
+		std::vector<CMaterial*>* pMaterials,
+		GLuint VertexBufferId
+	);
+	void Render(
+		int FrameSize,
+		CMatrix* pSkinningMatrix,
+		std::vector<CMaterial*>* pMaterials,
+		GLuint VertexBufferId
+	);
 	void Render();
 private:
 	int mFrameSize;
-	int mVertexSize;
-	CMatrix* mpCombinedMatrix;
+	GLuint mVertexBufferId;
 	CMatrix* mpSkinningMatrix;
-	CVertex* mpVertex;
-	CMaterial* mpMaterial;
-
-	void Material(CMaterial* pMaterial);
+	std::vector<CMaterial*> *mpMaterials;
+	//int mVertexSize;
+	//CVertex* mpVertex;
 };
 
 #endif
