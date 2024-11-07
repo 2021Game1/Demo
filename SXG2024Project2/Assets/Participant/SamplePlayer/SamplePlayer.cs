@@ -86,9 +86,32 @@ namespace SamplePlayer
 
         Vector3 CheckTarget()
         {
-            float min = (mTargetPosition - mPosition).magnitude;
+            float min = 25.0f;
 
-            foreach(FoodNowInfo fni in mFoodsInfoOnStage)
+            if(mHowManyMoreCanIHave == 1
+                && !HasNoodle())
+            {
+                foreach (FoodNowInfo fni in mFoodsInfoOnStage)
+                {
+                    if (fni.m_type == FoodType.Noodle)
+                    {
+                        float distance = (fni.m_position - mPosition).magnitude;
+                        if (min > distance)
+                        {
+                            min = distance;
+                            mTargetPosition = fni.m_position;
+                        }
+                    }
+                }
+                if(min != 25.0f)
+                {
+                    return mTargetPosition;
+                }
+            }
+
+            min = (mTargetPosition - mPosition).magnitude;
+
+            foreach (FoodNowInfo fni in mFoodsInfoOnStage)
             {
                 if (fni.m_type == FoodType.Butter) continue;
                 float distance = (fni.m_position - mPosition).magnitude;
@@ -105,18 +128,21 @@ namespace SamplePlayer
 
 		void CanNotMove()
 		{
-            if (mCollidedPlayersNumber.Count == 0) return;
-            if(mVelocity.magnitude < 0.01f)
+            if(mCollidedPlayersNumber.Count > 0
+                && mVelocity.magnitude < 0.01f)
             {
                 SXG_Kick();
             }
-            mStatus = EStatus.EMOVE;
+            //mStatus = EStatus.EMOVE;
         }
 
 		void Move()
 		{
-            if (SXG_GetNowPriceOnHand() >= 400
-                || (mRemainingGameTime < 20.0f && SXG_GetNowPriceOnHand() > 0))
+            if (mHowManyMoreCanIHave == 0
+                ||SXG_GetNowPriceOnHand() >= 400
+                || (30.0f < mRemainingGameTime && mRemainingGameTime < 60.0f && SXG_GetNowPriceOnHand() > 0)
+                || (mRemainingGameTime < 15.0f && SXG_GetNowPriceOnHand() > 0)
+                )
             {
 				mStatus = EStatus.EPREGOAL;
             }
@@ -140,17 +166,25 @@ namespace SamplePlayer
             mTargetPosition = new Vector3(0.0f, 0.0f, -12.0f);
         }
 
-
-        public override bool UDON_ShouldGetTheFoodOnStage(FoodNowInfo foodInfo)
-		{
-			if (foodInfo.m_type == FoodType.Butter) return false;
-
+        bool HasNoodle()
+        {
             foreach (FoodType ft in mMyFoodsListOnHand)
             {
                 if (ft == FoodType.Noodle)
                 {
                     return true;
                 }
+            }
+            return false;
+        }
+
+        public override bool UDON_ShouldGetTheFoodOnStage(FoodNowInfo foodInfo)
+		{
+			if (foodInfo.m_type == FoodType.Butter) return false;
+
+            if(HasNoodle())
+            {
+                return true;
             }
 
             if (mHowManyMoreCanIHave == 1 && foodInfo.m_type != FoodType.Noodle) return false;
