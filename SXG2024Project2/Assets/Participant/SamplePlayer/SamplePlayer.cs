@@ -78,7 +78,6 @@ namespace SamplePlayer
                     break;
 				default:
                     Move();
-                    SXG_MoveToTargetPosition(mTargetPosition, 1.0f);
                     break;
 			}
             CanNotMove();
@@ -145,12 +144,23 @@ namespace SamplePlayer
                 )
             {
 				mStatus = EStatus.EPREGOAL;
+                SXG_MoveToTargetPosition(mTargetPosition, 1.0f);
             }
             else
             {
                 mTargetPosition.x = Mathf.Cos(mCount * Mathf.Deg2Rad) * mRadius;
                 mTargetPosition.z = Mathf.Sin(mCount * Mathf.Deg2Rad) * mRadius;
                 mTargetPosition = CheckTarget();
+
+                if (!IsFacingTarget(mTargetPosition))
+                {
+                    SXG_MoveToTargetPosition(mTargetPosition, 0.35f);
+                }
+                else
+                {
+                    SXG_MoveToTargetPosition(mTargetPosition, 1.0f);
+                }
+
             }
         }
 
@@ -176,6 +186,18 @@ namespace SamplePlayer
                 }
             }
             return false;
+        }
+
+        bool IsFacingTarget(Vector3 targetPosition, float threshold = 5f)
+        {
+            var direction = targetPosition - mPosition;
+            direction.y = 0;
+
+            var forward = mRotation * Vector3.forward;
+            forward.y = 0;
+
+            var diff = Vector3.Angle(forward, direction);
+            return diff < threshold;
         }
 
         public override bool UDON_ShouldGetTheFoodOnStage(FoodNowInfo foodInfo)
