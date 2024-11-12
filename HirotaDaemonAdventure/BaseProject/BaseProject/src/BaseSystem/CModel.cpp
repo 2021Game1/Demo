@@ -1,3 +1,4 @@
+#include "glew.h"
 #include "CModel.h"
 #include "CVector.h"
 #include "Maths.h"
@@ -136,6 +137,9 @@ bool CModel::Load(std::string path, bool dontDelete)
 	fclose(fp);
 
 	CreateVertexBuffer();
+	//シェーダー読み込み
+	mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
+	mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
 
 	return true;
 }
@@ -218,6 +222,11 @@ void CModel::Render()
 {
 	// 完全に透明な状態であれば、描画しない
 	if (mColor.A() == 0.0f) return;
+
+	mShader.Render();
+	return;
+
+
 	//可変長配列の要素数だけ繰り返し
 	for (int i = 0; i < mTriangles.size(); i++) {
 		//マテリアルの適用
@@ -339,6 +348,14 @@ void CModel::Render(const CMatrix& m)
 {
 	// 完全に透明な状態であれば、描画しない
 	if (mColor.A() == 0.0f) return;
+	//行列の退避
+	glPushMatrix();
+	//合成行列を掛ける
+	glMultMatrixf(m.M());
+	mShader.Render();
+	//行列を戻す
+	glPopMatrix();
+	return;
 
 	//デプス値の書き込み設定
 	glDepthMask(mIsDepthWrite);
@@ -408,15 +425,32 @@ void CModel::CreateVertexBuffer()
 				mpMaterials[i]->VertexNum(mpMaterials[i]->VertexNum() + 3);
 				mpVertexes[idx].mPosition = mTriangles[j].V0();
 				mpVertexes[idx].mNormal = mTriangles[j].N0();
+				mpVertexes[idx].mBoneIndex[0] = 0;
+				mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U0();
 				mpVertexes[idx].mPosition = mTriangles[j].V1();
 				mpVertexes[idx].mNormal = mTriangles[j].N1();
+				mpVertexes[idx].mBoneIndex[0] = 0;
+				mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U1();
 				mpVertexes[idx].mPosition = mTriangles[j].V2();
 				mpVertexes[idx].mNormal = mTriangles[j].N2();
+				mpVertexes[idx].mBoneIndex[0] = 0;
+				mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U2();
 			}
 		}
 	}
+	//頂点バッファの作成
+	glGenBuffers(1, &mMyVertexBufferId);
+	//頂点バッファをバインド
+	glBindBuffer(GL_ARRAY_BUFFER, mMyVertexBufferId);
+	//バインドしたバッファにデータを転送
+	glBufferData(GL_ARRAY_BUFFER
+		, sizeof(CVertex) * mTriangles.size() * 3
+		, mpVertexes, GL_STATIC_DRAW);
+	//バインド解除
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 }
 

@@ -38,5 +38,5 @@ void main(void)
 			vec4(specular*Specular + Emissive,1.0)
 		);
 	gl_FragColor = clamp(gl_FragColor, 0.0, 1.0);
-	gl_FragColor *= gl_Color;
+	//gl_FragColor *= gl_Color;
 }

@@ -13,7 +13,7 @@
 モデルクラス
 モデルデータの入力や表示
 */
-class CModel : public CModelX
+class CModel : public CMesh, public CResource
 {
 	friend CResourceManager;
 public:
@@ -57,7 +57,9 @@ public:
 	// 描画
 	// Render(行列)
 	void Render(const CMatrix& m);
+	CMatrix mDummySkinningMatrix;
 private:
+	CMyShader2 mShader;
 	CModel();
 	~CModel();
 	// モデル読み込み

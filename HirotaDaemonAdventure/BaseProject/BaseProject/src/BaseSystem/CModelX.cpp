@@ -835,6 +835,7 @@ void CMesh::CreateVertexBuffer()
 					pmyVertex[k++].mNormal = mpNormal[j * 3 + 2];
 				}
 			}
+			mMaterial[i]->VertexNum(k - w);
 			//マテリアル毎の頂点数を追加する
 			mMaterialVertexCount.push_back(k - w);
 		}
