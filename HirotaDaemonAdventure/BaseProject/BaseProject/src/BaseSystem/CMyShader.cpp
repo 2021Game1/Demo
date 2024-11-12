@@ -239,7 +239,7 @@ void CMyShader2::Render()
 			GLint samplerId = glGetUniformLocation(GetProgram(), "Sampler");
 			GLint textureFlg = glGetUniformLocation(GetProgram(), "TextureFlg");
 			//if (material->mTextureId > 0) {
-			//(*mpMaterials)[i]->Enabled(model->GetColor());
+			(*mpMaterials)[i]->Enabled(CColor(1.0f, 1.0f, 1.0f, 1.0f));
 			if ((*mpMaterials)[i]->mpTexture != nullptr && (*mpMaterials)[i]->mpTexture->Id()) {
 				glUniform1i(samplerId, 0);//GL_TEXTURE0を適用
 				glUniform1i(textureFlg, 0);//GL_TEXTURE0を適用
