@@ -63,7 +63,7 @@ CMaterial::CMaterial()
 		mDiffuse[i] = 1.0f;
 	}
 	mSpecular[0] = mSpecular[1] = mSpecular[2] = 0.5f;
-	mPower = 1.0f;
+	mPower = 100.0f;
 }
 
 /*
