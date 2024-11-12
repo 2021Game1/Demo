@@ -138,7 +138,8 @@ bool CModel::Load(std::string path, bool dontDelete)
 
 	CreateVertexBuffer();
 	//シェーダー読み込み
-	mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
+	//mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
+	mShader.Load("Shader\\shadow.vert", "Shader\\shadow.flag");
 	mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
 
 	return true;
@@ -425,18 +426,12 @@ void CModel::CreateVertexBuffer()
 				mpMaterials[i]->VertexNum(mpMaterials[i]->VertexNum() + 3);
 				mpVertexes[idx].mPosition = mTriangles[j].V0();
 				mpVertexes[idx].mNormal = mTriangles[j].N0();
-				mpVertexes[idx].mBoneIndex[0] = 0;
-				mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U0();
 				mpVertexes[idx].mPosition = mTriangles[j].V1();
 				mpVertexes[idx].mNormal = mTriangles[j].N1();
-				mpVertexes[idx].mBoneIndex[0] = 0;
-				mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U1();
 				mpVertexes[idx].mPosition = mTriangles[j].V2();
 				mpVertexes[idx].mNormal = mTriangles[j].N2();
-				mpVertexes[idx].mBoneIndex[0] = 0;
-				mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U2();
 			}
 		}
