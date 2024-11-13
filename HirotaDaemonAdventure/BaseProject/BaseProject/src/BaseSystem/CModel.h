@@ -16,6 +16,7 @@
 class CModel : public CMesh, public CResource
 {
 	friend CResourceManager;
+	friend CMyShader;
 public:
 	std::vector<CTriangle> Triangles() const;
 
@@ -59,7 +60,7 @@ public:
 	void Render(const CMatrix& m);
 	CMatrix mDummySkinningMatrix;
 private:
-	CMyShader2 mShader;
+	CMyShader mShader;
 	CModel();
 	~CModel();
 	// ƒ‚ƒfƒ‹“Ç‚İ‚İ

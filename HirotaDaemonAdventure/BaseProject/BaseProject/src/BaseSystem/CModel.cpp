@@ -138,9 +138,9 @@ bool CModel::Load(std::string path, bool dontDelete)
 
 	CreateVertexBuffer();
 	//シェーダー読み込み
-	//mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
-	mShader.Load("Shader\\shadow.vert", "Shader\\shadow.flag");
-	mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
+	mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
+	//mShader.Load("Shader\\shadow.vert", "Shader\\shadow.flag");
+	//mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
 
 	return true;
 }
@@ -223,8 +223,8 @@ void CModel::Render()
 {
 	// 完全に透明な状態であれば、描画しない
 	if (mColor.A() == 0.0f) return;
-
-	mShader.Render();
+	CMatrix m;
+	mShader.Render(this, &m);
 	return;
 
 
@@ -349,13 +349,13 @@ void CModel::Render(const CMatrix& m)
 {
 	// 完全に透明な状態であれば、描画しない
 	if (mColor.A() == 0.0f) return;
-	//行列の退避
-	glPushMatrix();
-	//合成行列を掛ける
-	glMultMatrixf(m.M());
-	mShader.Render();
+	////行列の退避
+	//glPushMatrix();
+	////合成行列を掛ける
+	//glMultMatrixf(m.M());
+	mShader.Render(this,&m);
 	//行列を戻す
-	glPopMatrix();
+	//glPopMatrix();
 	return;
 
 	//デプス値の書き込み設定

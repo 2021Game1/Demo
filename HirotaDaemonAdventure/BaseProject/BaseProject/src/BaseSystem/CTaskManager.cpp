@@ -319,6 +319,7 @@ void CTaskManager::Render()
 		// Œ»Ý‚ÌƒJƒƒ‰‚ð”½‰f
 		current->Apply();
 		mShadowMap.Render();
+		//RenderShadow();
 
 		// 3DŠÖ˜A‚Ì•`‰æ
 		//for (CTask* task : m3dTasks)
