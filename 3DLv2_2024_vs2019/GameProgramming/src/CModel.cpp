@@ -141,7 +141,15 @@ void CModel::Load(char* obj, char* mtl) {
 		else if (strcmp(str[0], "map_Kd") == 0) {
 			mpMaterials[idx]->Texture()->Load(str[1]);
 		}
-
+		else if (strcmp(str[0], "Ns") == 0) {
+			mpMaterials[idx]->Power(atof(str[1]));
+		}
+		else if (strcmp(str[0], "Ks") == 0) {
+			mpMaterials[idx]->Specular(atof(str[1]), atof(str[2]), atof(str[3]));
+		}
+		else if (strcmp(str[0], "Ke") == 0) {
+			mpMaterials[idx]->Emissive(atof(str[1]), atof(str[2]), atof(str[3]));
+		}
 	}
 
 	//ファイルのクローズ
@@ -243,8 +251,8 @@ void CModel::Load(char* obj, char* mtl) {
 
 	CreateVertexBuffer();
 	//シェーダー読み込み
-	mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
-	mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
+	mShader.Load("res\\skinmesh.vert", "res\\skinmesh.flag");
+	//mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
 
 }
 
@@ -275,12 +283,12 @@ CModel::~CModel()
 void CModel::Render(const CMatrix& m)
 {
 	//行列の退避
-	glPushMatrix();
+	//glPushMatrix();
 	//合成行列を掛ける
-	glMultMatrixf(m.M());
-	mShader.Render();
+	//glMultMatrixf(m.M());
+	mShader.Render(this, &m);
 	//行列を戻す
-	glPopMatrix();
+	//glPopMatrix();
 	return;
 
 	//行列の退避
@@ -337,18 +345,18 @@ void CModel::CreateVertexBuffer()
 				mpMaterials[i]->VertexNum(mpMaterials[i]->VertexNum() + 3);
 				mpVertexes[idx].mPosition = mTriangles[j].V0();
 				mpVertexes[idx].mNormal = mTriangles[j].N0();
-				mpVertexes[idx].mBoneIndex[0] = 0;
-				mpVertexes[idx].mBoneWeight[0] = 1.0f;
+				//mpVertexes[idx].mBoneIndex[0] = 0;
+				//mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U0();
 				mpVertexes[idx].mPosition = mTriangles[j].V1();
 				mpVertexes[idx].mNormal = mTriangles[j].N1();
-				mpVertexes[idx].mBoneIndex[0] = 0;
-				mpVertexes[idx].mBoneWeight[0] = 1.0f;
+				//mpVertexes[idx].mBoneIndex[0] = 0;
+				//mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U1();
 				mpVertexes[idx].mPosition = mTriangles[j].V2();
 				mpVertexes[idx].mNormal = mTriangles[j].N2();
-				mpVertexes[idx].mBoneIndex[0] = 0;
-				mpVertexes[idx].mBoneWeight[0] = 1.0f;
+				//mpVertexes[idx].mBoneIndex[0] = 0;
+				//mpVertexes[idx].mBoneWeight[0] = 1.0f;
 				mpVertexes[idx++].mTextureCoords = mTriangles[j].U2();
 			}
 		}

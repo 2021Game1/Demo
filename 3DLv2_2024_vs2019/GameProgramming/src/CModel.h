@@ -11,9 +11,15 @@
 モデルクラス
 モデルデータの入力や表示
 */
-class CModel : public CMesh 
+class CModel //: public CMesh 
 {
+	//シェーダークラスをフレンドにする
+	friend CMyShader;
+
 public:
+	//頂点バッファ識別子
+	GLuint	  mMyVertexBufferId;
+
 	//std::vector<CTriangle> Triangles() const;
 	const std::vector<CTriangle>& Triangles() const;
 
@@ -28,7 +34,7 @@ public:
 	void Render(const CMatrix& m);
 	CMatrix mDummySkinningMatrix;
 private:
-	CMyShader2 mShader;
+	CMyShader mShader;
 	//マテリアルポインタの可変長配列
 	std::vector<CMaterial*> mpMaterials;
 	//三角形の可変長配列

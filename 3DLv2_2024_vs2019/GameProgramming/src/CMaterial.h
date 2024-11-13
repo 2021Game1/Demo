@@ -12,6 +12,10 @@
 class CMaterial {
 	friend CMyShader;
 public:
+	void Specular(float r, float g, float b);
+	void Emissive(float r, float g, float b);
+	void Power(float p);
+
 	CMaterial(CModelX* model);
 	~CMaterial();
 

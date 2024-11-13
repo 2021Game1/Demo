@@ -103,6 +103,76 @@ void CMyShader::Render(CModelX* model, CMesh* mesh, CMatrix* pCombinedMatrix) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void CMyShader::Render(const CModel* mesh, const CMatrix* pCombinedMatrix)
+{
+	//シェーダーを有効にする
+	Enable();
+	/*ライト設定	*/
+	CVector vec(100.0f, 700.0f, -300.0f), ambient(0.9f, 0.9f, 0.9f), diffuse(1.0f, 1.0f, 1.0f);
+	vec = vec.Normalize();
+	int lightId = glGetUniformLocation(GetProgram(), "lightVec");  //ライトの向きを設定
+	glUniform3fv(lightId, 1, (float*)&vec);
+	glUniform3fv(glGetUniformLocation(GetProgram(), "lightAmbientColor"), 1, (float*)&ambient);
+	glUniform3fv(glGetUniformLocation(GetProgram(), "lightDiffuseColor"), 1, (float*)&diffuse);
+	//スキンメッシュ行列設定
+	int MatrixLocation = glGetUniformLocation(GetProgram(), "Transforms");
+	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, pCombinedMatrix->M());
+	/* テクスチャユニット1を指定する */
+	glUniform1i(glGetUniformLocation(GetProgram(), "DepthTexture"), 1);
+
+	//頂点バッファをバインドする
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->mMyVertexBufferId);
+
+	//頂点座標の位置を設定
+	int idx = 0;
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(CVertex), (void*)idx);
+	//法線ベクトルの位置を設定
+	idx += sizeof(CVector);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glNormalPointer(GL_FLOAT, sizeof(CVertex), (void*)idx);
+	//テクスチャマッピングデータの位置を設定
+	idx += sizeof(CVector);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(CVertex), (void*)idx);
+	//スキンウェイトデータの位置を設定
+	idx += sizeof(CVector);
+	int  weightLoc = glGetAttribLocation(GetProgram(), "weights");
+	glEnableVertexAttribArray(weightLoc);
+	glVertexAttribPointer(weightLoc, 4, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
+	//スキンウェイトのインデックスデータの位置を設定
+	idx += sizeof(float) * 4;
+	int  indexLoc = glGetAttribLocation(GetProgram(), "indices");
+	glEnableVertexAttribArray(indexLoc);
+	glVertexAttribPointer(indexLoc, 4, GL_FLOAT, GL_FALSE, sizeof(CVertex), (void*)idx);
+
+	//マテリアル毎に頂点を描画します
+	int k = 0;
+
+	for (size_t i = 0; i < mesh->mpMaterials.size(); i++) {
+		//マテリアルの値をシェーダーに設定
+		SetShader(mesh->mpMaterials[i]);
+		//三角形描画、開始頂点番号、描画に使用する頂点数
+		glDrawArrays(GL_TRIANGLES, k, mesh->mpMaterials[i]->mVertexNum);	//DrawArrays:VertexIndexなし
+		//開始位置計算
+		k += mesh->mpMaterials[i]->mVertexNum;
+		//マテリアルの解除
+		mesh->mpMaterials[i]->Disabled();
+	}
+	//無効にする
+	glDisableVertexAttribArray(weightLoc);
+	glDisableVertexAttribArray(indexLoc);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	//頂点バッファのバインド解除
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//シェーダーを無効にする
+	Disable();
+
+}
+
 /*
 マテリアルの値をシェーダーに設定する
 */

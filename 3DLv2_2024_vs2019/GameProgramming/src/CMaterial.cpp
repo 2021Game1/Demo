@@ -23,6 +23,27 @@ char* strncpy(char* str1, const char* str2, int len)
 /*
 Materialƒf[ƒ^‚Ì“Ç‚İ‚İ‚Æİ’è
 */
+void CMaterial::Specular(float r, float g, float b)
+{
+	mSpecular[0] = r;
+	mSpecular[1] = g;
+	mSpecular[2] = b;
+}
+
+void CMaterial::Emissive(float r, float g, float b)
+{
+	mEmissive[0] = r;
+	mEmissive[1] = g;
+	mEmissive[2] = b;
+}
+
+void CMaterial::Power(float p)
+{
+	mPower = p;
+}
+
+
+
 CMaterial::CMaterial(CModelX* model)
 	: mpTextureFilename(nullptr)
 {

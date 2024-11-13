@@ -62,7 +62,7 @@ void CZombie::Update()
 
 #ifdef _DEBUG
 
-	printf("y=%f\n", mPosition.Y());
+	//printf("y=%f\n", mPosition.Y());
 
 #endif
 
