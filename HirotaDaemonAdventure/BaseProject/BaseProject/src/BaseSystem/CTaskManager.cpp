@@ -321,15 +321,15 @@ void CTaskManager::Render()
 		mShadowMap.Render();
 
 		// 3D関連の描画
-		for (CTask* task : m3dTasks)
-		{
-			// 表示フラグがオンならば、
-			if (task->IsShow())
-			{
-				// タスクを描画
-				task->Render();
-			}
-		}
+		//for (CTask* task : m3dTasks)
+		//{
+		//	// 表示フラグがオンならば、
+		//	if (task->IsShow())
+		//	{
+		//		// タスクを描画
+		//		task->Render();
+		//	}
+		//}
 	}
 
 	// 2D描画用のカメラに切り替える
