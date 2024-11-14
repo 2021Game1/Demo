@@ -44,6 +44,8 @@ void CShadowMap::Init()
 	/* アルファテストの比較関数（しきい値） */
 	glAlphaFunc(GL_GEQUAL, 0.5f);
 
+//#endif
+
 	/* テクスチャ座標に視点座標系における物体の座標値を用いる */
 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
 	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);

@@ -101,17 +101,18 @@ void CApplication::Start()
 	//mXEnemy.Position(CVector(7.0f, 0.0f, 0.0f));
 	//mXEnemy.ChangeAnimation(2, true, 200);
 
+	new CMap();
+
 	mpPaladin = new CPaladin(CVector(-1.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 0.0f), CVector(1.0f, 1.0f, 1.0f));
 
 	new CZombie(CVector(1.0f, 0.0f, 5.0f), CVector(0.0f, 180.0f, 0.0f), CVector(1.0f, 1.0f, 1.0f));
 
-	new CMap();
 
 #define TEXWIDTH  8192  //テクスチャ幅
 #define TEXHEIGHT  6144  //テクスチャ高さ
 
-	float shadowColor[] = { 0.4f, 0.4f, 0.4f, 0.2f };  //影の色
-	float lightPos[] = { 100.0f,100.0f,100.0f };  //光源の位置
+	float shadowColor[] = { 0.4f, 0.4f, 0.4f, 0.4f };  //影の色
+	float lightPos[] = { 0.0f,90.0f,0.0f };  //光源の位置
 	mShadowMap.Init(TEXWIDTH, TEXHEIGHT, gRender, shadowColor, lightPos);
 }
 
