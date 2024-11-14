@@ -36,6 +36,7 @@
     <ClCompile Include="src\CPaladin.cpp" />
     <ClCompile Include="src\CPlayer.cpp" />
     <ClCompile Include="src\CShader.cpp" />
+    <ClCompile Include="src\CShadowMap.cpp" />
     <ClCompile Include="src\CSound.cpp" />
     <ClCompile Include="src\CTaskManager.cpp" />
     <ClCompile Include="src\CTexture.cpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="src\CPaladin.h" />
     <ClInclude Include="src\CPlayer.h" />
     <ClInclude Include="src\CShader.h" />
+    <ClInclude Include="src\CShadowMap.h" />
     <ClInclude Include="src\CSound.h" />
     <ClInclude Include="src\CTask.h" />
     <ClInclude Include="src\CTaskManager.h" />
@@ -102,7 +104,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

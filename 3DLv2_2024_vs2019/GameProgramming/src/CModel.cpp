@@ -251,7 +251,7 @@ void CModel::Load(char* obj, char* mtl) {
 
 	CreateVertexBuffer();
 	//シェーダー読み込み
-	mShader.Load("res\\skinmesh.vert", "res\\skinmesh.flag");
+	mShader.Load("res\\shadow.vert", "res\\shadow.frag");
 	//mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
 
 }

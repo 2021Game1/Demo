@@ -54,6 +54,12 @@ CUi* CApplication::Ui()
 //	return &mCamera;
 //}
 
+void gRender()
+{
+	CTaskManager::Instance()->Render();
+}
+
+
 CMatrix CApplication::mModelViewInverse;
 
 const CMatrix& CApplication::ModelViewInverse()
@@ -100,6 +106,13 @@ void CApplication::Start()
 	new CZombie(CVector(1.0f, 0.0f, 5.0f), CVector(0.0f, 180.0f, 0.0f), CVector(1.0f, 1.0f, 1.0f));
 
 	new CMap();
+
+#define TEXWIDTH  8192  //テクスチャ幅
+#define TEXHEIGHT  6144  //テクスチャ高さ
+
+	float shadowColor[] = { 0.4f, 0.4f, 0.4f, 0.2f };  //影の色
+	float lightPos[] = { 100.0f,100.0f,100.0f };  //光源の位置
+	mShadowMap.Init(TEXWIDTH, TEXHEIGHT, gRender, shadowColor, lightPos);
 }
 
 void CApplication::Update()
@@ -123,7 +136,8 @@ void CApplication::Update()
 	CTaskManager::Instance()->Collision();
 //	CCollisionManager::Instance()->Collision();
 
-	CTaskManager::Instance()->Render();
+	mShadowMap.Render();
+	//CTaskManager::Instance()->Render();
 
 	//コライダの描画
 	//CCollisionManager::Instance()->Render();

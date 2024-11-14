@@ -198,7 +198,7 @@ void CMyShader::SetShader(CMaterial* material) {
 	GLint samplerId = glGetUniformLocation(GetProgram(), "Sampler");
 	GLint textureFlg = glGetUniformLocation(GetProgram(), "TextureFlg");
 	//if (material->mTextureId > 0) {
-	if (material->mTexture.Id()) {
+	if (material->mTexture.Id() > 0) {
 		//テクスチャあり
 		material->Enabled();
 		glUniform1i(samplerId, 0);//GL_TEXTURE0を適用

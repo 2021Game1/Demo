@@ -30,10 +30,13 @@
 
 #include "CActionCamera.h"
 
+#include "CShadowMap.h"
 
 class CApplication
 {
 private:
+	CShadowMap mShadowMap;
+
 	//CActionCamera
 	CActionCamera mActionCamera;
 
