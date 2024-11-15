@@ -378,27 +378,13 @@ float CalcSegmentSegmentDist
 bool CCollider::CollisionCapsuleTriangle(CCollider* m, CCollider* t, CVector* a)
 {
 	CVector v[3], sv, ev;
+	bool ret = false;
 	//各コライダの頂点をワールド座標へ変換
 	v[0] = t->mV[0] * *t->mpMatrix;
 	v[1] = t->mV[1] * *t->mpMatrix;
 	v[2] = t->mV[2] * *t->mpMatrix;
 	//面の法線を、外積を正規化して求める
 	CVector normal = (v[1] - v[0]).Cross(v[2] - v[0]).Normalize();
-
-	//線コライダをワールド座標で作成
-	sv = m->V(0) + normal * m->mRadius;
-	ev = m->V(0) - normal * m->mRadius;
-	if (CollisionTriangleLine2(v[0], v[1], v[2], sv, ev, a))
-	{
-		return true;
-	}
-
-	sv = m->V(1) + normal * m->mRadius;
-	ev = m->V(1) - normal * m->mRadius;
-	if (CollisionTriangleLine2(v[0], v[1], v[2], sv, ev, a))
-	{
-		return true;
-	}
 
 	CVector r = ((m->V(0) - m->V(1)).Normalize()) * m->mRadius;
 	sv = m->V(0) + r;
@@ -415,48 +401,70 @@ bool CCollider::CollisionCapsuleTriangle(CCollider* m, CCollider* t, CVector* a)
 	if (dots * dote >= 0.0f) {
 		//衝突してない（調整不要）
 		*a = CVector(0.0f, 0.0f, 0.0f);
-		return false;
+		ret = false;
+	}
+	else
+	{
+
+		//線分は面と交差している
+		//面と線分の交点を求める
+		//交点の計算
+		CVector cross = sv + (ev - sv) * (abs(dots) / (abs(dots) + abs(dote)));
+
+		//交点が三角形内なら衝突している
+		//頂点1頂点2ベクトルと頂点1交点ベクトルとの外積を求め、
+		//法線との内積がマイナスなら、三角形の外
+		if ((v[1] - v[0]).Cross(cross - v[0]).Dot(normal) < 0.0f) {
+			//衝突してない
+			*a = CVector(0.0f, 0.0f, 0.0f);
+			ret = false;
+		}
+		//頂点2頂点3ベクトルと頂点2交点ベクトルとの外積を求め、
+		//法線との内積がマイナスなら、三角形の外
+		if ((v[2] - v[1]).Cross(cross - v[1]).Dot(normal) < 0.0f) {
+			//衝突してない
+			*a = CVector(0.0f, 0.0f, 0.0f);
+			ret = false;
+		}
+		//頂点3頂点1ベクトルと頂点3交点ベクトルとの外積を求め、
+		//法線との内積がマイナスなら、三角形の外
+		if ((v[0] - v[2]).Cross(cross - v[2]).Dot(normal) < 0.0f) {
+			//衝突してない
+			*a = CVector(0.0f, 0.0f, 0.0f);
+			ret = false;
+		}
+
+		//調整値計算（衝突しない位置まで戻す）
+		if (dots < 0.0f) {
+			//始点が裏面
+	//		*a = normal * -dots;
+			*a = cross - sv;
+		}
+		else {
+			//終点が裏面
+	//		*a = normal * -dote;
+			*a = cross - ev;
+		}
 	}
 
-	//線分は面と交差している
-	//面と線分の交点を求める
-	//交点の計算
-	CVector cross = sv + (ev - sv) * (abs(dots) / (abs(dots) + abs(dote)));
+	if (ret == false)
+	{
+		//線コライダをワールド座標で作成
+		sv = m->V(0) + normal * m->mRadius;
+		ev = m->V(0) - normal * m->mRadius;
+		if (CollisionTriangleLine2(v[0], v[1], v[2], sv, ev, a))
+		{
+			return true;
+		}
 
-	//交点が三角形内なら衝突している
-	//頂点1頂点2ベクトルと頂点1交点ベクトルとの外積を求め、
-	//法線との内積がマイナスなら、三角形の外
-	if ((v[1] - v[0]).Cross(cross - v[0]).Dot(normal) < 0.0f) {
-		//衝突してない
-		*a = CVector(0.0f, 0.0f, 0.0f);
-		return false;
-	}
-	//頂点2頂点3ベクトルと頂点2交点ベクトルとの外積を求め、
-	//法線との内積がマイナスなら、三角形の外
-	if ((v[2] - v[1]).Cross(cross - v[1]).Dot(normal) < 0.0f) {
-		//衝突してない
-		*a = CVector(0.0f, 0.0f, 0.0f);
-		return false;
-	}
-	//頂点3頂点1ベクトルと頂点3交点ベクトルとの外積を求め、
-	//法線との内積がマイナスなら、三角形の外
-	if ((v[0] - v[2]).Cross(cross - v[2]).Dot(normal) < 0.0f) {
-		//衝突してない
-		*a = CVector(0.0f, 0.0f, 0.0f);
-		return false;
+		sv = m->V(1) + normal * m->mRadius;
+		ev = m->V(1) - normal * m->mRadius;
+		if (CollisionTriangleLine2(v[0], v[1], v[2], sv, ev, a))
+		{
+			return true;
+		}
 	}
 
-	//調整値計算（衝突しない位置まで戻す）
-	if (dots < 0.0f) {
-		//始点が裏面
-//		*a = normal * -dots;
-		*a = cross - sv;
-	}
-	else {
-		//終点が裏面
-//		*a = normal * -dote;
-		*a = cross - ev;
-	}
 	return true;
 }
 

@@ -103,9 +103,9 @@ void CApplication::Start()
 
 	new CMap();
 
-	mpPaladin = new CPaladin(CVector(-1.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 0.0f), CVector(1.0f, 1.0f, 1.0f));
+	mpPaladin = new CPaladin(CVector(5.0f, 1.0f, -5.0f), CVector(0.0f, 0.0f, 0.0f), CVector(1.0f, 1.0f, 1.0f));
 
-	new CZombie(CVector(1.0f, 0.0f, 5.0f), CVector(0.0f, 180.0f, 0.0f), CVector(1.0f, 1.0f, 1.0f));
+	new CZombie(CVector(1.0f, 1.0f, 5.0f), CVector(0.0f, 180.0f, 0.0f), CVector(1.0f, 1.0f, 1.0f));
 
 
 #define TEXWIDTH  8192  //テクスチャ幅
@@ -141,7 +141,7 @@ void CApplication::Update()
 	//CTaskManager::Instance()->Render();
 
 	//コライダの描画
-	//CCollisionManager::Instance()->Render();
+	CCollisionManager::Instance()->Render();
 
 	//2D描画開始
 	CCamera::Start(0, 800, 0, 600);

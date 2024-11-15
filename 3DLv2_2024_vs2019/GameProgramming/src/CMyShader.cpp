@@ -112,7 +112,7 @@ void CMyShader::Render(const CModel& model, const CMatrix& matrix) {
 	/*
 	ライト設定
 	*/
-	CVector vec(100.0f, -700.0f, -300.0f), ambient(0.9f, 0.9f, 0.9f), diffuse(1.0f, 1.0f, 1.0f);
+	CVector vec(100.0f, 700.0f, -300.0f), ambient(0.9f, 0.9f, 0.9f), diffuse(1.0f, 1.0f, 1.0f);
 	//	vec = (CVector() - vec).Normalize();
 	vec = vec.Normalize();
 	int lightId = glGetUniformLocation(GetProgram(), "lightVec");  //ライトの向きを設定
@@ -213,7 +213,12 @@ void CMyShader::SetShader(CMaterial* material) {
 	//if (material->mTextureId > 0) {
 	if (material->mTexture.Id() > 0) {
 		//テクスチャあり
-		material->Enabled();
+		//material->Enabled();
+		//テクスチャを使用可能にする
+		//glEnable(GL_TEXTURE_2D);
+		//テクスチャをバインドする
+		glBindTexture(GL_TEXTURE_2D, material->mTexture.Id());
+
 		glUniform1i(samplerId, 0);//GL_TEXTURE0を適用
 		glUniform1i(textureFlg, 0);//GL_TEXTURE0を適用
 	}
