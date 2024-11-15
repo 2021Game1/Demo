@@ -86,6 +86,7 @@ void CShadowMap::Init()
 	glReadBuffer(GL_NONE);
 	//* フレームバッファオブジェクトの結合を解除する 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	//テクスチャユニットを0に戻す
 	glActiveTexture(GL_TEXTURE0);
 }

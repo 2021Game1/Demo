@@ -287,7 +287,7 @@ void CModel::Render(const CMatrix& m)
 	//glPushMatrix();
 	//‡¬s—ñ‚ğŠ|‚¯‚é
 	//glMultMatrixf(m.M());
-	mShader.Render(this, &m);
+	mShader.Render(*this, m);
 	//s—ñ‚ğ–ß‚·
 	//glPopMatrix();
 	return;
