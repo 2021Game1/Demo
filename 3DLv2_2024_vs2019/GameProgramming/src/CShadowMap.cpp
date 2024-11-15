@@ -16,8 +16,11 @@ void CShadowMap::Init()
 	glBindTexture(GL_TEXTURE_2D, mDepthTextureID);
 
 	/* Depthテクスチャの割り当て */
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mTextureWidth, mTextureHeight, 0,
-		GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+//	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mTextureWidth, mTextureHeight, 0,
+//		GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, mTextureWidth, mTextureHeight, 0,
+		GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+
 
 	/* テクスチャを拡大・縮小する方法の指定 */
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -71,18 +74,18 @@ void CShadowMap::Init()
 
 	//フレームバッファ追加
 	//* フレームバッファオブジェクトを生成して結合する 
-	glGenFramebuffersEXT(1, &mFb);
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, mFb);
+	glGenFramebuffers(1, &mFb);
+	glBindFramebuffer(GL_FRAMEBUFFER, mFb);
 
 	//* フレームバッファオブジェクトにデプスバッファ用のテクスチャを結合する 
-	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,
-		GL_DEPTH_ATTACHMENT_EXT,
+	glFramebufferTexture2D(GL_FRAMEBUFFER,
+		GL_DEPTH_ATTACHMENT,
 		GL_TEXTURE_2D, mDepthTextureID, 0);
 	//* カラーバッファが無いので読み書きしない 
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	//* フレームバッファオブジェクトの結合を解除する 
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	//テクスチャユニットを0に戻す
 	glActiveTexture(GL_TEXTURE0);
 }
@@ -118,7 +121,7 @@ void CShadowMap::Render()
 	** 第１ステップ：デプステクスチャの作成
 	*/
 	//* フレームバッファオブジェクトへのレンダリング開始
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, mFb);
+	glBindFramebuffer(GL_FRAMEBUFFER, mFb);
 
 	/* デプスバッファをクリアする */
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -174,7 +177,7 @@ void CShadowMap::Render()
 	}
 
 	/* フレームバッファオブジェクトへのレンダリング終了 */
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	/* 通常の描画の設定に戻す */
 	glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
