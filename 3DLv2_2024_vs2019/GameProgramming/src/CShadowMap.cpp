@@ -16,10 +16,11 @@ void CShadowMap::Init()
 	glBindTexture(GL_TEXTURE_2D, mDepthTextureID);
 
 	/* Depthテクスチャの割り当て */
-//	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mTextureWidth, mTextureHeight, 0,
-//		GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, mTextureWidth, mTextureHeight, 0,
-		GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mTextureWidth, mTextureHeight, 0,
+	//	GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, mTextureWidth, mTextureHeight, 0,
+	//	GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, mTextureWidth, mTextureHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 
 
 	/* テクスチャを拡大・縮小する方法の指定 */
