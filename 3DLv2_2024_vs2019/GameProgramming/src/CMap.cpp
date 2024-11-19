@@ -10,21 +10,21 @@
 #define ROTATION 0.0f,0.0f,0.0f
 #define SCALE 1.0f,1.0f,1.0f
 
-CModel CMap::mModel;
-bool CMap::mLoad = true;
+CModel CMap::msModel;
+bool CMap::msLoad = true;
 
 
 CMap::CMap()
 {
-	if (mLoad)
+	if (msLoad)
 	{
-		mLoad = false;
-		mModel.Load(CMAP_GROUND);
+		msLoad = false;
+		msModel.Load(CMAP_GROUND);
 	}
-	Model(&mModel);
+	Model(&msModel);
 	Position(CVector(POSITION));
 	Rotation(CVector(ROTATION));
 	Scale(CVector(SCALE));
 	CTransform::Update();
-	mColMesh.Set(this, &mMatrix, &mModel);
+	mColMesh.Set(this, &mMatrix, &msModel);
 }

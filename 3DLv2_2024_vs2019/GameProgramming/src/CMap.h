@@ -8,7 +8,7 @@ public:
 	CMap();
 	void Update(){}
 private:
-	static CModel mModel;
-	static bool mLoad;
+	static CModel msModel;
+	static bool msLoad;
 	CColliderMesh mColMesh;
 };

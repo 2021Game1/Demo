@@ -630,6 +630,7 @@ void CMesh::CreateVertexBuffer()
 			}
 			//マテリアル毎の頂点数を追加する
 			mMaterialVertexCount.push_back(k - w);
+			mMaterial[i]->mVertexNum = k - w;
 		}
 		//頂点バッファの作成
 		glGenBuffers(1, &mMyVertexBufferId);
