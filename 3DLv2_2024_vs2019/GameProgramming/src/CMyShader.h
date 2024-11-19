@@ -16,6 +16,8 @@ class CMyShader : public CShader {
 	//•`‰æˆ—
 	void Render(CModelX* model, CMesh* mesh, CMatrix* pCombinedMatrix);
 public:
+	void Render(const GLuint vertexBufferId, const std::vector<CMaterial*> *materials, const float skinMatrix[], int matrixSize);
+
 	//•`‰æˆ—
 	//void Render(const CModel* mesh, const CMatrix* pCombinedMatrix);
 	void Render(const CModel& model, const CMatrix& matrix);
