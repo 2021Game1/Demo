@@ -17,7 +17,8 @@ uniform mat4 depthMVP;
 uniform mat4 textureMatrix1; // テクスチャ座標変換行列
 
 //フラグメントシェーダーに渡す変数
-varying vec3 N;//法線ベクトル
+//varying vec3 N;//法線ベクトル
+out vec3 N;//法線ベクトル
 
 void main(void)
 {

@@ -1,7 +1,7 @@
 #include "CMap.h"
 
-#define CMAP_GROUND "res\\plane.obj", "res\\plane.mtl"
-//#define CMAP_GROUND "res\\sky.obj", "res\\sky.mtl"
+//#define CMAP_GROUND "res\\plane.obj", "res\\plane.mtl"
+#define CMAP_GROUND "res\\sky.obj", "res\\sky.mtl"
 //#define CMAP_GROUND "res\\UnderGround\\passage2.obj","res\\UnderGround\\passage2.mtl"
 
 #define POSITION 0.0f,0.0f,0.0f

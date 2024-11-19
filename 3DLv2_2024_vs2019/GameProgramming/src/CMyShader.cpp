@@ -9,7 +9,7 @@
 
 void CMyShader::Render(CModelX* model, CMatrix* pCombinedMatrix) {
 	//シェーダーを有効にする
-	Enable();
+	//Enable();
 	for (size_t i = 0; i < model->mFrame.size(); i++) {
 		if (model->mFrame[i]->mpMesh != nullptr) {
 			//面のあるメッシュは描画する
@@ -17,18 +17,28 @@ void CMyShader::Render(CModelX* model, CMatrix* pCombinedMatrix) {
 		}
 	}
 	//シェーダーを無効にする
-	Disable();
+	//Disable();
 }
 /*
 メッシュの描画
 */
-void CMyShader::Render(CModelX* model, CMesh* mesh, CMatrix* pCombinedMatrix) {
+void CMyShader::Render(CModelX* model, CMesh* mesh, CMatrix* pCombinedMatrix)
+{
 	//スキンマトリックス生成
 	for (size_t i = 0; i < mesh->mSkinWeights.size(); i++) {
 		//スキンメッシュの行列配列を設定する
 		model->mpSkinningMatrix[mesh->mSkinWeights[i]->mFrameIndex]
 			= mesh->mSkinWeights[i]->mOffset * pCombinedMatrix[mesh->mSkinWeights[i]->mFrameIndex];
 	}
+
+	Render(mesh->mMyVertexBufferId,
+		&(mesh->mMaterial),
+		model->mpSkinningMatrix[0].M(),
+		mesh->mSkinWeights.size());
+
+	return;
+
+
 
 	/*
 	ライト設定
@@ -195,6 +205,7 @@ void CMyShader::Render(const CModel& model, const CMatrix& matrix)
 void CMyShader::Render(const GLuint vertexBufferId, const std::vector<CMaterial*>* materials, const float skinMatrix[], int matrixSize) {
 	//シェーダーを有効にする
 	Enable();
+
 	/*
 	ライト設定
 	*/
@@ -208,6 +219,14 @@ void CMyShader::Render(const GLuint vertexBufferId, const std::vector<CMaterial*
 	//スキンメッシュ行列設定
 	int MatrixLocation = glGetUniformLocation(GetProgram(), "Transforms");
 	glUniformMatrix4fv(MatrixLocation, matrixSize, GL_FALSE, skinMatrix);
+
+	CMatrix modelview, projection;
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelview.M());
+	/* 現在の透視変換行列を保存しておく */
+	glGetFloatv(GL_PROJECTION_MATRIX, projection.M());
+	MatrixLocation = glGetUniformLocation(GetProgram(), "depthMVP");
+	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, (modelview * projection).M());
+
 	/*
 	ワールドトランスフォーム
 	*/

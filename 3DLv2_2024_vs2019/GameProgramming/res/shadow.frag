@@ -1,4 +1,4 @@
-#version 120
+#version 330
 uniform vec3 lightVec;
 uniform vec3 lightAmbientColor;
 uniform vec3 lightDiffuseColor;
@@ -12,10 +12,36 @@ uniform sampler2D Sampler;	//テクスチャ
 uniform int TextureFlg;
 
 //頂点シェーダーから受け取る変数
-varying vec3 N;//法線ベクトル
+//varying vec3 N;//法線ベクトル
+in vec3 N;//法線ベクトル
 
 uniform sampler2DShadow DepthTexture;	//デプステクスチャ
 
+in vec2 TexCoord;              // 頂点シェーダから受け取るテクスチャ座標
+uniform sampler2D texture;     // テクスチャユニット
+
+out vec4 FragColor;             // 出力するフラグメントの色
+
+void main() {
+	float NL = dot(N, lightVec); 
+	vec3 Reflect = normalize(2 * NL * N - lightVec);
+	float specular = pow(clamp(dot(Reflect, eyeVec),0,1.0), Pow);
+
+	vec4 texColor;
+	if(TextureFlg == -1)
+	{
+		texColor = vec4(1.0,1.0,1.0,1.0);
+	}
+	else
+	{
+		texColor = texture(Sampler, TexCoord);
+	}
+    // テクスチャをサンプリング
+    //FragColor = texture(Sampler, TexCoord);
+	FragColor= texColor * (Diffuse * clamp(NL,0,1.0)* vec4(lightDiffuseColor,1.0)+ Ambient * vec4(lightAmbientColor,1.0) + vec4(specular*Specular + Emissive,1.0));
+}
+
+/*
 void main(void)
 {
 
@@ -44,3 +70,4 @@ void main(void)
    
 	gl_FragColor= texColor * (Diffuse * clamp(NL,0,1.0)* vec4(lightDiffuseColor,1.0)+ Ambient * vec4(lightAmbientColor,1.0) + vec4(specular*Specular + Emissive,1.0));
 }
+*/
