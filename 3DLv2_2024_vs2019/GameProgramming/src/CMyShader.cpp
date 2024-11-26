@@ -34,7 +34,8 @@ void CMyShader::Render(CModelX* model, CMesh* mesh, CMatrix* pCombinedMatrix)
 	Render(mesh->mMyVertexBufferId,
 		&(mesh->mMaterial),
 		model->mpSkinningMatrix[0].M(),
-		mesh->mSkinWeights.size());
+		model->mFrame.size());
+		//mesh->mSkinWeights.size());
 
 	return;
 
