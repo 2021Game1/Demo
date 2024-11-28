@@ -16,9 +16,11 @@ uniform int TextureFlg;
 in vec3 N;//法線ベクトル
 
 uniform sampler2DShadow DepthTexture;	//デプステクスチャ
+//uniform sampler2D DepthTexture;	//デプステクスチャ
 
 in vec2 TexCoord;              // 頂点シェーダから受け取るテクスチャ座標
-uniform sampler2D texture;     // テクスチャユニット
+in vec4 TexCoord1;             // 頂点シェーダから受け取るテクスチャ座標
+//uniform sampler2D texture;     // テクスチャユニット
 
 out vec4 FragColor;             // 出力するフラグメントの色
 
@@ -35,6 +37,14 @@ void main() {
 	else
 	{
 		texColor = texture(Sampler, TexCoord);
+	}
+	//デプステクスチャの値を取得
+	float shd = shadow2DProj(DepthTexture, TexCoord1).r;
+	//値が0は影にする
+	if(shd == 0.0) 
+	{
+		texColor = texColor * 0.3;
+		texColor.w = 1.0;
 	}
     // テクスチャをサンプリング
     //FragColor = texture(Sampler, TexCoord);

@@ -228,6 +228,9 @@ void CMyShader::Render(const GLuint vertexBufferId, const std::vector<CMaterial*
 	MatrixLocation = glGetUniformLocation(GetProgram(), "depthMVP");
 	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, (modelview * projection).M());
 
+	MatrixLocation = glGetUniformLocation(GetProgram(), "textureMatrix1");
+	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, (CMatrix().Scale(0.5f,0.5f,0.5f) * CMatrix().Translate(0.5f, 0.5f, 0.5f)).M());
+
 	/*
 	ワールドトランスフォーム
 	*/

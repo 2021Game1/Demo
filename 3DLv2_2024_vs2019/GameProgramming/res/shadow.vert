@@ -11,7 +11,7 @@ layout(location = 3) in vec4 weights;
 layout(location = 4) in vec4 indices;
 // 出力：フラグメントシェーダに渡すテクスチャ座標
 out vec2 TexCoord;
-out vec2 TexCoord1;
+out vec4 TexCoord1;
 
 uniform mat4 depthMVP;
 uniform mat4 textureMatrix1; // テクスチャ座標変換行列
@@ -39,5 +39,6 @@ void main(void)
 	//デプステクスチャのテクスチャ座標を求める
 	//gl_TexCoord[1] = gl_TextureMatrix[1] * gl_Vertex;
 	vec4 transformedTexCoord = textureMatrix1 * vec4(aPosition,1);
-	TexCoord1 = transformedTexCoord.st;
+//	TexCoord1 = transformedTexCoord.st;
+	TexCoord1 = transformedTexCoord;
 }
