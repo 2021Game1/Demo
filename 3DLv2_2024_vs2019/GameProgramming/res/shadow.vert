@@ -38,7 +38,7 @@ void main(void)
 
 	//デプステクスチャのテクスチャ座標を求める
 	//gl_TexCoord[1] = gl_TextureMatrix[1] * gl_Vertex;
-	vec4 transformedTexCoord = textureMatrix1 * vec4(aPosition,1);
+	//vec4 transformedTexCoord = textureMatrix1 * vec4(aPosition,1);
 	//TexCoord1 = transformedTexCoord.st;
-	TexCoord1 = transformedTexCoord;
+	TexCoord1 = textureMatrix1 * vec4(aPosition,1);
 }

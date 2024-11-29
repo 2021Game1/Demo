@@ -114,6 +114,7 @@ void CShadowMap::Render()
 	//日向のライト
 	const GLfloat lightcol[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	GLint	viewport[4]; //ビューポートの保存用
+	CMatrix modelviewLight;
 	CMatrix	projection; //透視変換行列の保存用
 	/* モデルビュー変換行列を保存しておく */
 	CMatrix modelviewCamera;
@@ -157,7 +158,7 @@ void CShadowMap::Render()
 	gluPerspective(60.0, (GLdouble)mTextureWidth / (GLdouble)mTextureHeight, 1.0, 100000.0);
 	gluLookAt(mLightPos[0], mLightPos[1], mLightPos[2], mLightPos[0] - 10.0f, 0, mLightPos[2] - 10.0f, 0.0, 1.0, 0.0);
 	/* 設定した透視変換行列×モデルビュー変換行列を保存しておく */
-	glGetFloatv(GL_MODELVIEW_MATRIX, msModelviewLight.M());
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelviewLight.M());
 
 	/* デプスバッファの内容だけを取得するのでフレームバッファには書き込まない */
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
@@ -207,17 +208,18 @@ void CShadowMap::Render()
 	glLoadIdentity();
 
 	/* テクスチャ座標の [-1,1] の範囲を [0,1] の範囲に収める */
-	glTranslated(0.5, 0.5, 0.5);
-	glScaled(0.5, 0.5, 0.5);
+	//glTranslated(0.5, 0.5, 0.5);
+	//glScaled(0.5, 0.5, 0.5);
 
 	/* テクスチャのモデルビュー変換行列と透視変換行列の積をかける */
-	glMultMatrixf(msModelviewLight.M());
+	//glMultMatrixf(msModelviewLight.M());
 //	msModelviewLight = CMatrix().Translate(0.5, 0.5, 0.5) * CMatrix().Scale(0.5, 0.5, 0.5) * msModelviewLight;
-	msModelviewLight = msModelviewLight * CMatrix().Scale(0.5, 0.5, 0.5) * CMatrix().Translate(0.5, 0.5, 0.5);
+	msModelviewLight = modelviewLight * CMatrix().Scale(0.5, 0.5, 0.5) * CMatrix().Translate(0.5, 0.5, 0.5);
 
 	/* モデルビュー変換行列に戻す */
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	//glLoadIdentity();
+	glLoadMatrixf(modelviewCamera.M());
 
 	/* テクスチャオブジェクトを結合する */
 	glBindTexture(GL_TEXTURE_2D, mDepthTextureID);
@@ -230,7 +232,7 @@ void CShadowMap::Render()
 
 	if (mpRender)
 	{
-		glMultMatrixf(modelviewCamera.M());
+		//glMultMatrixf(modelviewCamera.M());
 		(*mpRender)();
 	}
 
