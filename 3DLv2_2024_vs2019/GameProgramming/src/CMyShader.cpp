@@ -5,7 +5,7 @@
 #include "CMatrix.h"
 #include "CModel.h"
 #include "CVertex.h"
-
+#include "CShadowMap.h"
 
 void CMyShader::Render(CModelX* model, CMatrix* pCombinedMatrix) {
 	//シェーダーを有効にする
@@ -229,7 +229,8 @@ void CMyShader::Render(const GLuint vertexBufferId, const std::vector<CMaterial*
 	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, (modelview * projection).M());
 
 	MatrixLocation = glGetUniformLocation(GetProgram(), "textureMatrix1");
-	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, (CMatrix().Scale(0.5f,0.5f,0.5f) * CMatrix().Translate(0.5f, 0.5f, 0.5f)).M());
+	//x glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, (CMatrix().Scale(0.5f, 0.5f, 0.5f) * CMatrix().Translate(0.5f, 0.5f, 0.5f)).M());
+	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, CShadowMap::msModelviewLight.M());
 
 	/*
 	ワールドトランスフォーム

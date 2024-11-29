@@ -1,5 +1,6 @@
 #pragma once
 #include "glut.h"
+#include "CMatrix.h"
 
 class CShadowMap
 {
@@ -12,6 +13,8 @@ class CShadowMap
 	void (*mpRender)(); //Render関数のポインタ
 	static bool sShadow;	//trueの時は、影データ作成なのでシェーダー時カメラ使わない
 public:
+	static CMatrix	msModelviewLight; //モデルビュー変換行列の保存用
+
 	static bool Shadow();
 	CShadowMap();
 	~CShadowMap();

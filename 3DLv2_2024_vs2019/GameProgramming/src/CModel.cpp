@@ -283,13 +283,14 @@ CModel::~CModel()
 //Render(行列)
 void CModel::Render(const CMatrix& m)
 {
+	mShader.Render(*this, m);
 	//行列の退避
-	glPushMatrix();
+//	glPushMatrix();
 	//合成行列を掛ける
-	glMultMatrixf(m.M());
-	mShader.Render(*this, CMatrix());
+//	glMultMatrixf(m.M());
+//	mShader.Render(*this, CMatrix());
 	//行列を戻す
-	glPopMatrix();
+//	glPopMatrix();
 	return;
 
 	//行列の退避

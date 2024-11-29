@@ -5,6 +5,7 @@
 #define USE_SHADOW_SHADER	//shadowシェーダーを使用する（固定シェーダーを使用しない）
 
 bool CShadowMap::sShadow = false;
+CMatrix	CShadowMap::msModelviewLight; //モデルビュー変換行列の保存用
 
 void CShadowMap::Init()
 {
@@ -16,11 +17,11 @@ void CShadowMap::Init()
 	glBindTexture(GL_TEXTURE_2D, mDepthTextureID);
 
 	/* Depthテクスチャの割り当て */
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mTextureWidth, mTextureHeight, 0,
-	//	GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mTextureWidth, mTextureHeight, 0,
+		GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, mTextureWidth, mTextureHeight, 0,
 	//	GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, mTextureWidth, mTextureHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, mTextureWidth, mTextureHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 
 
 	/* テクスチャを拡大・縮小する方法の指定 */
@@ -113,7 +114,6 @@ void CShadowMap::Render()
 	//日向のライト
 	const GLfloat lightcol[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	GLint	viewport[4]; //ビューポートの保存用
-	CMatrix	modelviewLight; //モデルビュー変換行列の保存用
 	CMatrix	projection; //透視変換行列の保存用
 	/* モデルビュー変換行列を保存しておく */
 	CMatrix modelviewCamera;
@@ -157,7 +157,7 @@ void CShadowMap::Render()
 	gluPerspective(60.0, (GLdouble)mTextureWidth / (GLdouble)mTextureHeight, 1.0, 100000.0);
 	gluLookAt(mLightPos[0], mLightPos[1], mLightPos[2], mLightPos[0] - 10.0f, 0, mLightPos[2] - 10.0f, 0.0, 1.0, 0.0);
 	/* 設定した透視変換行列×モデルビュー変換行列を保存しておく */
-	glGetFloatv(GL_MODELVIEW_MATRIX, modelviewLight.M());
+	glGetFloatv(GL_MODELVIEW_MATRIX, msModelviewLight.M());
 
 	/* デプスバッファの内容だけを取得するのでフレームバッファには書き込まない */
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
@@ -211,7 +211,9 @@ void CShadowMap::Render()
 	glScaled(0.5, 0.5, 0.5);
 
 	/* テクスチャのモデルビュー変換行列と透視変換行列の積をかける */
-	glMultMatrixf(modelviewLight.M());
+	glMultMatrixf(msModelviewLight.M());
+//	msModelviewLight = CMatrix().Translate(0.5, 0.5, 0.5) * CMatrix().Scale(0.5, 0.5, 0.5) * msModelviewLight;
+	msModelviewLight = msModelviewLight * CMatrix().Scale(0.5, 0.5, 0.5) * CMatrix().Translate(0.5, 0.5, 0.5);
 
 	/* モデルビュー変換行列に戻す */
 	glMatrixMode(GL_MODELVIEW);

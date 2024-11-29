@@ -40,10 +40,11 @@ void main() {
 	}
 	//デプステクスチャの値を取得
 	float shd = shadow2DProj(DepthTexture, TexCoord1).r;
+	//float shd = texture(DepthTexture, TexCoord1.st).r;
 	//値が0は影にする
 	if(shd == 0.0) 
 	{
-		texColor = texColor * 0.3;
+		texColor = texColor * 0.4;
 		texColor.w = 1.0;
 	}
     // テクスチャをサンプリング
