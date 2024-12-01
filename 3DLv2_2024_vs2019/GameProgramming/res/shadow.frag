@@ -8,20 +8,16 @@ uniform vec4 Diffuse;
 uniform vec3 Specular;
 uniform vec3 Emissive;
 uniform float Pow;
-uniform sampler2D Sampler;	//テクスチャ
 uniform int TextureFlg;
+uniform sampler2D Sampler;	//テクスチャ
+uniform sampler2DShadow DepthTexture;	//デプステクスチャ
 
 //頂点シェーダーから受け取る変数
-//varying vec3 N;//法線ベクトル
 in vec3 N;//法線ベクトル
+in vec2 TexCoord0;	// 頂点シェーダから受け取るテクスチャ座標
+in vec4 TexCoord1;	// 頂点シェーダから受け取るテクスチャ座標(DepthTexture用)
 
-uniform sampler2DShadow DepthTexture;	//デプステクスチャ
-//uniform sampler2D DepthTexture;	//デプステクスチャ
-
-in vec2 TexCoord;              // 頂点シェーダから受け取るテクスチャ座標
-in vec4 TexCoord1;             // 頂点シェーダから受け取るテクスチャ座標
-//uniform sampler2D texture;     // テクスチャユニット
-
+//出力
 out vec4 FragColor;             // 出力するフラグメントの色
 
 void main() {
@@ -36,11 +32,10 @@ void main() {
 	}
 	else
 	{
-		texColor = texture(Sampler, TexCoord);
+		texColor = texture(Sampler, TexCoord0);
 	}
 	//デプステクスチャの値を取得
 	float shd = shadow2DProj(DepthTexture, TexCoord1).r;
-	//float shd = texture(DepthTexture, TexCoord1.st).r;
 	//値が0は影にする
 	if(shd == 0.0) 
 	{
@@ -48,7 +43,6 @@ void main() {
 		texColor.w = 1.0;
 	}
     // テクスチャをサンプリング
-    //FragColor = texture(Sampler, TexCoord);
 	FragColor= texColor * (Diffuse * clamp(NL,0,1.0)* vec4(lightDiffuseColor,1.0)+ Ambient * vec4(lightAmbientColor,1.0) + vec4(specular*Specular + Emissive,1.0));
 }
 

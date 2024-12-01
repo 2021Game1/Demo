@@ -8,16 +8,12 @@
 #include "CShadowMap.h"
 
 void CMyShader::Render(CModelX* model, CMatrix* pCombinedMatrix) {
-	//シェーダーを有効にする
-	//Enable();
 	for (size_t i = 0; i < model->mFrame.size(); i++) {
 		if (model->mFrame[i]->mpMesh != nullptr) {
 			//面のあるメッシュは描画する
 			Render(model, model->mFrame[i]->mpMesh, pCombinedMatrix);
 		}
 	}
-	//シェーダーを無効にする
-	//Disable();
 }
 /*
 メッシュの描画
@@ -38,80 +34,6 @@ void CMyShader::Render(CModelX* model, CMesh* mesh, CMatrix* pCombinedMatrix)
 		//mesh->mSkinWeights.size());
 
 	return;
-
-
-
-	/*
-	ライト設定
-	*/
-	CVector vec(100.0f, 700.0f, -300.0f), ambient(0.9f, 0.9f, 0.9f), diffuse(1.0f, 1.0f, 1.0f);
-	vec = vec.Normalize();
-	int lightId = glGetUniformLocation(GetProgram(), "lightVec");  //ライトの向きを設定
-	glUniform3fv(lightId, 1, (float*)&vec);
-	glUniform3fv(glGetUniformLocation(GetProgram(), "lightAmbientColor"), 1, (float*)&ambient);
-	glUniform3fv(glGetUniformLocation(GetProgram(), "lightDiffuseColor"), 1, (float*)&diffuse);
-	//スキンメッシュ行列設定
-	int MatrixLocation = glGetUniformLocation(GetProgram(), "Transforms");
-	glUniformMatrix4fv(MatrixLocation, model->mFrame.size(), GL_FALSE, model->mpSkinningMatrix[0].M());
-	/*
-	ワールドトランスフォーム
-	*/
-	//	int worldId = glGetUniformLocation(getProgram(), "WorldMatrix");
-	//	glUniformMatrix4fv(worldId, 1, GL_FALSE, model->mFrame[0]->mCombinedMatrix.f);
-
-	/* テクスチャユニット1を指定する */
-	glUniform1i(glGetUniformLocation(GetProgram(), "DepthTexture"), 1);
-
-	//頂点バッファをバインドする
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->mMyVertexBufferId);
-
-	//頂点座標の位置を設定
-	int idx = 0;
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(CVertex), (void*)idx);
-	//法線ベクトルの位置を設定
-	idx += sizeof(CVector);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glNormalPointer(GL_FLOAT, sizeof(CVertex), (void*)idx);
-	//テクスチャマッピングデータの位置を設定
-	idx += sizeof(CVector);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(CVertex), (void*)idx);
-
-	//スキンウェイトデータの位置を設定
-	idx += sizeof(CVector);
-	int  weightLoc = glGetAttribLocation(GetProgram(), "weights");
-	glEnableVertexAttribArray(weightLoc);
-	glVertexAttribPointer(weightLoc, 4, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
-	//スキンウェイトのインデックスデータの位置を設定
-	idx += sizeof(float) * 4;
-	int  indexLoc = glGetAttribLocation(GetProgram(), "indices");
-	glEnableVertexAttribArray(indexLoc);
-	glVertexAttribPointer(indexLoc, 4, GL_FLOAT, GL_FALSE, sizeof(CVertex), (void*)idx);
-
-	//マテリアル毎に頂点を描画します
-	int k = 0;
-
-	for (size_t i = 0; i < mesh->mMaterial.size(); i++) {
-		//マテリアルの値をシェーダーに設定
-		SetShader(mesh->mMaterial[i]);
-		//三角形描画、開始頂点番号、描画に使用する頂点数
-		glDrawArrays(GL_TRIANGLES, k, mesh->mMaterialVertexCount[i]);	//DrawArrays:VertexIndexなし
-		//開始位置計算
-		k += mesh->mMaterialVertexCount[i];
-		//マテリアルの解除
-		mesh->mMaterial[i]->Disabled();
-	}
-
-	//無効にする
-	glDisableVertexAttribArray(weightLoc);
-	glDisableVertexAttribArray(indexLoc);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	//頂点バッファのバインド解除
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 
@@ -120,87 +42,8 @@ void CMyShader::Render(CModelX* model, CMesh* mesh, CMatrix* pCombinedMatrix)
 */
 void CMyShader::Render(const CModel& model, const CMatrix& matrix)
 {
-
 	Render(model.mMyVertexBufferId, &(model.mpMaterials),  matrix.M(), 1);
-
 	return;
-
-	//シェーダーを有効にする
-	Enable();
-	/*
-	ライト設定
-	*/
-	CVector vec(100.0f, 700.0f, -300.0f), ambient(0.9f, 0.9f, 0.9f), diffuse(1.0f, 1.0f, 1.0f);
-	//	vec = (CVector() - vec).Normalize();
-	vec = vec.Normalize();
-	int lightId = glGetUniformLocation(GetProgram(), "lightVec");  //ライトの向きを設定
-	glUniform3fv(lightId, 1, (float*)&vec);
-	glUniform3fv(glGetUniformLocation(GetProgram(), "lightAmbientColor"), 1, (float*)&ambient);
-	glUniform3fv(glGetUniformLocation(GetProgram(), "lightDiffuseColor"), 1, (float*)&diffuse);
-	//スキンメッシュ行列設定
-	int MatrixLocation = glGetUniformLocation(GetProgram(), "Transforms");
-	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, matrix.M());
-	/*
-	ワールドトランスフォーム
-	*/
-	//	int worldId = glGetUniformLocation(getProgram(), "WorldMatrix");
-	//	glUniformMatrix4fv(worldId, 1, GL_FALSE, model->mFrame[0]->mCombinedMatrix.f);
-
-	/* テクスチャユニット1を指定する */
-	glUniform1i(glGetUniformLocation(GetProgram(), "DepthTexture"), 1);
-
-	//頂点バッファをバインドする
-	glBindBuffer(GL_ARRAY_BUFFER, model.mMyVertexBufferId);
-
-	//頂点座標の位置を設定
-	int idx = 0;
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(CVertex), (void*)idx);
-	//法線ベクトルの位置を設定
-	idx += sizeof(CVector);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glNormalPointer(GL_FLOAT, sizeof(CVertex), (void*)idx);
-	//テクスチャマッピングデータの位置を設定
-	idx += sizeof(CVector);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(CVertex), (void*)idx);
-
-	//スキンウェイトデータの位置を設定
-	idx += sizeof(CVector);
-	int  weightLoc = glGetAttribLocation(GetProgram(), "weights");
-	glEnableVertexAttribArray(weightLoc);
-	glVertexAttribPointer(weightLoc, 4, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
-	//スキンウェイトのインデックスデータの位置を設定
-	idx += sizeof(float) * 4;
-	int  indexLoc = glGetAttribLocation(GetProgram(), "indices");
-	glEnableVertexAttribArray(indexLoc);
-	glVertexAttribPointer(indexLoc, 4, GL_FLOAT, GL_FALSE, sizeof(CVertex), (void*)idx);
-
-	//マテリアル毎に頂点を描画します
-	int k = 0;
-
-	for (size_t i = 0; i < model.mpMaterials.size(); i++) {
-		//マテリアルの値をシェーダーに設定
-		SetShader(model.mpMaterials[i]);
-		//三角形描画、開始頂点番号、描画に使用する頂点数
-		glDrawArrays(GL_TRIANGLES, k, model.mpMaterials[i]->mVertexNum);	//DrawArrays:VertexIndexなし
-		//開始位置計算
-		k += model.mpMaterials[i]->mVertexNum;
-		//マテリアルの解除
-		model.mpMaterials[i]->Disabled();
-	}
-
-	//無効にする
-	glDisableVertexAttribArray(weightLoc);
-	glDisableVertexAttribArray(indexLoc);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	//頂点バッファのバインド解除
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//シェーダーを無効にする
-	Disable();
 }
 
 void CMyShader::Render(const GLuint vertexBufferId, const std::vector<CMaterial*>* materials, const float skinMatrix[], int matrixSize) {
@@ -225,11 +68,10 @@ void CMyShader::Render(const GLuint vertexBufferId, const std::vector<CMaterial*
 	glGetFloatv(GL_MODELVIEW_MATRIX, modelview.M());
 	/* 現在の透視変換行列を保存しておく */
 	glGetFloatv(GL_PROJECTION_MATRIX, projection.M());
-	MatrixLocation = glGetUniformLocation(GetProgram(), "depthMVP");
+	MatrixLocation = glGetUniformLocation(GetProgram(), "MVP");
 	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, (modelview * projection).M());
 
-	MatrixLocation = glGetUniformLocation(GetProgram(), "textureMatrix1");
-	//x glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, (CMatrix().Scale(0.5f, 0.5f, 0.5f) * CMatrix().Translate(0.5f, 0.5f, 0.5f)).M());
+	MatrixLocation = glGetUniformLocation(GetProgram(), "TextureMatrix1");
 	glUniformMatrix4fv(MatrixLocation, 1, GL_FALSE, CShadowMap::msModelviewLight.M());
 
 	/*
@@ -244,41 +86,35 @@ void CMyShader::Render(const GLuint vertexBufferId, const std::vector<CMaterial*
 	//頂点バッファをバインドする
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
 
+	const int POSITION_LOC = 0;
+	const int NORMAL_LOC = 1;
+	const int TEXCOORD_LOC = 2;
+	const int WEIGHT_LOC = 3;
+	const int WINDEX_LOC = 4;
+
 	//頂点座標の位置を設定
 	int idx = 0;
-	//glEnableClientState(GL_VERTEX_ARRAY);
-	//glVertexPointer(3, GL_FLOAT, sizeof(CVertex), (void*)idx);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
+	glEnableVertexAttribArray(POSITION_LOC);
+	glVertexAttribPointer(POSITION_LOC, 3, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
 
 	//法線ベクトルの位置を設定
 	idx += sizeof(CVector);
-	//glEnableClientState(GL_NORMAL_ARRAY);
-	//glNormalPointer(GL_FLOAT, sizeof(CVertex), (void*)idx);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
-
+	glEnableVertexAttribArray(NORMAL_LOC);
+	glVertexAttribPointer(NORMAL_LOC, 3, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
 
 	//テクスチャマッピングデータの位置を設定
 	idx += sizeof(CVector);
-	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	//glTexCoordPointer(2, GL_FLOAT, sizeof(CVertex), (void*)idx);
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
-
+	glEnableVertexAttribArray(TEXCOORD_LOC);
+	glVertexAttribPointer(TEXCOORD_LOC, 2, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
 
 	//スキンウェイトデータの位置を設定
 	idx += sizeof(CVector);
-	//int  weightLoc = glGetAttribLocation(GetProgram(), "weights");
-	int  weightLoc = 3;
-	glEnableVertexAttribArray(weightLoc);
-	glVertexAttribPointer(weightLoc, 4, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
+	glEnableVertexAttribArray(WEIGHT_LOC);
+	glVertexAttribPointer(WEIGHT_LOC, 4, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
 	//スキンウェイトのインデックスデータの位置を設定
 	idx += sizeof(float) * 4;
-	//int  indexLoc = glGetAttribLocation(GetProgram(), "indices");
-	int  indexLoc = 4;
-	glEnableVertexAttribArray(indexLoc);
-	glVertexAttribPointer(indexLoc, 4, GL_FLOAT, GL_FALSE, sizeof(CVertex), (void*)idx);
+	glEnableVertexAttribArray(WINDEX_LOC);
+	glVertexAttribPointer(WINDEX_LOC, 4, GL_FLOAT, GL_FALSE, sizeof(CVertex), (void*)idx);
 
 	//マテリアル毎に頂点を描画します
 	int k = 0;
@@ -295,11 +131,11 @@ void CMyShader::Render(const GLuint vertexBufferId, const std::vector<CMaterial*
 	}
 
 	//無効にする
-	glDisableVertexAttribArray(weightLoc);
-	glDisableVertexAttribArray(indexLoc);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableVertexAttribArray(WINDEX_LOC);
+	glDisableVertexAttribArray(WEIGHT_LOC);
+	glDisableVertexAttribArray(TEXCOORD_LOC);
+	glDisableVertexAttribArray(NORMAL_LOC);
+	glDisableVertexAttribArray(POSITION_LOC);
 
 	//頂点バッファのバインド解除
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -335,9 +171,8 @@ void CMyShader::SetShader(CMaterial* material) {
 	//if (material->mTextureId > 0) {
 	if (material->mTexture.Id() > 0) {
 		//テクスチャあり
-		//material->Enabled();
 		//テクスチャを使用可能にする
-		//glEnable(GL_TEXTURE_2D);
+		glEnable(GL_TEXTURE_2D);
 		//テクスチャをバインドする
 		glBindTexture(GL_TEXTURE_2D, material->mTexture.Id());
 
@@ -349,134 +184,4 @@ void CMyShader::SetShader(CMaterial* material) {
 		//テクスチャなし
 		glUniform1i(textureFlg, -1);//GL_TEXTURE1を適用
 	}
-}
-
-void CMyShader2::Update(int FrameSize, CMatrix* pSkinningMatrix, std::vector<CMaterial*>* pMaterials, GLuint VertexBufferId)
-{
-	mFrameSize = FrameSize;
-	mpSkinningMatrix = pSkinningMatrix;
-	mpMaterials = pMaterials;
-	mVertexBufferId = VertexBufferId;
-}
-
-void CMyShader2::Render(int FrameSize, CMatrix* pSkinningMatrix, std::vector<CMaterial*>* pMaterials, GLuint VertexBufferId)
-{
-	Update(FrameSize, pSkinningMatrix, pMaterials, VertexBufferId);
-	Render();
-}
-
-void CMyShader2::Render()
-{
-	//スキンマトリックス生成
-	//for (size_t i = 0; i < mesh->mSkinWeights.size(); i++) {
-	//	//スキンメッシュの行列配列を設定する
-	//	model->mpSkinningMatrix[mesh->mSkinWeights[i]->mFrameIndex]
-	//		= mesh->mSkinWeights[i]->mOffset * pCombinedMatrix[mesh->mSkinWeights[i]->mFrameIndex];
-	//}
-
-	/*
-	ライト設定
-	*/
-	CVector vec(100.0f, 700.0f, -300.0f), ambient(0.9f, 0.9f, 0.9f), diffuse(1.0f, 1.0f, 1.0f);
-	vec = vec.Normalize();
-	int lightId = glGetUniformLocation(GetProgram(), "lightVec");  //ライトの向きを設定
-	glUniform3fv(lightId, 1, (float*)&vec);
-	glUniform3fv(glGetUniformLocation(GetProgram(), "lightAmbientColor"), 1, (float*)&ambient);
-	glUniform3fv(glGetUniformLocation(GetProgram(), "lightDiffuseColor"), 1, (float*)&diffuse);
-	//スキンメッシュ行列設定
-	int MatrixLocation = glGetUniformLocation(GetProgram(), "Transforms");
-	glUniformMatrix4fv(MatrixLocation, mFrameSize, GL_FALSE, mpSkinningMatrix[0].M());
-
-	/*
-	ワールドトランスフォーム
-	*/
-	//	int worldId = glGetUniformLocation(getProgram(), "WorldMatrix");
-	//	glUniformMatrix4fv(worldId, 1, GL_FALSE, model->mFrame[0]->mCombinedMatrix.f);
-
-	/* テクスチャユニット1を指定する */
-	glUniform1i(glGetUniformLocation(GetProgram(), "DepthTexture"), 1);
-
-	//頂点バッファをバインドする
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferId);
-
-	//頂点座標の位置を設定
-	int idx = 0;
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(CVertex), (void*)idx);
-	//法線ベクトルの位置を設定
-	idx += sizeof(CVector);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glNormalPointer(GL_FLOAT, sizeof(CVertex), (void*)idx);
-	//テクスチャマッピングデータの位置を設定
-	idx += sizeof(CVector);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(CVertex), (void*)idx);
-
-	//スキンウェイトデータの位置を設定
-	idx += sizeof(CVector);
-	int  weightLoc = glGetAttribLocation(GetProgram(), "weights");
-	glEnableVertexAttribArray(weightLoc);
-	glVertexAttribPointer(weightLoc, 4, GL_FLOAT, GL_TRUE, sizeof(CVertex), (void*)idx);
-	//スキンウェイトのインデックスデータの位置を設定
-	idx += sizeof(float) * 4;
-	int  indexLoc = glGetAttribLocation(GetProgram(), "indices");
-	glEnableVertexAttribArray(indexLoc);
-	glVertexAttribPointer(indexLoc, 4, GL_FLOAT, GL_FALSE, sizeof(CVertex), (void*)idx);
-
-	//マテリアル毎に頂点を描画します
-	int k = 0;
-
-	for (size_t i = 0; i < (*mpMaterials).size(); i++) {
-		//マテリアルの値をシェーダーに設定
-//		SetShader(model, mesh->mMaterial[i]);
-		{
-			int AmbientId = glGetUniformLocation(GetProgram(), "Ambient");  //カラー設定
-			glUniform4fv(AmbientId, 1, (GLfloat*)(*mpMaterials)[i]->mDiffuse);
-
-			int DiffuseId = glGetUniformLocation(GetProgram(), "Diffuse");  //カラー設定
-			glUniform4fv(DiffuseId, 1, (GLfloat*)(*mpMaterials)[i]->mDiffuse);
-
-			//int ColorRGAB_ID = glGetUniformLocation(getProgram(), "ColorRGBA");  //カラー設定　重ねてカラーの表示
-			//glUniform4fv(ColorRGAB_ID, 1, (GLfloat*)mColorRGBA);
-
-			int PowId = glGetUniformLocation(GetProgram(), "Pow");  //強さを設定
-			glUniform1f(PowId, (*mpMaterials)[i]->mPower);
-
-			int SpecularId = glGetUniformLocation(GetProgram(), "Specular");  //カラー設定
-			glUniform3fv(SpecularId, 1, (GLfloat*)(*mpMaterials)[i]->mSpecular);
-
-			int EmissiveId = glGetUniformLocation(GetProgram(), "Emissive");  //カラー設定
-			glUniform3fv(EmissiveId, 1, (GLfloat*)(*mpMaterials)[i]->mEmissive);
-			GLint samplerId = glGetUniformLocation(GetProgram(), "Sampler");
-			GLint textureFlg = glGetUniformLocation(GetProgram(), "TextureFlg");
-			//if (material->mTextureId > 0) {
-			//(*mpMaterials)[i]->Enabled(model->GetColor());
-			if ((*mpMaterials)[i]->Texture() != nullptr && (*mpMaterials)[i]->Texture()->Id()) {
-				(*mpMaterials)[i]->Enabled();
-				glUniform1i(samplerId, 0);//GL_TEXTURE0を適用
-				glUniform1i(textureFlg, 0);//GL_TEXTURE0を適用
-			}
-			else
-			{
-				//テクスチャなし
-				glUniform1i(textureFlg, -1);//GL_TEXTURE1を適用
-			}
-		}
-		//三角形描画、開始頂点番号、描画に使用する頂点数
-		glDrawArrays(GL_TRIANGLES, k, (*mpMaterials)[i]->VertexNum());	//DrawArrays:VertexIndexなし
-		//開始位置計算
-		k += (*mpMaterials)[i]->VertexNum();
-		//マテリアルの解除
-		(*mpMaterials)[i]->Disabled();
-	}
-
-	//無効にする
-	glDisableVertexAttribArray(weightLoc);
-	glDisableVertexAttribArray(indexLoc);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	//頂点バッファのバインド解除
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

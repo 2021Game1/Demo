@@ -11,7 +11,7 @@ class CShadowMap
 	GLuint mDepthTextureID; //デプステクスチャID
 	GLuint mFb; //フレームバッファ識別子
 	void (*mpRender)(); //Render関数のポインタ
-	static bool sShadow;	//trueの時は、影データ作成なのでシェーダー時カメラ使わない
+	static bool msShadow;	//trueの時は、影データ作成なのでシェーダー時カメラ使わない
 public:
 	static CMatrix	msModelviewLight; //モデルビュー変換行列の保存用
 
