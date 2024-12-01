@@ -41,3 +41,8 @@ const CharaStatus& CCharaBase::Status() const
 {
 	return mCharaStatus;
 }
+
+bool CCharaBase::HPStatus() const
+{
+	return mCharaStatus.hp <= 0;
+}

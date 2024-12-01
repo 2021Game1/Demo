@@ -560,7 +560,6 @@ bool CModelX::Load(std::string path, bool dontDelete)
 	mpSkinningMatrix = new CMatrix[mFrame.size()];
 	//シェーダー読み込み
 	mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
-//	mShader.Load("Shader\\shadow.vert", "Shader\\shadow.flag");
 
 	return true;
 
@@ -836,7 +835,6 @@ void CMesh::CreateVertexBuffer()
 					pmyVertex[k++].mNormal = mpNormal[j * 3 + 2];
 				}
 			}
-			mMaterial[i]->VertexNum(k - w);
 			//マテリアル毎の頂点数を追加する
 			mMaterialVertexCount.push_back(k - w);
 		}

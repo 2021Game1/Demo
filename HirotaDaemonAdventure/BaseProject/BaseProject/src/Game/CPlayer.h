@@ -35,6 +35,9 @@ class CMeatUI;
 class CMetalLadder;
 class COperationUI;
 class CSpikyBall;
+class CPicoChan;
+class CCanLockOn;
+class CLockOn;
 
 #define DEFOLT_CAMERA CVector(0.0f,50.0f,75.0f);
 
@@ -45,6 +48,15 @@ class CSpikyBall;
 class CPlayer : public CXCharacter
 {
 public:
+	// ロックオン用のポインター
+	CXCharacter* mpLockedOnEnemy;
+	CXCharacter* mpNearestEnemy;
+	CXCharacter* mpNextEnemy;
+	// 敵の位置を設定
+	void LockOnToNearestEnemy(const std::vector<CXCharacter*>& enemies);
+	void UpdateCameraPosition();
+	void UpdateLockOnAndCameraPosition(const std::vector<CXCharacter*>& enemies);
+
 	// プレイヤーが持っているアイテムのリスト
 	enum class ItemType
 	{
@@ -76,6 +88,73 @@ public:
 	void UseSpikyBall();
 	// インベントリから特定のアイテムを削除
 	void RemoveItem(ItemType item);
+
+	// ステージ事の位置情報を管理する構造体
+	struct StagePositions
+	{
+		float StartPosX, StartPosY, StartPosZ;
+		float SavePoint1PosX, SavePoint1PosY, SavePoint1PosZ;
+		float SavePoint2PosX, SavePoint2PosY, SavePoint2PosZ;
+	};
+	// 復活地点を設定
+	void SetPlayerPosition(int stageNumber);
+
+	// 回復量
+	enum HealingAmount
+	{
+		HEALING_1 = 1,
+		HEALING_2 = 2,
+		HEALING_3 = 3,
+		HEALING_4 = 4,
+		HEALING_5 = 5,
+		HEALING_6 = 6,
+		HEALING_7 = 7,
+		HEALING_8 = 8,
+		HEALING_9 = 9,
+		HEALING_10 = 10,
+		HEALING_20 = 20,
+		HEALING_MAX = 100
+		// 必要に応じて追加
+	};
+
+	// ダメージ量
+	enum DamageAmount 
+	{
+		DAMAGE_1 = 1,
+		DAMAGE_2 = 2,
+		DAMAGE_3 = 3,
+		DAMAGE_4 = 4,
+		DAMAGE_5 = 5,
+		DAMAGE_6 = 6,
+		DAMAGE_7 = 7,
+		DAMAGE_8 = 8,
+		DAMAGE_9 = 9,
+		DAMAGE_10 = 10,
+		DAMAGE_20 = 20,
+		DAMAGE_MAX = 100
+		// 必要に応じて追加
+	};
+
+	// スタミナ量
+	enum StaminaAmount
+	{
+		STAMINA_0 = 0,
+		STAMINA_1 = 1,
+		STAMINA_2 = 2,
+		STAMINA_3 = 3,
+		STAMINA_4 = 4,
+		STAMINA_5 = 5,
+		STAMINA_6 = 6,
+		STAMINA_7 = 7,
+		STAMINA_8 = 8,
+		STAMINA_9 = 9,
+		STAMINA_10 = 10,
+		STAMINA_20 = 20,
+		STAMINA_40 = 40,
+		STAMINA_50 = 50,
+		STAMINA_MAX = 100
+		// 必要に応じて追加
+	};
 
 	//インスタンスのポインタの取得
 	static CPlayer* Instance();
@@ -119,55 +198,61 @@ public:
 	void SetStartPosition(const CVector& pos);
 
 	// hp取得
-	int GetHp();
-	int GetMaxHp();
+	int GetHp() const;
+	int GetMaxHp() const;
 
 	// ジャンプをしたかどうか
-	bool IsJumping();
+	bool IsJumping() const;
 	// 攻撃したかどうか
-	bool IsAttack();
+	bool IsAttack() const;
 	// 死亡したかどうか(mIsDeath)
-	bool IsDeath();
+	bool IsMDeath() const;
 	// 死亡したかどうか(mDeath)
-	bool IsMDeath();
+	bool IsDeath() const;
 
 	// ステージ1をクリアしたかどうか
-	bool IsStage1Clear();
+	bool IsStage1Clear() const;
 	// ステージ2をクリアしたかどうか
-	bool IsStage2Clear();
+	bool IsStage2Clear() const;
 	// ステージ3をクリアしたかどうか
-	bool IsStage3Clear();
+	bool IsStage3Clear() const;
 	// ステージ4をクリアしたかどうか
-	bool IsStage4Clear();
+	bool IsStage4Clear() const;
+	// EXステージをクリアしたかどうか
+	bool IsEXStageClear() const;
 	// ステージをクリアしたかどうか
-	bool IsStageClear();
+	bool IsStageClear() const;
 
 	// ステージフラグをfalseにする関数
 	void StageFlagfalse();
 
 	// ステージに入れるようにするフラグ
 	// ステージ2に入れるかどうかのフラグ
-	bool IsStartStage2();
+	bool IsStartStage2() const;
 	// ステージ3に入れるかどうかのフラグ
-	bool IsStartStage3();
+	bool IsStartStage3() const;
 	// ステージ4に入れるかどうかのフラグ
-	bool IsStartStage4();
+	bool IsStartStage4() const;
+	// EXステージに入れるかどうかのフラグ
+	bool IsStartEXStage() const;
 
 	// 攻撃力アップアイテムを使用したかどうか
-	bool IsAttackItem();
+	bool IsAttackItem() const;
 	// 回復アップアイテムを使用したかどうか
-	bool IsHealingItem();
+	bool IsHealingItem() const;
 
 	// とげボールを使用するかどうか
-	bool IsSpikyBall();
+	bool IsSpikyBall() const;
 	// とげボールを出現させているかどうか
-	bool IsSpikyBallAppearance();
+	bool IsSpikyBallAppearance() const;
 	// とげボールのリチャージ時間
 	float GetSpikyTime() const;
 	float GetSpikyBallSpeed() const;
 	float GetSpikyBallDistance() const;
 	float GetSpikyBallInitialVelocityY() const;
 
+	// ロックオンカメラを使用しているかどうか判定
+	bool IsCameraReset() const;
 
 	// 他のクラスで使っている為publicに置いておく
 	// ジャンプ開始1
@@ -218,14 +303,6 @@ public:
 	void Render();
 	
 private:
-	// モデル・ポインター・素材関連
-	// カメラ関連
-	// 状態関連
-	// アニメーション関連
-	// ベクトル関連
-	// キー入力関連
-	// 変数関連
-
 	// プレイヤーのインスタンス
 	static CPlayer* spInstance;
 
@@ -234,9 +311,10 @@ private:
 	// コライダー
 	// 縦のコライダーライン
 	CColliderLine* mpColliderLine;
-	// 一時的な当たり判定を取るコライダー
-	// カプセルコライダーが完成したら変更
+	// 壁などと当たり判定を取得するコライダー
 	CColliderCapsule* mpColliderCapsule;
+	// 敵との衝突判定を取得するコライダー
+	CColliderSphere* mpEnemyCollider;
 	//ダメージを受けるコライダ
 	CColliderSphere* mpDamageCol;
 	// 登れるコライダーとの当たり判定を取るコライダー
@@ -261,8 +339,17 @@ private:
 	CSpikyBallUI* mpSpikyBallUI;
 	// 肉アイテム画像
 	CMeatUI* mpMeat;
-
+	// 登るときの画像
 	COperationUI* mpClimbUI;
+	// ロックオン可能時のキー画像
+	COperationUI* mpQUI;
+	// ロックオン時の変更キー画像
+	COperationUI* mpTABUI;
+
+	// ロックオンができる時の画像
+	CCanLockOn* mpCanLockOn;
+	// ロックオン時の画像
+	CLockOn* mpLockOn;
 
 	// SE
 	// 剣の振りかざし攻撃時のSE
@@ -312,6 +399,10 @@ private:
 	/// </summary>
 	/// <returns></returns>
 	bool IsEnableStepSmoke() const;
+	/// <summary>
+	/// 範囲攻撃用のエフェクトを表示
+	/// </summary>
+	void SmashEffect();
 
 	// 煙のリスト
 	std::list<CSmoke*> mSmokeList;
@@ -356,6 +447,12 @@ private:
 	void UpdateAttackStrong();
 	// 強攻撃終了待ち
 	void UpdateAttackStrongWait();
+	// 範囲攻撃開始
+	void UpdateSmashAttackStart();
+	// 範囲攻撃中
+	void UpdateSmashAttack();
+	// 範囲攻撃終了待ち
+	void UpdateSmashAttackEnd();
 	// ダッシュアタック
 	void UpdateDashAttack();
 	// ダッシュアタック終了
@@ -442,6 +539,19 @@ private:
 	// ステージクリア時のアイテム削除処理
 	void ItemDeletion();
 
+	// ステージ開始時の共通処理
+	void CInitializeStageStart();
+
+	// ステージクリア時の初期化処理
+	void CResetStageData();
+	// ステージクリア時のステージ判定
+	void CClearPreviousStage();
+	// ステージクリアの処理を判定
+	void CCompleteStage(int stageNo);
+
+	// リザルト時の初期化処理
+	void CHandleStageClear(bool& stageClearFlag);
+
 	// プレイヤーの状態
 	enum class EState
 	{
@@ -452,10 +562,13 @@ private:
 		eClearJump,			 // リザルト前のアニメーション
 		eAttack,			 // 攻撃
 		eAttackStrongStart,	 // 強攻撃開始
-		eAttackStrong,		 // 強攻撃
+		eAttackStrong,		 // 強攻撃開始
+		eAttackSmashStart,	 // 範囲攻撃開始
+		eAttackSmash,		 // 範囲攻撃中
 		eAttackDash,		 // ダッシュアタック
 		eAttackWait,		 // 攻撃終了待ち
 		eAttackStrongWait,	 // 強攻撃終了待ち
+		eAttackSmashWait,	 // 範囲攻撃終了待ち
 		eAttackDashWait,	 // ダッシュアタック終了待ち
 		eJumpStart,			 // ジャンプ開始
 		eJump,				 // ジャンプ中
@@ -530,6 +643,7 @@ private:
 		eWalk,			// 歩行
 		eAttack,		// 攻撃
 		eAttackStrong,	// 強攻撃
+		eAttackSmash,	// 範囲攻撃
 		eAttackDash,	// ダッシュアタック
 		eJumpStart,		// ジャンプ開始
 		eJump,			// ジャンプ中
@@ -737,6 +851,10 @@ private:
 	bool mStage4Clear;
 	// マネージャークラスに伝える用
 	bool mIsStage4Clear;
+	// EXステージをクリアしたか
+	bool mEXStageClear;
+	// マネージャークラスに伝える用
+	bool mIsEXStageClear;
 	// (全てのステージ)クリアしたかマネージャークラスに伝えるよう
 	bool mIsStageClear;
 
@@ -748,6 +866,8 @@ private:
 	bool mStartStage3;
 	// ステージ4に入るかどうか
 	bool mStartStage4;
+	// EXステージに入るかどうか
+	bool mStartEXStage;
 
 	// 他クラスで確認用
 	// ステージ2に入れるか(別クラス用)
@@ -756,6 +876,22 @@ private:
 	bool mIsStartStage3;
 	// ステージ4に入れるか(別クラス用)
 	bool mIsStartStage4;
+	// EXステージに入れるか(別クラス用)
+	bool mIsStartEXStage;
+
+	// カメラリセット
+	bool mIsCameraReset;
+	// カメラの初期位置設定用のフラグ
+	bool mIsCameraStartPos;
+	// 回避行動時の方向設定用のフラグ
+	bool mIsCameraDirection;
+	// ロックオン中に別の敵に切り替わらないようにするためのフラグ
+	bool mIsCanRockOnUI;
+
+	// 範囲攻撃をしているかどうか
+	bool mIsSmashAttack;
+	// 範囲攻撃をするかどうか
+	bool mIsSmashAttackStart;
 
 	///////////////////////////////////////////////////////
 };

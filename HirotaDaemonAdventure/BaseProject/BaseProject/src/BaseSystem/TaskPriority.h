@@ -35,6 +35,7 @@ enum class ETaskPriority
 	eHealingEffect,	// 回復エフェクト
 	eEffect,		// エフェクト
 	eSmokeEffecit,	// 煙エフェクト
+	eLockOn,		// ロックオン画像
 
 	eCamera,		// カメラ
 	eLeteCamera,	// カメラ後の更新

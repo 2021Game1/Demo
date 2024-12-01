@@ -109,6 +109,7 @@ void CMeatUI::Render()
 	CMeat1* meat1 = CMeat1::Instance();
 	CMeat2* meat2 = CMeat2::Instance();
 	CMeat3* meat3 = CMeat3::Instance();
+	if (meat1, meat2, meat3 == nullptr) return;
 	bool Meat[] = { meat1->IsMeat1(), meat2->IsMeat2(), meat3->IsMeat3() };
 
 	// æ“¾Ï‚İ‰æ‘œ‚Ì•`‰æ

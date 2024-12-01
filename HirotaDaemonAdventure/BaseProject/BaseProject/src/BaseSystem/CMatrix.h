@@ -98,5 +98,7 @@ public:
 	// [0, 0, 1, 0]
 	// [0, 0, 0, 1]
 	const static CMatrix identity;
+
+	CVector TransformVector(const CVector& v) const;
 };
 #endif

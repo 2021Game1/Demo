@@ -7,16 +7,14 @@
 #include "CVertex.h"
 #include "CResource.h"
 #include "CColor.h"
-#include "CModelX.h"
 
 /*
 モデルクラス
 モデルデータの入力や表示
 */
-class CModel : public CMesh, public CResource
+class CModel : public CResource
 {
 	friend CResourceManager;
-	friend CMyShader;
 public:
 	std::vector<CTriangle> Triangles() const;
 
@@ -58,9 +56,7 @@ public:
 	// 描画
 	// Render(行列)
 	void Render(const CMatrix& m);
-	CMatrix mDummySkinningMatrix;
 private:
-	CMyShader mShader;
 	CModel();
 	~CModel();
 	// モデル読み込み

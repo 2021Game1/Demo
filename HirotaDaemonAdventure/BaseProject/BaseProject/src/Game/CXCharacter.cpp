@@ -193,3 +193,8 @@ float CXCharacter::GetAnimationSpeed() const
 {
 	return mAnimationSpeed;
 }
+
+bool CXCharacter::IsDead() const
+{
+	return mCharaStatus.hp <= 0;
+}

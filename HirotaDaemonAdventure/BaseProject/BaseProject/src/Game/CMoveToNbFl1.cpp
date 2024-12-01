@@ -4,7 +4,7 @@
 // rotの後にモデルパスを選択できる
 CMoveToNbFl1::CMoveToNbFl1(const CVector& scale, const CVector& rot
 	, float waitTime)
-	: CNumberFloor1(CVector::zero, scale, rot)
+	: CNumberFloor1(mStartPos, scale, rot)
 	, mMoveState(EMoveState::eIdle)
 	, mIsReturn(false)
 	, mIsReturnMove(false)

@@ -6,6 +6,7 @@
 class CText;
 class CImage;
 class CFont;
+class CSound;
 
 class CStageTime : public CTask
 {
@@ -38,6 +39,8 @@ private:
 	CFont* mpLogoFont;
 	// ŽžŒv‚Ì‰æ‘œ
 	CImage* mpTimer;
+	// ŽžŠÔ‚ÌSE
+	CSound* mpTimeSound;
 
 	// ŽžŠÔ
 	int mTime;

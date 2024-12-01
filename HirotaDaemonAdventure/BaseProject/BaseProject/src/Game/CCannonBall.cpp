@@ -1,4 +1,5 @@
 #include "CCannonBall.h"
+#include "CStageManager.h"
 
 // 重力
 #define GRAVITY 0.0625f
@@ -31,11 +32,14 @@ CCannonBall::CCannonBall(const CVector& pos, const CVector& dir,
 	mpSpherer->SetCollisionLayers({ ELayer::eDamageCol });
 	mpSpherer->SetCollisionTags({ ETag::ePlayer });
 	//mpSpherer->Position(0.0f, 1.5f, -5.5f);
+
+	CStageManager::AddTask(this);
 }
 
 // デストラクタ
 CCannonBall::~CCannonBall()
 {
+	CStageManager::RemoveTask(this);	
 	SAFE_DELETE(mpSpherer);
 }
 

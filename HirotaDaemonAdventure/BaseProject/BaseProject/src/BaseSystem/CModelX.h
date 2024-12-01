@@ -151,7 +151,6 @@ class CMesh {
 	friend CSkinWeights;
 	friend CMyShader;
 private:
-protected:
 	int mFaceNum;          //–Ê”
 	int mVertexNum;	   	   //’¸“_”
 	int mNormalNum;        //–@ü”

@@ -14,7 +14,6 @@ enum class EBlend;
 */
 class CMaterial {
 	friend CMyShader;
-	friend CMyShader2;
 private:
 	// ƒuƒŒƒ“ƒhˆ—‚ğ—LŒø‰»
 	void EnableBlend();

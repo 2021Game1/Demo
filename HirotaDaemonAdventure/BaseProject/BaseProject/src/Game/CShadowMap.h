@@ -24,9 +24,7 @@ class CShadowMap
 	void(*mpRender)();
 	// 初期化処理
 	void Init();
-	static bool sShadow;	//trueの時は、影データ作成なのでシェーダー時カメラ使わない
 public:
-	static bool Shadow();
 	// コンストラクタ
 	CShadowMap();
 	// デストラクタ

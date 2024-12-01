@@ -163,6 +163,9 @@ void CCamera::LookAt(const CVector& eye, const CVector& at, const CVector& up, b
 {
 	if (updateTargetEye) mTargetEye = eye;
 	mEye = eye; mAt = at; mUp = up;
+	// 設定されているコライダーと衝突する場合は、
+	// カメラの位置を押し出す
+	ApplyCollision();
 	mEyeVec = mAt - mTargetEye;
 	mViewMatrix.Identity();
 	CVector f = (mEye - mAt).Normalized();
@@ -349,9 +352,6 @@ void CCamera::Update()
 		mEye = mTargetEye;
 		mAt = mEye - VectorZ().Normalized() * mEyeVec.Length();
 	}
-	// 設定されているコライダーと衝突する場合は、
-	// カメラの位置を押し出す
-	ApplyCollision();
 
 	// 視点、注視点、上ベクトルから各行列を更新
 	LookAt(mEye, mAt, mUp, false);

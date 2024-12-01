@@ -13,6 +13,7 @@
 #include "CTitlePlayer.h"
 #include "CStageManager.h"
 #include "CGameCamera.h"
+#include "CSound.h"
 
 #define TITLE_IMAGE "UI\\Title.png"
 
@@ -42,6 +43,14 @@ void CTitleScene::Load()
 	CResourceManager::Load<CModel>("TitleCol","Field\\TitleStage\\FloorCol.obj");
 	// ステージの空
 	CResourceManager::Load<CModel>("StageSky", "Field\\StageSky\\Sky(Sphere).obj");
+
+	// チュートリアルSE
+	CResourceManager::Load<CSound>("TutorialSound", "Sound\\SE\\confirmation2.wav");
+	// ゲームスタートSE
+	CResourceManager::Load<CSound>("GameStateSound", "Sound\\SE\\decision13.wav");
+
+	// ゲーム開始SE取得
+	mpGameState = CResourceManager::Get<CSound>("GameStateSound");
 
 	// タイトルメニューを作成
 	//mpTitleMenu = new CTitleMenu();
@@ -95,7 +104,14 @@ void CTitleScene::Update()
 		// ゲーム開始ならば、ゲームシーンを読み込む
 		if (mpTitleUI->IsStartGame())
 		{
+			// ゲームスタートを再生
+			mpGameState->Play(1.0f, false, 0.0f);
 			CSceneManager::Instance()->LoadScene(EScene::eGame);
+		}
+		// TUTORIALを押すとチュートリアル画像を開く
+		else if (mpTitleUI->IsTutorial())
+		{
+			mpTitleUI->Open();
 		}
 		// ゲーム終了ならば、アプリを閉じる
 		else if (mpTitleUI->IsExitGame())

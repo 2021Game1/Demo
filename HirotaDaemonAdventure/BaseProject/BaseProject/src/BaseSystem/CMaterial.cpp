@@ -53,7 +53,6 @@ CMaterial::CMaterial()
 	, mpTexture(nullptr)
 	, mBlendType(EBlend::eAlpha)
 {
-	memset(this, 0, sizeof(CMaterial));
 	//名前を0で埋め
 	memset(mName, 0, sizeof(mName));
 	//Deffuseカラーはデフォルトは(1, 1, 1, 1)
@@ -62,8 +61,6 @@ CMaterial::CMaterial()
 	{
 		mDiffuse[i] = 1.0f;
 	}
-	mSpecular[0] = mSpecular[1] = mSpecular[2] = 0.5f;
-	mPower = 100.0f;
 }
 
 /*

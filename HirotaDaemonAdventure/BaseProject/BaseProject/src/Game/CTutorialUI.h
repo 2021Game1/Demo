@@ -30,10 +30,16 @@ public:
 
 private:
 	// 最初の画像
-	CImage* mCurrentImage;
+	CImage* mpCurrentImage;
 	// チュートリアル画像
 	std::vector<CImage*> mTutorialItems;
+	// 左右の画像の処理の判定
+	bool mIsChangeImage;
 	// 開いているかどうかのフラグ
 	bool mIsOpened;
+	// 画像を変更しているかどうかのフラグ
+	bool mIsTransitioning;
+	// 切り替え計測時間
+	float mElapsedTime;
 };
 #endif

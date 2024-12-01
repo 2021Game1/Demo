@@ -25,6 +25,10 @@ private:
 	CModel* mpModel;
 	// ゴールのポストモデル
 	CModel* mpGoalPost;
+	// 床のコライダー
+	CColliderMesh* mpFloorCol;
+	// 壁のコライダー
+	CColliderMesh* mpWallCol;
 	// ポストのコライダー
 	CColliderLine* mpColliderLine;
 	// てっぺんのコライダー

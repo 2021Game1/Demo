@@ -4,6 +4,7 @@
 class CFont;
 class CImage;
 class CExpandButton;
+class CSound;
 
 class CTitleUI : public CTask
 {
@@ -13,10 +14,19 @@ public:
 	// デストラクタ
 	~CTitleUI();
 
+	// 開く
+	void Open();
+	// 閉じる
+	void Close();
+	// 開いているかどうか
+	bool IsOpened() const;
+
 	// タイトル画面終了か
 	bool IsEnd() const;
 	// ゲームを開始するか
 	bool IsStartGame() const;
+	// 操作説明を開く
+	bool IsTutorial() const;
 	// ゲームを終了するか
 	bool IsExitGame() const;
 
@@ -48,15 +58,22 @@ private:
 
 	// [START]クリック時のコールバック関数
 	void OnClickStart();
-	// [OPTION]クリック時のコールバック関数
-	void OnClickOption();
+	// [TUTORIAL]クリック時のコールバック関数
+	void OnClickTutorial();
 	// [QUIT]クリック時のコールバック関数
 	void OnClickQuit();
 
 	EState mState;		// 現在の状態
 	int mStateStep;		// 状態内でのステップ管理用
 	float mElapsedTime;	// 経過時間計測用
+	// フェードイン用の経過時間計測用
+	float mFadeInTime;
+	// フェードアウト用の経過時間計測用
+	float mFadeOutTime;
+	float mTutorialAlpha;
+	float mTutorialAlphaMax;
 	bool mIsEnd;		// タイトル画面終了フラグ
+	bool mFadeOut;
 	int mSelectIndex;	// 現在選択している項目
 
 	CFont* mpLogoFont;	// タイトルロゴのフォント
@@ -64,4 +81,11 @@ private:
 	CImage* mpTitleBg;	// タイトル背景イメージ
 	CText* mpStartText;	// 「CLICK TO START」のテキスト
 	std::vector<CExpandButton*> mButtons;
+
+	// 操作説明画像
+	CImage* mpTutorialImage;
+	CSound* mpOpenTutorial;
+	// 開いているかどうかのフラグ
+	bool mIsOpened;
+	bool mTutorialSE;
 };

@@ -167,7 +167,7 @@ void CDebugCamera::Update()
 	mUp = VectorY();
 
 	// デバッグ表示
-	CVector pos = Position();
+	/*CVector pos = Position();
 	CDebugPrint::Print("■■■■■■ デバッグカメラ：オン ■■■■■■\n");
 	CDebugPrint::Print("[W][A][S][D]：カメラ移動\n");
 	CDebugPrint::Print("左ドラッグ：カメラ平行移動\n");
@@ -176,7 +176,7 @@ void CDebugCamera::Update()
 	CDebugPrint::Print("カメラ座標：%f, %f, %f\n", pos.X(), pos.Y(), pos.Z());
 	CDebugPrint::Print("回避行動 : Q,E\n");
 	CDebugPrint::Print("ダッシュ : SHIFT\n");
-	CDebugPrint::Print("■■■■■■■■■■■■■■■■■■■■■■■\n");
+	CDebugPrint::Print("■■■■■■■■■■■■■■■■■■■■■■■\n");*/
 
 	// カメラのベース更新
 	CCamera::Update();

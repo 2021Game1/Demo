@@ -20,6 +20,8 @@ public:
 	// ステージ番号取得
 	int GetStageNo() const;
 	
+	// 敵の配列の数を調べる処理
+	virtual void CheckNumberEnemies();
 
 	// 作成したタスクをリストに追加
 	void AddTask(CTask* task);
@@ -31,6 +33,7 @@ public:
 
 protected:
 	int mStageNo;	// ステージ番号
+	float mElapsedTime;
 
 	// このステージで作成したタスクのリスト
 	std::list<CTask*> mCreateTasks;

@@ -30,10 +30,12 @@
 #include "CResult.h"
 #include "CResultAnnouncement.h"
 #include "CMeat1.h"
+#include "CTutorialUI.h"
 
 //コンストラクタ
 CGameScene::CGameScene()
 	: CSceneBase(EScene::eGame)
+	, mIsTutorial(false)
 	, mpGameMenu(nullptr)
 	, mpTime(nullptr)
 	, mpScore(nullptr)
@@ -57,7 +59,7 @@ void CGameScene::Load()
 	//リソースの読み込みやクラスの生成を行う
 
 	// キャラクター関連
-	CResourceManager::Load<CModelX>("Player",				"Character\\Monster1\\Monster_1.x");						// プレイヤー
+	CResourceManager::Load<CModelX>("Player","Character\\Monster1\\Monster_1.x");						// プレイヤー
 	// ピコちゃん
 	CResourceManager::Load<CModelX>("Pico", "Character\\PicoChan\\PicoChan.x");
 	// ソルジャー
@@ -75,10 +77,14 @@ void CGameScene::Load()
 	CResourceManager::Load<CModel>("MajicSwordPico", "Item\\MajicSword\\MajicSword(Pico).obj");
 	// とげとげボール
 	CResourceManager::Load<CModel>("SpikyBall", "Item\\AttackItem\\SpikyBall.obj");
+	// 銃モデル
+	CResourceManager::Load<CModel>("Gun_M1G", "Item\\Gun_M1Garand\\Gun_M1Garand.obj");
 
 	// エフェクト関連
 	// 弾のエフェクト
 	CResourceManager::Load<CTexture>("Laser", "Effect\\laser.png");
+	// 衝撃波1エフェクト
+	CResourceManager::Load<CModel>("ShockWave", "Effect\\ShockWave_1.obj");
 	// スラッシュエフェクト
 	CResourceManager::Load<CModel>("Slash", "Effect\\slash.obj");
 	// キャラクターエフェクト
@@ -112,13 +118,28 @@ void CGameScene::Load()
 	CResourceManager::Load<CTexture>("PicoGauge", "UI\\PicoChan\\PicoChanGauge.png");
 	// Eキーの画像
 	CResourceManager::Load<CTexture>("EUI", "UI\\GimmickUI\\E.png");
+	// Qキーの画像
+	CResourceManager::Load<CTexture>("QUI", "UI\\GimmickUI\\Q.png");
+	// TABキーの画像
+	CResourceManager::Load<CTexture>("TABUI", "UI\\GimmickUI\\TAB.png");
 	// キーのフレーム画像
 	CResourceManager::Load<CTexture>("Frame", "UI\\GimmickUI\\framework.png");
+
+	// ロックオン可能時の画像
+	CResourceManager::Load<CTexture>("CanRockOn", "UI\\GimmickUI\\CanLock-onImage.png");
+	// ロックオン時の画像
+	CResourceManager::Load<CTexture>("RockOn", "UI\\GimmickUI\\Lock-onImage.png");
 
 	
 	// BGM・SE関連
 	// 剣　スラッシュ
 	CResourceManager::Load<CSound>("SlashSound", "Sound\\SE\\slash.wav");
+	// 跳ねる ぼよよん
+	CResourceManager::Load<CSound>("BoyoyonSound", "Sound\\SE\\Boyoyon.wav");
+	// 跳ねる ぽよん
+	CResourceManager::Load<CSound>("PoyonSound", "Sound\\SE\\Poyon.wav");
+	// 時間サウンド
+	CResourceManager::Load<CSound>("TimeSound", "Sound\\SE\\time limit2.wav");
 	// 8bitの回復音
 	CResourceManager::Load<CSound>("8bitKaifuku", "Sound\\SE\\8bitkaifuku.wav");
 	// 8bitの銃の音(ブロック用に使う)
@@ -127,6 +148,11 @@ void CGameScene::Load()
 	CResourceManager::Load<CSound>("8bitMutekiTime", "Sound\\SE\\8bitMuteki.wav");
 	// クリーチャーの唸り声1
 	CResourceManager::Load<CSound>("CreatureGrowl1", "Sound\\VOICE\\CreatureStereo5.wav");
+
+	// チュートリアルSE
+	CResourceManager::Load<CSound>("TutorialSound", "Sound\\SE\\confirmation2.wav");
+	// ゲームスタートSE
+	CResourceManager::Load<CSound>("GameStateSound", "Sound\\SE\\decision13.wav");
 
 	// ゲーム内のBGM
 	//CBGMManager::Instance()->Play(EBGMType::eGame);
@@ -170,6 +196,10 @@ void CGameScene::Load()
 	// リザルト
 	mpResultUI = new CResultAnnouncement();
 	AddTask(mpResultUI);
+
+	// チュートリアル画像(ステージ選択)を作成
+	mpTutorialUI = new CTutorialUI();
+	AddTask(mpTutorialUI);
 
 	CGameManager::GameStart();
 }
@@ -223,13 +253,31 @@ void CGameScene::Update()
 
 	////////////////////////////////////////////////////////////////////////////////////
 
+	// ステージ番号
+	int currentStage = CGameManager::StageNo();
+
+	// プレイヤーが存在しなければ、処理しない
+	CPlayer* player = CPlayer::Instance();
+	if (player == nullptr) return;
+
+	// ステージ番号が1だったら
+	if (currentStage == 0)
+	{
+		if (player->CanMoveTo())
+		{
+			if (!mIsTutorial)
+			{
+				if (!mpTutorialUI->IsOpened())
+				{
+					mpTutorialUI->Open();
+					mIsTutorial = true;
+				}
+			}
+		}
+	}
+
 	// ステージの更新
 	CStageManager::Update();
-
-	if (CInput::PushKey('L'))
-	{
-		CSceneManager::Instance()->LoadScene(EScene::eStuffedRoll);
-	}
 
 	/*int stage = CGameManager::StageNo();
 	printf("StageNo:%d\n", stage);*/

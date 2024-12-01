@@ -7,7 +7,7 @@ class CFinalStageFallCol;
 class CStageTime;
 class CStageSky;
 
-// ステージ3「平原マップ」
+// ステージ3「ファイナルステージ」
 class CStage3 : public CStageBase
 {
 public:
@@ -18,6 +18,8 @@ public:
 
 	// ステージ読み込み
 	void Load() override;
+	// 更新
+	void Update() override;
 	// ステージ破棄
 	void Unload() override;
 
@@ -26,5 +28,7 @@ private:
 	CFinalStageFallCol* mpFinalStageFallCol;
 
 	CStageSky* mpSky;
+
+	float mElapsedTime;
 };
 #endif

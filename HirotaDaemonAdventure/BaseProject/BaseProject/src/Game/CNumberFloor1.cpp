@@ -11,8 +11,11 @@ CNumberFloor1::CNumberFloor1(const CVector& pos, const CVector& scale, const CVe
 	// 床のモデル取得
 	mpModel = CResourceManager::Get<CModel>(modelPath);
 
+	// コライダー
+	CModel* Col = CResourceManager::Get<CModel>("NumberCol");
+
 	// 床のコライダー作成
-	mpCollider = new CColliderMesh(this, ELayer::eField, mpModel, true);
+	mpCollider = new CColliderMesh(this, ELayer::eField, Col, true);
 	mpCollider->SetCollisionTags({ ETag::ePlayer });
 	mpCollider->SetCollisionLayers({ ELayer::ePlayer });
 

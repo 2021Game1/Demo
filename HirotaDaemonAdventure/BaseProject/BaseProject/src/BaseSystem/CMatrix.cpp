@@ -445,3 +445,13 @@ CMatrix CMatrix::LookRotation(const CVector& forward, const CVector& up)
 	m.mM[2][0] = f.X(); m.mM[2][1] = f.Y(); m.mM[2][2] = f.Z();
 	return m;
 }
+
+CVector CMatrix::TransformVector(const CVector& v) const
+{
+	// 4x4行列と3Dベクトルの乗算（w=1を仮定）
+	float x = mM[0][0] * v.X() + mM[0][1] * v.Y() + mM[0][2] * v.Z() + mM[0][3];
+	float y = mM[1][0] * v.X() + mM[1][1] * v.Y() + mM[1][2] * v.Z() + mM[1][3];
+	float z = mM[2][0] * v.X() + mM[2][1] * v.Y() + mM[2][2] * v.Z() + mM[2][3];
+	// w座標を無視する場合（スケーリングや平行移動が絡むと調整が必要）
+	return CVector(x, y, z);
+}

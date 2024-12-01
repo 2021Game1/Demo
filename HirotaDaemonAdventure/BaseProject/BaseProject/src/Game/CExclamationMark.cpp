@@ -96,7 +96,6 @@ void CExclamationMark::SetWorldPos(const CVector& worldPos)
 	{
 		SetShow(false);
 	}
-
 }
 
 // XVˆ—
