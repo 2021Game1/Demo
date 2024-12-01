@@ -15,7 +15,12 @@
 class CModel : public CResource
 {
 	friend CResourceManager;
+	//シェーダークラスをフレンドにする
+	friend CMyShader;
+
 public:
+	//頂点バッファ識別子
+	GLuint	  mMyVertexBufferId;
 	std::vector<CTriangle> Triangles() const;
 
 	// カラーを設定
@@ -57,6 +62,7 @@ public:
 	// Render(行列)
 	void Render(const CMatrix& m);
 private:
+	CMyShader mShader;
 	CModel();
 	~CModel();
 	// モデル読み込み

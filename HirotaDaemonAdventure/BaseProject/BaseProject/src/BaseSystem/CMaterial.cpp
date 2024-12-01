@@ -20,6 +20,25 @@ char* strncpy(char* str1, const char* str2, int len)
 	return str1; //コピー先の先頭アドレスを返却
 }
 
+void CMaterial::Specular(float r, float g, float b)
+{
+	mSpecular[0] = r;
+	mSpecular[1] = g;
+	mSpecular[2] = b;
+}
+
+void CMaterial::Emissive(float r, float g, float b)
+{
+	mEmissive[0] = r;
+	mEmissive[1] = g;
+	mEmissive[2] = b;
+}
+
+void CMaterial::Power(float p)
+{
+	mPower = p;
+}
+
 bool CMaterial::LoadTexture(std::string name, std::string path, bool dontDelete)
 {
 	mpTexture = CResourceManager::Load<CTexture>(path, path, dontDelete);
