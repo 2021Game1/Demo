@@ -1,6 +1,7 @@
 #include "CInput.h"
 #include "CDebugInput.h"
 #include <stdio.h>
+#include "CPlayer.h"
 
 GLFWwindow* CInput::spWindow = nullptr;	// ウィンドウのポインタ
 std::map<int, int> CInput::msInputBits;	// キーの入力状態を管理するリスト
@@ -131,13 +132,20 @@ void CInput::Update()
 		it->second = bit;
 	}
 
-	// マウス座標更新
-	msLastMousePos = msMousePos;
-	double xpos, ypos;
-	glfwGetCursorPos(spWindow, &xpos, &ypos);
+	CPlayer* player = CPlayer::Instance();
+	if (player == nullptr) return;
 
-	//	glfwGet
-	msMousePos = CVector2((float)xpos, (float)ypos);
+	if (player->IsCameraReset() == false)
+	{
+		// マウス座標更新
+		msLastMousePos = msMousePos;
+		double xpos, ypos;
+		glfwGetCursorPos(spWindow, &xpos, &ypos);
+
+		//	glfwGet
+		msMousePos = CVector2((float)xpos, (float)ypos);
+	}
+
 #if _DEBUG
 	if (!CDebugInput::IsOn())
 	{

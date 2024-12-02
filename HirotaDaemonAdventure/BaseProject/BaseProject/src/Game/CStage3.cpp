@@ -40,9 +40,11 @@
 #include "CMeat3.h"
 #include "CCircleLine.h"
 #include "CBGMManager.h"
+#include "CGameManager.h"
 
 // コンストラクタ
 CStage3::CStage3()
+	: mElapsedTime(0.0f)
 {
 	mStageNo = 3;
 }
@@ -79,6 +81,10 @@ void CStage3::Load()
 	CResourceManager::Load<CModel>("GoalPost", "GameGimmick\\Gimmick\\Goal\\GoalPost.obj");
 	// ゴールブロックモデル
 	CResourceManager::Load<CModel>("GoalCube", "GameGimmick\\Gimmick\\Goal\\GoalCube.obj");
+	// ゴールブロックモデル(FloorCol)							   
+	CResourceManager::Load<CModel>("GoalFloor", "GameGimmick\\Gimmick\\Goal\\FloorCol.obj");
+	// ゴールブロックモデル(WallCol)
+	CResourceManager::Load<CModel>("GoalWall", "GameGimmick\\Gimmick\\Goal\\WallCol.obj");
 
 	// 零番目の床
 	CResourceManager::Load<CModel>("Number0", "GameGimmick\\Gimmick\\NumberFloor\\number0.obj");
@@ -88,6 +94,8 @@ void CStage3::Load()
 	CResourceManager::Load<CModel>("Number2", "GameGimmick\\Gimmick\\NumberFloor\\number2.obj");
 	// 三番目の床ブロック
 	CResourceManager::Load<CModel>("Number3", "GameGimmick\\Gimmick\\NumberFloor\\number3.obj");
+	// 落下する床のコライダー
+	CResourceManager::Load<CModel>("NumberCol", "GameGimmick\\Gimmick\\NumberFloor\\numberCol.obj");
 
 	// 大砲土台モデル
 	CResourceManager::Load<CModel>("CannonFound", "GameGimmick\\Gimmick\\Cannon\\CannonFoundations.obj");
@@ -99,6 +107,8 @@ void CStage3::Load()
 	CResourceManager::Load<CModel>("HorizontalCannon", "GameGimmick\\Gimmick\\Cannon\\HorizontalCannon.obj");
 	// 大砲玉モデル
 	CResourceManager::Load<CModel>("CannonBall", "GameGimmick\\Gimmick\\Cannon\\CannonBall.obj");
+	// 大砲玉モデル(上コライダー)
+	CResourceManager::Load<CModel>("CannonUpCol", "GameGimmick\\Gimmick\\Cannon\\CannonBallCol.obj");
 
 	// リングビーマモデル(上)								  
 	CResourceManager::Load<CModel>("RingBeamerUP", "Effect\\BeamObj(Upper).obj");
@@ -153,7 +163,7 @@ void CStage3::Load()
 
 	CInput::ShowCursor(false);
 
-	//// フィールド関連 /////////////////////////////////////////////////////////////////
+	//// フィールド関連 ////
 
 	// フィールド
 	mpFinalStage = new CFinalStageField();
@@ -462,41 +472,20 @@ void CStage3::Load()
 	);
 	AddTask(cline5);
 
-	// 回転する床
+	float xPosArray[7] = { 0.0f, 73.0f, -76.0f, 36.5f, -38.0f, 109.5f, -114.0f };
+	float zPosArray[7] = { 826.0f, 866.0f, 866.0f, 906.0f, 906.0f, 986.0f, 986.0f };
+
 	for (int i = 0; i < 7; ++i) {
-
-		// X軸の位置を設定
-		float xPos = 0.0f;
-		if (i == 1) xPos = 73.0f;
-		if (i == 2) xPos = -76.0f;
-		if (i == 3) xPos = 36.5f;
-		if (i == 4) xPos = -38.0f;
-		if (i == 5) xPos = 109.5f;
-		if (i == 6) xPos = -114.0f;
-		
-		// Y軸の位置を設定
-		//float yPos = 0.0f;
-
-		// Z軸の位置を設定
-		float zPos = 0.0f;
-		if (i == 0) zPos = 826.0f;
-		if (i == 1) zPos = 866.0f;
-		if (i == 2) zPos = 866.0f;
-		if (i == 3) zPos = 906.0f;
-		if (i == 4) zPos = 906.0f;
-		if (i == 5) zPos = 986.0f;
-		if (i == 6) zPos = 986.0f;
-
-		// 回転する床
 		CRotateFloorGimmick* floorGimmick1 = new CRotateFloorGimmick
 		(
-			CVector(xPos, 0.0f, zPos),
+			CVector(xPosArray[i], 0.0f, zPosArray[i]),
 			CVector(4.0f, 4.0f, 4.0f),
 			CVector(0.0f, 0.0f, 0.0f),
 			ETag::ePlayer, ELayer::ePlayer
 		);
 		AddTask(floorGimmick1);
 	}
+
 
 	// 回転する床(反対)
 	for (int i = 0; i < 4; ++i) {
@@ -660,6 +649,8 @@ void CStage3::Load()
 
 	//// キャラクター関連 ///////////////////////////////////////////////////////////////
 
+	CEnemyManager* enemyManager = CEnemyManager::Instance();
+	if (enemyManager == nullptr) return;
 	// キャラクター
 
 	// ピコちゃん
@@ -667,24 +658,42 @@ void CStage3::Load()
 	pico->Position(0.0f, 8.0f, 453.0f);
 	pico->Scale(15.5f, 15.5f, 15.5f);
 	pico->SetCenterPoint(CVector(0.0f, 0.0f, 453.0f), 30.0f);
+	enemyManager->AddEnemy(pico);
 	AddTask(pico);
+
+	// ピコちゃん1
+	CPicoChan* pico1 = new CPicoChan();
+	pico1->Position(0.0f, 8.0f, 463.0f);
+	pico1->Scale(15.5f, 15.5f, 15.5f);
+	pico1->SetCenterPoint(CVector(0.0f, 0.0f, 463.0f), 30.0f);
+	enemyManager->AddEnemy(pico1);
+	AddTask(pico1);
+
+	// ソルジャー
+	CSoldier* sol = new CSoldier();
+	sol->Position(0.0f, 8.0f, 443.0f);
+	sol->Scale(1.2f, 1.2f, 1.2f);
+	sol->SetCenterPoint(CVector(0.0f, 0.0f, 463.0f), 30.0f);
+	enemyManager->AddEnemy(sol);
+	AddTask(sol);
 	
 	// モンスター(プレイヤー)
 	CPlayer* player = CPlayer::Instance();
 	player->MaxStatus();
 	// 初期値点 : 0.0f, 10.0f, 0.0f
 	// 回転する床 : 10.0f, 10.0f, 826.0f
-	// セーブポイント2 : 0.0f, 0.0f, 1550.0f
-	CVector playerPos = CVector(0.0f, 10.0f, 1550.0f);
+	// セーブポイント2 : 0.0f, 10.0f, 1550.0f
+	CVector playerPos = CVector(0.0f, 10.0f, 422.0f);
 	if (player != nullptr)
 	{
 		player->SetStartPosition(playerPos);
 		player->Rotation(0.0f, 0.0f, 0.0f);
 	}
 	// カメラの位置と向きを設定
-	CVector camPos = playerPos + player->Rotation() * CVector(0.0f, 20.0f, -80.0f);
+	CVector camPos = playerPos + player->Rotation() * CVector(0.0f, 14.0f, -60.0f);
 	CCamera* mainCamera = CCamera::MainCamera();
-	mainCamera->LookAt(
+	mainCamera->LookAt
+	(
 		camPos,
 		playerPos,
 		CVector::up
@@ -695,12 +704,19 @@ void CStage3::Load()
 
 }
 
+// 更新処理
+void CStage3::Update()
+{
+	CheckNumberEnemies();
+}
+
 // ステージ破棄
 void CStage3::Unload()
 {
 	// カメラから衝突するコライダーを取り除く
 	CCamera* mainCamera = CCamera::MainCamera();
 	//mainCamera->RemoveCollider(mpPlainsStageField->GetWallCol());
+
 	// ベースステージ破棄処理
 	CStageBase::Unload();
 }

@@ -4,7 +4,7 @@
 
 #define USE_SHADOW_SHADER	//shadowシェーダーを使用する（固定シェーダーを使用しない）
 
-bool CShadowMap::sShadow = false;
+bool CShadowMap::msShadow = false;
 CMatrix	CShadowMap::msModelviewLight; //モデルビュー変換行列の保存用
 
 void CShadowMap::Init()
@@ -19,10 +19,6 @@ void CShadowMap::Init()
 	/* Depthテクスチャの割り当て */
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mTextureWidth, mTextureHeight, 0,
 		GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, mTextureWidth, mTextureHeight, 0,
-	//	GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, mTextureWidth, mTextureHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
-
 
 	/* テクスチャを拡大・縮小する方法の指定 */
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -31,16 +27,17 @@ void CShadowMap::Init()
 	/* テクスチャの繰り返し方法の指定 */
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+#ifdef USE_SHADOW_SHADER
+	msShadow = true;
+	/* 比較の結果を輝度値として得る */
+	//glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_LUMINANCE);
+#else
 	/* 書き込むポリゴンのテクスチャ座標値のＲとテクスチャとの比較を行うようにする */
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
 	/* もしＲの値がテクスチャの値以下なら真（つまり日向） */
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-
-#ifdef USE_SHADOW_SHADER
-	/* 比較の結果を輝度値として得る */
-	glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_LUMINANCE);
-#else
 
 	/* 固定シェーダー使用時*/
 
@@ -48,8 +45,6 @@ void CShadowMap::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_ALPHA);
 	/* アルファテストの比較関数（しきい値） */
 	glAlphaFunc(GL_GEQUAL, 0.5f);
-
-//#endif
 
 	/* テクスチャ座標に視点座標系における物体の座標値を用いる */
 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
@@ -142,14 +137,6 @@ void CShadowMap::Render()
 	glMatrixMode(GL_PROJECTION); //透視変換行列に切り替え
 	glLoadIdentity(); //行列の初期化
 
-#ifdef USE_SHADOW_SHADER
-
-	/* テクスチャ変換行列を設定する */
-	glMatrixMode(GL_TEXTURE);
-	glLoadIdentity();
-
-#endif
-
 	/* 光源位置を視点としシーンが視野に収まるようモデルビュー変換行列を設定する */
 	glMatrixMode(GL_MODELVIEW); //モデルビュー行列に切り替え
 	glLoadIdentity(); //行列の初期化
@@ -168,10 +155,6 @@ void CShadowMap::Render()
 
 	/* デプスバッファには背面のポリゴンの奥行きを記録するようにする */
 	glCullFace(GL_FRONT);
-
-#ifdef USE_SHADOW_SHADER
-	sShadow = true;
-#endif
 
 	//デプステクスチャへの描画
 	if (mpRender)
@@ -196,7 +179,7 @@ void CShadowMap::Render()
 	/* フレームバッファとデプスバッファをクリアする */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	sShadow = false;
+	msShadow = false;
 
 #ifdef USE_SHADOW_SHADER
 
@@ -204,16 +187,15 @@ void CShadowMap::Render()
 	glActiveTexture(GL_TEXTURE1);
 
 	/* テクスチャ変換行列を設定する */
-	glMatrixMode(GL_TEXTURE);
-	glLoadIdentity();
+	//glMatrixMode(GL_TEXTURE);
+	//glLoadIdentity();
 
 	/* テクスチャ座標の [-1,1] の範囲を [0,1] の範囲に収める */
 	//glTranslated(0.5, 0.5, 0.5);
 	//glScaled(0.5, 0.5, 0.5);
 
 	/* テクスチャのモデルビュー変換行列と透視変換行列の積をかける */
-	//glMultMatrixf(msModelviewLight.M());
-//	msModelviewLight = CMatrix().Translate(0.5, 0.5, 0.5) * CMatrix().Scale(0.5, 0.5, 0.5) * msModelviewLight;
+	//テクスチャ変換行列を作成
 	msModelviewLight = modelviewLight * CMatrix().Scale(0.5, 0.5, 0.5) * CMatrix().Translate(0.5, 0.5, 0.5);
 
 	/* モデルビュー変換行列に戻す */
@@ -337,7 +319,7 @@ void CShadowMap::Render()
 
 bool CShadowMap::Shadow()
 {
-	return sShadow;
+	return msShadow;
 }
 
 CShadowMap::CShadowMap()
@@ -345,6 +327,9 @@ CShadowMap::CShadowMap()
 	, mFb(0)
 	, mTextureHeight(0)
 	, mTextureWidth(0)
+	, mLightPos()
+	, mShadowCol()
+	, mpRender(nullptr)
 {
 }
 

@@ -133,6 +133,11 @@ void CGameManager::Stage4()
 	Instance()->ChangeState(EGameState::eStage4);
 }
 
+void CGameManager::EXStage()
+{
+	Instance()->ChangeState(EGameState::eEXStage);
+}
+
 // 現在のゲームの状態を取得
 EGameState CGameManager::GameState()
 {
@@ -168,6 +173,7 @@ void CGameManager::UpdateReady()
 void CGameManager::UpdateGame()
 {
 	CPlayer* player = CPlayer::Instance();
+	if (player == nullptr) return;
 
 	if (player != nullptr)
 	{
@@ -201,10 +207,20 @@ void CGameManager::UpdateGame()
 				ChangeState(EGameState::eResult);
 			}
 		}*/
-		else if (player->IsDeath() && !mResultSetUp)
+		else if (player->IsEXStageClear() && !mResultSetUp)
 		{
 			mElapsedTime += Time::DeltaTime();
 			if (mElapsedTime > 1.5f)
+			{
+				mElapsedTime = 0.0f;
+				mResultSetUp = true;
+				ChangeState(EGameState::eResult);
+			}
+		}
+		else if (player->IsDeath() && !mResultSetUp)
+		{
+			mElapsedTime += Time::DeltaTime();
+			if (mElapsedTime > 5.5f)
 			{
 				mElapsedTime = 0.0f;
 				mResultSetUp = true;
@@ -301,6 +317,24 @@ void CGameManager::UpdateStage3()
 void CGameManager::UpdateStage4()
 {
 	int stageNo = 4;
+	if (mStageNo != stageNo)
+	{
+		CStageManager::LoadStage(stageNo);
+		mStageNo = stageNo;
+	}
+
+	ScoreReset();
+
+	mElapsedStageTime += Time::DeltaTime();
+	if (mElapsedStageTime > 15.0f)
+	{
+		ChangeState(EGameState::eGame);
+	}
+}
+
+void CGameManager::UpdateEXStage()
+{
+	int stageNo = 5;
 	if (mStageNo != stageNo)
 	{
 		CStageManager::LoadStage(stageNo);
@@ -441,6 +475,10 @@ void CGameManager::Update()
 		// ステージ4
 	case EGameState::eStage4:
 		UpdateStage4();
+		break;
+		// EXステージ
+	case EGameState::eEXStage:
+		UpdateEXStage();
 		break;
 	}
 }

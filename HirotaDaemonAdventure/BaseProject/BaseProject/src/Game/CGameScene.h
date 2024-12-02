@@ -11,6 +11,7 @@ class CStageTime;
 class CScore;
 class CResult;
 class CResultAnnouncement;
+class CTutorialUI;
 
 // ゲームシーン
 class CGameScene : public CSceneBase
@@ -36,4 +37,8 @@ private:
 	CScore* mpScore;
 	// リザルトのUI
 	CResultAnnouncement* mpResultUI;
+	// チュートリアル画像(ステージ選択方法)
+	CTutorialUI* mpTutorialUI;
+	// ステージ選択方法の画像を描画できるかどうか
+	bool mIsTutorial;
 };

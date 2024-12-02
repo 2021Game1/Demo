@@ -3,6 +3,7 @@
 
 #include "CRideableObject.h"
 #include "CColliderMesh.h"
+#include <vector>
 class CPlayer;
 class CModel;
 
@@ -34,6 +35,8 @@ public:
 
 	// ó‘Ô‚ğØ‚è‘Ö‚¦‚é
 	void ChangeRotationState();
+
+	
 
 	// XV
 	void Update() override;

@@ -5,7 +5,7 @@
 
 class CPlayer;
 
-// 大砲クラス
+// プレイヤーに向かって発射する大砲クラス
 class CCannon : public CCannonBase
 {
 public:

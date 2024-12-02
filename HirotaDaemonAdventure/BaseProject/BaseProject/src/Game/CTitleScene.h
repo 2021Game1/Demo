@@ -9,6 +9,7 @@ class CTitleMenu;
 class CTitleUI;
 class CTitleStage;
 class CStageSky;
+class CSound;
 
 //タイトルシーン
 class CTitleScene :public CSceneBase
@@ -29,4 +30,5 @@ private:
 	CTitleUI* mpTitleUI;
 	CTitleStage* mpTitleStage;
 	CStageSky* mpStageSky;
+	CSound* mpGameState;
 };

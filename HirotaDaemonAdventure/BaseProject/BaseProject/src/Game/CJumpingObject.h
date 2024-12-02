@@ -5,6 +5,8 @@
 #include "CCollider.h"
 #include "CObjectBase.h"
 
+class CSound;
+
 // プレイヤーを跳ねさせるオブジェクトBase
 class CJumpingObject : public CObjectBase
 {
@@ -38,6 +40,10 @@ protected:
 	CModel* mpModel;
 	// 跳ねるオブジェクトのコライダー
 	CCollider* mpCollider;
+	// 跳ねるSE (ぼよよん)
+	CSound* mpBoyoyon;
+	// 跳ねるSE (ぽよん)
+	CSound* mpPoyon;
 
 	// 状態関連
 	// 跳ねさせる床の状態

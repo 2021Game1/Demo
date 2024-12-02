@@ -137,10 +137,8 @@ bool CModel::Load(std::string path, bool dontDelete)
 	fclose(fp);
 
 	CreateVertexBuffer();
-	//シェーダー読み込み
-	mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
-	//mShader.Load("Shader\\shadow.vert", "Shader\\shadow.flag");
-	//mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
+
+	mShader.Load("shader\\shadow.vert", "shader\\shadow.frag");
 
 	return true;
 }
@@ -210,6 +208,15 @@ bool CModel::LoadMaterial(std::string path, bool dontDelete)
 			std::string texPath = dirPath + str[1];
 			mpMaterials[idx]->LoadTexture(str[1], texPath.c_str(), dontDelete);
 		}
+		else if (strcmp(str[0], "Ns") == 0) {
+			mpMaterials[idx]->Power(atof(str[1]));
+		}
+		else if (strcmp(str[0], "Ks") == 0) {
+			mpMaterials[idx]->Specular(atof(str[1]), atof(str[2]), atof(str[3]));
+		}
+		else if (strcmp(str[0], "Ke") == 0) {
+			mpMaterials[idx]->Emissive(atof(str[1]), atof(str[2]), atof(str[3]));
+		}
 
 	}
 
@@ -223,11 +230,6 @@ void CModel::Render()
 {
 	// 完全に透明な状態であれば、描画しない
 	if (mColor.A() == 0.0f) return;
-	CMatrix m;
-	mShader.Render(this, &m);
-	return;
-
-
 	//可変長配列の要素数だけ繰り返し
 	for (int i = 0; i < mTriangles.size(); i++) {
 		//マテリアルの適用
@@ -246,6 +248,7 @@ CModel::CModel()
 	, mIsDepthWrite(true)
 	, mIsCullFace(true)
 	, mBlendMode(EBlend::eAlpha)
+	, mMyVertexBufferId(0)
 {
 }
 
@@ -347,16 +350,12 @@ void CModel::SetupEffectSettings()
 //Render(行列)
 void CModel::Render(const CMatrix& m)
 {
+	mShader.Render(*this, m);
+
+	return;
+
 	// 完全に透明な状態であれば、描画しない
 	if (mColor.A() == 0.0f) return;
-	////行列の退避
-	//glPushMatrix();
-	////合成行列を掛ける
-	//glMultMatrixf(m.M());
-	mShader.Render(this,&m);
-	//行列を戻す
-	//glPopMatrix();
-	return;
 
 	//デプス値の書き込み設定
 	glDepthMask(mIsDepthWrite);
@@ -415,6 +414,7 @@ void CModel::CreateVertexBuffer()
 	//メッシュ毎に一回作成すればよい
 	if (mMyVertexBufferId > 0)
 		return;
+
 	mpVertexes = new CVertex[mTriangles.size() * 3];
 	int idx = 0;
 	for (int i = 0; i < mpMaterials.size(); i++)
@@ -436,6 +436,7 @@ void CModel::CreateVertexBuffer()
 			}
 		}
 	}
+
 	//頂点バッファの作成
 	glGenBuffers(1, &mMyVertexBufferId);
 	//頂点バッファをバインド
@@ -446,6 +447,5 @@ void CModel::CreateVertexBuffer()
 		, mpVertexes, GL_STATIC_DRAW);
 	//バインド解除
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 }
 

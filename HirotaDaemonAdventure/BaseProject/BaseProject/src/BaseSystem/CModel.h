@@ -7,17 +7,20 @@
 #include "CVertex.h"
 #include "CResource.h"
 #include "CColor.h"
-#include "CModelX.h"
 
 /*
 モデルクラス
 モデルデータの入力や表示
 */
-class CModel : public CMesh, public CResource
+class CModel : public CResource
 {
 	friend CResourceManager;
+	//シェーダークラスをフレンドにする
 	friend CMyShader;
+
 public:
+	//頂点バッファ識別子
+	GLuint	  mMyVertexBufferId;
 	std::vector<CTriangle> Triangles() const;
 
 	// カラーを設定
@@ -58,7 +61,6 @@ public:
 	// 描画
 	// Render(行列)
 	void Render(const CMatrix& m);
-	CMatrix mDummySkinningMatrix;
 private:
 	CMyShader mShader;
 	CModel();

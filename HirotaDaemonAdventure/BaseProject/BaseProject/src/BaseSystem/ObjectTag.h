@@ -11,6 +11,7 @@ enum class ETag
 	eBullet,			// ’eŠÛ
 	eFlame,				// ‰Š
 	eSlash,				// aŒ‚
+	eShockWave,			// ÕŒ‚”g
 	eBiribiri,			// ƒrƒŠƒrƒŠ
 	eSmoke,				// ‰Œ
 

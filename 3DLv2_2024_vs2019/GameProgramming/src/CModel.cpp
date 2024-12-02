@@ -253,7 +253,6 @@ void CModel::Load(char* obj, char* mtl) {
 	//シェーダー読み込み
 //	mShader.Load("res\\skinmesh.vert", "res\\skinmesh.flag");
 	mShader.Load("res\\shadow.vert", "res\\shadow.frag");
-	//mShader.Update(1, &mDummySkinningMatrix, &mpMaterials, mMyVertexBufferId);
 
 }
 
@@ -284,15 +283,10 @@ CModel::~CModel()
 void CModel::Render(const CMatrix& m)
 {
 	mShader.Render(*this, m);
-	//行列の退避
-//	glPushMatrix();
-	//合成行列を掛ける
-//	glMultMatrixf(m.M());
-//	mShader.Render(*this, CMatrix());
-	//行列を戻す
-//	glPopMatrix();
+
 	return;
 
+	/*
 	//行列の退避
 	glPushMatrix();
 	//合成行列を掛ける
@@ -329,6 +323,7 @@ void CModel::Render(const CMatrix& m)
 	glDisableClientState(GL_NORMAL_ARRAY);
 	//テクスチャマッピングの配列を無効にする
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	*/
 }
 
 void CModel::CreateVertexBuffer()
@@ -375,7 +370,7 @@ void CModel::CreateVertexBuffer()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return;
-
+	/*
 	mpVertexes = new CVertex[mTriangles.size() * 3];
 	//int idx = 0;
 	for (int i = 0; i < mpMaterials.size(); i++)
@@ -397,5 +392,6 @@ void CModel::CreateVertexBuffer()
 			}
 		}
 	}
+	*/
 }
 

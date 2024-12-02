@@ -2,6 +2,7 @@
 #include "CCollider.h"
 #include "CObjectBase.h"
 #include "CDebugInput.h"
+#include "CPlayer.h"
 
 // コリジョンマネージャのインスタンス
 CCollisionManager* CCollisionManager::mpInstance = nullptr;

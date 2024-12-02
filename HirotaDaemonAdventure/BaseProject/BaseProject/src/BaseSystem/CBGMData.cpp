@@ -12,8 +12,8 @@ const BGMData BGM_DATA[] =
 	{ EBGMType::eStage3,"Sound\\BGM\\Pops_01.wav",			0.25f,		true,	0,			0		},
 	{ EBGMType::eGame,	"Sound\\BGM\\Pops_01.wav",		0.1f,		true,	0,			2801203	},
 	{ EBGMType::eMenu,	"Sound\\BGM\\menu.wav",			0.25f,		true,	0,			0		},
-	{ EBGMType::eResult,"Sound\\BGM\\Shooting.wav",		0.25f,		true,	0,			0		},
-	{ EBGMType::eEnding,"Sound\\BGM\\kinematic.wav",	0.25f,		true,	0,			0		},
+	{ EBGMType::eResult,"Sound\\BGM\\menu.wav",		0.25f,		true,	0,			0		},
+	{ EBGMType::eEnding,"Sound\\BGM\\menu.wav",	0.25f,		true,	0,			0		},
 };
 
 // BGMÉfÅ[É^êî

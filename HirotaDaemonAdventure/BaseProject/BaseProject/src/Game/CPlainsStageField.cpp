@@ -39,7 +39,7 @@ CPlainsStageField::CPlainsStageField()
 	//);
 
 	// 岩と低木モデル
-	/*mpRockShrubModel = CResourceManager::Get<CModel>("RockShrub");
+	/*mpRockShrubModel = CResourceManagyuer::Get<CModel>("RockShrub");
 	mpRockShrudCol = new CColliderMesh(this, ELayer::eFieldWall, mpRockShrubModel, true);*/
 
 	// 床のコライダー

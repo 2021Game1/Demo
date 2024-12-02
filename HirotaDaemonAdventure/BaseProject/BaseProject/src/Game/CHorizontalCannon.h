@@ -7,7 +7,7 @@
 
 class CPlayer;
 
-// 大砲クラス
+// 上下に揺れる水平大砲クラス
 class CHorizontalCannon : public CObjectBase
 {
 public:

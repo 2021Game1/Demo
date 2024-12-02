@@ -1,4 +1,5 @@
 #include "CColliderMesh.h"
+#include "CPlayer.h"
 
 CColliderMesh::CColliderMesh(CObjectBase* owner, ELayer layer, CModel* model,
 	bool isKinematic, float weight)
@@ -38,7 +39,11 @@ void CColliderMesh::Render()
 // コライダーの情報を更新
 void CColliderMesh::UpdateCol()
 {
-	CMatrix m = Matrix();
+	if (CPlayer::Instance() == nullptr) return;
+	CVector playerPos = CPlayer::Instance()->Position();
+	float playerRange = 10.0f;
+
+	CMatrix m = Matrix();	
 	for (auto& v : mVertices)
 	{
 		v.wv.V[0] = v.lv.V[0] * m;

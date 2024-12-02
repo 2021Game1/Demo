@@ -4,10 +4,10 @@
 #include "CBillBoard.h"
 #include "CShadowMap.h"
 
-#define TEXWIDTH  1192  //テクスチャ幅
-#define TEXHEIGHT  1144  //テクスチャ高さ
-//#define TEXWIDTH  8192  //テクスチャ幅
-//#define TEXHEIGHT  6144  //テクスチャ高さ
+//#define TEXWIDTH  1192  //テクスチャ幅
+//#define TEXHEIGHT  1144  //テクスチャ高さ
+#define TEXWIDTH  8192  //テクスチャ幅
+#define TEXHEIGHT  6144  //テクスチャ高さ
 
 //タスクマネージャのインスタンス
 CTaskManager* CTaskManager::mpInstance = nullptr;
@@ -45,7 +45,7 @@ CTaskManager::CTaskManager()
 {
 	// シャドウマップ
 	float shadowColor[] = { 0.3f, 0.3f, 0.3f, 0.15f };  //影の色
-	float lightPos[] = { 600.0f, 2000, 0.0f };  //光源の位置 :2000.0f
+	float lightPos[] = { 600.0f, 2500, 0.0f };  //光源の位置 :2000.0f
 	mShadowMap.Init(TEXWIDTH, TEXHEIGHT, RenderShadow,
 		shadowColor, lightPos);
 }
@@ -319,7 +319,6 @@ void CTaskManager::Render()
 		// 現在のカメラを反映
 		current->Apply();
 		mShadowMap.Render();
-		//RenderShadow();
 
 		// 3D関連の描画
 		//for (CTask* task : m3dTasks)

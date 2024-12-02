@@ -66,6 +66,10 @@ void CStage2::Load()
 	CResourceManager::Load<CModel>("GoalPost",				"GameGimmick\\Gimmick\\Goal\\GoalPost.obj");
 	// ゴールブロックモデル							   
 	CResourceManager::Load<CModel>("GoalCube",				"GameGimmick\\Gimmick\\Goal\\GoalCube.obj");
+	// ゴールブロックモデル(FloorCol)							   
+	CResourceManager::Load<CModel>("GoalFloor",				"GameGimmick\\Gimmick\\Goal\\FloorCol.obj");
+	// ゴールブロックモデル(WallCol)
+	CResourceManager::Load<CModel>("GoalWall",				"GameGimmick\\Gimmick\\Goal\\WallCol.obj");
 	// 跳ねるキノコモデル							    
 	CResourceManager::Load<CModel>("JumpingKinoko",			"GameGimmick\\Gimmick\\Jump\\JumpingKinoko(Base).obj");
 	// 跳ねるキノコモデル2						    
@@ -969,7 +973,7 @@ void CStage2::Load()
 	// 中間ポイント2 : 0.0f, 56.0f, 994.0f
 	// 肉1の場所 : -483.0f, 10.0f, 483.0f
 	// ゴールポイント : 0.0f, 0.0f, 1540.0f
-	CVector playerPos = CVector(0.0f, 40.0f, 50.0f);
+	CVector playerPos = CVector(0.0f, 10.0f, 1540.0f);
 	if (player != nullptr)
 	{
 		player->SetStartPosition(playerPos);
@@ -978,7 +982,7 @@ void CStage2::Load()
 
 	// カメラの位置と向きを設定 -1109.0f, 90.0f, 1200.0f
 	// CVector(-757.0f, 90.0f, -958.0f),
-	CVector camPos = playerPos + player->Rotation() * CVector(0.0f, 20.0f, -80.0f);
+	CVector camPos = playerPos + player->Rotation() * CVector(0.0f, 14.0f, -60.0f);
 	CCamera* mainCamera = CCamera::MainCamera();
 	mainCamera->LookAt(camPos, playerPos, CVector::up);
 	mainCamera->SetFollowTargetTf(player);

@@ -7,7 +7,14 @@ CGoalObject::CGoalObject(const CVector& pos, const CVector& scale, const CVector
 {
 	// ゴールの土台モデル取得
 	mpModel = CResourceManager::Get<CModel>("GoalCube");
-	mpColliderMesh = new CColliderMesh(this, ELayer::eField, mpModel, true);
+
+	// 床のコライダー取得
+	CModel* floorCol = CResourceManager::Get<CModel>("GoalFloor");
+	mpFloorCol = new CColliderMesh(this, ELayer::eField, floorCol, true);
+
+	// 壁のコライダー取得
+	CModel* wallCol = CResourceManager::Get<CModel>("GoalWall");
+	mpWallCol = new CColliderMesh(this, ELayer::eFieldWall, wallCol, true);
 
 	// ゴールのポストモデル取得
 	mpGoalPost = CResourceManager::Get<CModel>("GoalPost");
@@ -43,7 +50,8 @@ CGoalObject::CGoalObject(const CVector& pos, const CVector& scale, const CVector
 CGoalObject::~CGoalObject()
 {
 	CStageManager::RemoveTask(this);
-	SAFE_DELETE(mpColliderMesh);
+	SAFE_DELETE(mpFloorCol);
+	SAFE_DELETE(mpWallCol);
 	SAFE_DELETE(mpColliderLine);
 	SAFE_DELETE(mpColliderSphere);
 }

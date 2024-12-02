@@ -1,46 +1,34 @@
-#ifndef CSHADOWMAP_H
-#define CSHADOWMAP_H
-
-/// <summary>
-/// 参考記事 : https://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20050926
-/// </summary>
+#pragma once
+#include "glut.h"
+#include "CMatrix.h"
 
 class CShadowMap
 {
-	// 光源の位置
-	GLfloat mLightPos[3];
-	// 影の色
-	GLfloat mShadowCol[4];
-	// デプステクスチャの幅
-	int mTextureWidth;
-	// デプステクスチャの高さ
-	int mTextureHeight;
-	// GLuint : 符号なし整数型
-	// デプステクスチャID
-	GLuint mDepthTextureID;
-	// フレームバッファ識別子
-	GLuint mFb;
-	// Render関数のポインタ
-	void(*mpRender)();
-	// 初期化処理
-	void Init();
-	static bool sShadow;	//trueの時は、影データ作成なのでシェーダー時カメラ使わない
+	GLfloat mLightPos[3]; //光源の位置
+	GLfloat mShadowCol[4]; //影の色
+	int mTextureWidth; //デプステクスチャの幅
+	int mTextureHeight; //デプステクスチャの高さ
+	GLuint mDepthTextureID; //デプステクスチャID
+	GLuint mFb; //フレームバッファ識別子
+	void (*mpRender)(); //Render関数のポインタ
+	static bool msShadow;	//trueの時は、影データ作成なのでシェーダー時カメラ使わない
 public:
+	static CMatrix	msModelviewLight; //モデルビュー変換行列の保存用
+
 	static bool Shadow();
-	// コンストラクタ
 	CShadowMap();
-	// デストラクタ
 	~CShadowMap();
-	/// <summary>
-	/// 初期化処理
-	/// </summary>
-	/// <param name="width">デプステクスチャの幅</param>
-	/// <param name="height">デプステクスチャの高さ</param>
-	/// <param name="funcRender">描画関数のポインタ</param>
-	/// <param name="shadowCol">影の色</param>
-	/// <param name="lightPos">光源の位置</param>
+	//初期化処理
+	void Init();
+	/* 初期化処理
+	void Init(int width, int height, void (*funcRender)(), float shadowCol[], float lightPos[])
+	width:デプステクスチャの幅
+	height:デプステクスチャの高さ
+	funcRender:描画関数のポインタ
+	shadowCol:影の色
+	lightPos:光源の位置
+	*/
 	void Init(int width, int height, void (*funcRender)(), float shadowCol[], float lightPos[]);
-	// 描画処理
+	//描画処理
 	void Render();
 };
-#endif

@@ -94,6 +94,8 @@ private:
 	CColliderSphere* mpDamageCol;
 	// ダメージを与えるコライダー
 	CColliderSphere* mpAttackCol;
+	// プレイヤーとの当たり判定を取るコライダー
+	CColliderCapsule* mpPlayerCol;
 
 	// マジックソードモデル
 	CPicoSword* mpSword;
@@ -257,7 +259,7 @@ private:
 	// バックステップをするか
 	bool mBackStep;
 	// 半径に入ったか
-	bool mIsLerping;
+	bool mIsReturning;
 
 	bool mDash;
 	float mDashTime;
@@ -265,5 +267,8 @@ private:
 
 	// プレイヤーを見つけたか
 	bool IsFoundPlayer() const;
+
+	// 武器の変更
+	void CAttachWeapon();
 };
 #endif

@@ -43,6 +43,8 @@ public:
 	// アニメーションの再生速度を取得
 	float GetAnimationSpeed() const;
 
+	bool IsDead() const;
+
 protected:
 	CModelX* mpModel;				//モデルデータ
 	CMatrix* mpCombinedMatrix;		//合成行列退避

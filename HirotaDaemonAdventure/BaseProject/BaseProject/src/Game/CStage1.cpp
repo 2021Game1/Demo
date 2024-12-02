@@ -87,6 +87,8 @@ void CStage1::Load()
 	CResourceManager::Load<CModel>("Number2", "GameGimmick\\Gimmick\\NumberFloor\\number2.obj");
 	// 三番目の床ブロック
 	CResourceManager::Load<CModel>("Number3", "GameGimmick\\Gimmick\\NumberFloor\\number3.obj");
+	// 落下する床のコライダー
+	CResourceManager::Load<CModel>("NumberCol", "GameGimmick\\Gimmick\\NumberFloor\\numberCol.obj");
 	// 宝箱
 	//CResourceManager::Load<CModel>("TreasureChest", "GameGimmick\\Gimmick\\TreasureChest.obj");
 	// // 宝箱(蓋)
@@ -107,6 +109,10 @@ void CStage1::Load()
 	CResourceManager::Load<CModel>("GoalPost", "GameGimmick\\Gimmick\\Goal\\GoalPost.obj");
 	// ゴールブロックモデル
 	CResourceManager::Load<CModel>("GoalCube", "GameGimmick\\Gimmick\\Goal\\GoalCube.obj");
+	// ゴールブロックモデル(FloorCol)							   
+	CResourceManager::Load<CModel>("GoalFloor", "GameGimmick\\Gimmick\\Goal\\FloorCol.obj");
+	// ゴールブロックモデル(WallCol)
+	CResourceManager::Load<CModel>("GoalWall", "GameGimmick\\Gimmick\\Goal\\WallCol.obj");
 	//// 針モデル(上下)
 	//CResourceManager::Load<CModel>("Needle", "GameGimmick\\Gimmick\\Needle\\NeedleObject(needle).obj");
 	//// 針モデルコライダー(上下)
@@ -770,14 +776,14 @@ void CStage1::Load()
 	// セーブポイント1 : 26.0f, 10.0f, 390.0f
 	// セーブポイント2 : 26.0f, 10.0f, 673.0f
 	// ゴール前		   : 26.0f, 10.0f, 1380.0f
-	CVector playerPos = CVector(26.0f, 6.5f, -28.0f);
+	CVector playerPos = CVector(26.0f, 10.0f, 1380.0f);
 	if (player != nullptr)
 	{
 		player->SetStartPosition(playerPos);
 		player->Rotation(0.0f, 0.0f, 0.0f);
 	}
 	// カメラの位置と向きを設定
-	CVector camPos = playerPos + player->Rotation() * CVector(0.0f, 19.0f, -80.0f);
+	CVector camPos = playerPos + player->Rotation() * CVector(0.0f, 14.0f, -60.0f);
 	CCamera* mainCamera = CCamera::MainCamera();
 	mainCamera->LookAt(
 		camPos,

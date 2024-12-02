@@ -182,21 +182,23 @@ void CRotateFloorGimmick::Render()
 	mpRotateFloor->Render(Matrix());
 }
 
-//プレイヤーを見つけたか
-bool CRotateFloorGimmick::IsFoundPlayer() const
-{
-	CVector playerPos = CPlayer::Instance()->Position();
-	CVector object = Position();
-
-	// プレイヤーとの距離を計算する
-	float distance = (playerPos - object).Length();
-	const float detectionRadius = 100.0f;
-
-	// プレイヤーとの距離が検出半径以内であれば、プレイヤーを認識する
-	if (distance <= detectionRadius)
-	{
-		return true;
-	}
-
-	return false;
-}
+////プレイヤーを見つけたか
+//bool CRotateFloorGimmick::IsFoundPlayer() const
+//{
+//	CVector playerPos = CPlayer::Instance()->Position();
+//	CVector object = Position();
+//
+//	float detectionRadius = 100.f;
+//
+//	// プレイヤーとの距離の二乗を計算する
+//	float distanceSquared = (playerPos - object).LengthSqr();
+//	const float detectionRadiusSquared = detectionRadius * detectionRadius;
+//
+//	// プレイヤーとの距離の二乗が検出半径の二乗以内であれば、プレイヤーを認識する
+//	if (distanceSquared <= detectionRadiusSquared)
+//	{
+//		return true;
+//	}
+//
+//	return false;
+//}

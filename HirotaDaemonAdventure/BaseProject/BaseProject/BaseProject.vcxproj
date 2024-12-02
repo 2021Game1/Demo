@@ -83,6 +83,7 @@
     <ClCompile Include="src\Game\CCannon.cpp" />
     <ClCompile Include="src\Game\CCannonBall.cpp" />
     <ClCompile Include="src\Game\CCannonBase.cpp" />
+    <ClCompile Include="src\Game\CCanRockOn.cpp" />
     <ClCompile Include="src\Game\CCircleLine.cpp" />
     <ClCompile Include="src\Game\CCircleNbFl1.cpp" />
     <ClCompile Include="src\Game\CCircleNbFl2.cpp" />
@@ -95,6 +96,8 @@
     <ClCompile Include="src\Game\CCircleNbFlRight3.cpp" />
     <ClCompile Include="src\Game\CClimbUI.cpp" />
     <ClCompile Include="src\Game\CCutInDeathJump.cpp" />
+    <ClCompile Include="src\Game\CEXStageButton.cpp" />
+    <ClCompile Include="src\Game\CEXStageMenuObject.cpp" />
     <ClCompile Include="src\Game\CFinalStageFallCol.cpp" />
     <ClCompile Include="src\Game\CFinalStageField.cpp" />
     <ClCompile Include="src\Game\CHighKinoko.cpp" />
@@ -116,6 +119,7 @@
     <ClCompile Include="src\Game\CJumpingKinokoHigh.cpp" />
     <ClCompile Include="src\Game\CJumpingKinokoMove.cpp" />
     <ClCompile Include="src\Game\CJumpingKinokoMoveTo.cpp" />
+    <ClCompile Include="src\Game\CLockOn.cpp" />
     <ClCompile Include="src\Game\CMoveToNbFl1.cpp" />
     <ClCompile Include="src\Game\CMoveToNbFl2.cpp" />
     <ClCompile Include="src\Game\CMoveToNbFl3.cpp" />
@@ -186,6 +190,7 @@
     <ClCompile Include="src\Game\CResultScene.cpp" />
     <ClCompile Include="src\Game\CRingBeamer.cpp" />
     <ClCompile Include="src\Game\CRisingObject.cpp" />
+    <ClCompile Include="src\Game\CRockOnUI.cpp" />
     <ClCompile Include="src\Game\CRotateFloorGimmick.cpp" />
     <ClCompile Include="src\Game\CRotateFloorGimmickOpposition.cpp" />
     <ClCompile Include="src\Game\CRotateFloorTimeGimmick.cpp" />
@@ -275,6 +280,8 @@
     <ClCompile Include="src\Game\CHealingUpBuffs.cpp" />
     <ClCompile Include="src\Game\CPicoChan.cpp" />
     <ClCompile Include="src\Game\CPicoSword.cpp" />
+    <ClCompile Include="src\Game\CEXStage.cpp" />
+    <ClCompile Include="src\Game\CEXStageField.cpp" />
     <ClCompile Include="src\Game\PlayerItem.cpp" />
     <ClCompile Include="src\Game\CResultAnnouncement.cpp" />
     <ClCompile Include="src\Game\CSmoke.cpp" />
@@ -357,6 +364,7 @@
     <ClInclude Include="src\BaseSystem\TaskPauseType.h" />
     <ClInclude Include="src\BaseSystem\TaskPriority.h" />
     <ClInclude Include="src\BaseSystem\ObjectTag.h" />
+    <ClInclude Include="src\BaseSystem\Time.h" />
     <ClInclude Include="src\Define.h" />
     <ClInclude Include="src\Game\CAlwaysVerticalNeedle.h" />
     <ClInclude Include="src\Game\CAppearFloor.h" />
@@ -372,6 +380,7 @@
     <ClInclude Include="src\Game\CCannon.h" />
     <ClInclude Include="src\Game\CCannonBall.h" />
     <ClInclude Include="src\Game\CCannonBase.h" />
+    <ClInclude Include="src\Game\CCanLockOn.h" />
     <ClInclude Include="src\Game\CCircleLine.h" />
     <ClInclude Include="src\Game\CCircleNbFl1.h" />
     <ClInclude Include="src\Game\CCircleNbFl2.h" />
@@ -384,6 +393,8 @@
     <ClInclude Include="src\Game\CCircleNbFlRight3.h" />
     <ClInclude Include="src\Game\CClimbUI.h" />
     <ClInclude Include="src\Game\CCutInDeathJump.h" />
+    <ClInclude Include="src\Game\CEXStageButton.h" />
+    <ClInclude Include="src\Game\CEXStageMenuObject.h" />
     <ClInclude Include="src\Game\CFinalStageFallCol.h" />
     <ClInclude Include="src\Game\CFinalStageField.h" />
     <ClInclude Include="src\Game\CHighKinoko.h" />
@@ -406,6 +417,7 @@
     <ClInclude Include="src\Game\CJumpingKinokoHigh.h" />
     <ClInclude Include="src\Game\CJumpingKinokoMove.h" />
     <ClInclude Include="src\Game\CJumpingKinokoMoveTo.h" />
+    <ClInclude Include="src\Game\CLockOn.h" />
     <ClInclude Include="src\Game\CMoveToNbFl1.h" />
     <ClInclude Include="src\Game\CMoveToNbFl2.h" />
     <ClInclude Include="src\Game\CMoveToNbFl3.h" />
@@ -474,6 +486,7 @@
     <ClInclude Include="src\Game\CResultScene.h" />
     <ClInclude Include="src\Game\CRingBeamer.h" />
     <ClInclude Include="src\Game\CRisingObject.h" />
+    <ClInclude Include="src\Game\CRockOnUI.h" />
     <ClInclude Include="src\Game\CRotateFloorGimmick.h" />
     <ClInclude Include="src\Game\CRotateFloorGimmickOpposition.h" />
     <ClInclude Include="src\Game\CRotateFloorTimeGimmick.h" />
@@ -564,6 +577,8 @@
     <ClInclude Include="src\Game\CHealingUpBuffs.h" />
     <ClInclude Include="src\Game\CPicoChan.h" />
     <ClInclude Include="src\Game\CPicoSword.h" />
+    <ClInclude Include="src\Game\CEXStage.h" />
+    <ClInclude Include="src\Game\CEXStageField.h" />
     <ClInclude Include="src\Game\PlayerItem.h" />
     <ClInclude Include="src\Game\CResultAnnouncement.h" />
     <ClInclude Include="src\Game\CSmoke.h" />

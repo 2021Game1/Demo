@@ -3,6 +3,7 @@
 #include "CInput.h"
 #include "Maths.h"
 #include "Easing.h"
+#include "CSound.h"
 
 #define SHRINK_SCALE 0.8f
 #define SHRINK_TIME 0.15f
@@ -20,6 +21,11 @@ CJumpingObject::CJumpingObject(const CVector& pos, const CVector& scale, const C
 	, mJumpedElapsedTime(0.0f)
 	, mIsCollisionPlayer(false)
 {
+	// ‚Ú‚æ‚æ‚ñSEŽæ“¾
+	mpBoyoyon = CResourceManager::Get<CSound>("BoyoyonSound");
+	// ‚Û‚æ‚ñSEŽæ“¾
+	mpPoyon = CResourceManager::Get<CSound>("PoyonSound");
+
 	Position(pos);
 	Scale(mStartScale);
 	Rotate(rot);
@@ -49,6 +55,8 @@ void CJumpingObject::Collision(CCollider* self, CCollider* other, const CHitInfo
 			CPlayer* player = dynamic_cast<CPlayer*>(owner);
 			if (player)
 			{
+				// ‚Ú‚æ‚æ‚ñ‚ðÄ¶
+				mpBoyoyon->Play(1.0f, false, 0.0f);
 				player->UpdateHighJumpingStart();
 				BounceStart();
 			}
@@ -58,6 +66,8 @@ void CJumpingObject::Collision(CCollider* self, CCollider* other, const CHitInfo
 			CPlayer* player = dynamic_cast<CPlayer*>(owner);
 			if (player)
 			{
+				// ‚Û‚æ‚ñ‚ðÄ¶
+				mpPoyon->Play(0.5f, false, 0.0f);
 				player->UpdateJumpingStart();
 				BounceStart();
 			}

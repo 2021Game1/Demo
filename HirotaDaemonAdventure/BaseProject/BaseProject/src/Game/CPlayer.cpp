@@ -46,12 +46,17 @@
 #include "COperationUI.h"
 #include "CBullet.h"
 #include "CSpikyBall.h"
+#include "CPicoChan.h"
+#include "CGameCamera.h"
+#include "CCanLockOn.h"
+#include "CLockOn.h"
+//#include "CShockWave_1.h"
 
 // プレイヤー関連
 // 高さ
 #define PLAYER_HEIGHT 16.0f
 // スピード
-#define MOVE_SPEED 1.1f
+#define MOVE_SPEED 1.3f
 // ダッシュジャンプスピード
 #define DASH_JUMP_SPEED 2.0f
 // 移動スピード
@@ -64,6 +69,8 @@
 #define JUMP_BOUNCE 2.0f
 // 超大ジャンプ
 #define JUMP_HIGH_BOUNCE 2.5f
+// 範囲攻撃ジャンプ
+#define SMASH_JUMP 2.5f
 // ダッシュジャンプ
 #define JUMP_DASH 1.7f
 // クリアジャンプ
@@ -98,10 +105,14 @@
 
 // HP関連
 #define HP 100
+#define MIN_HP 0
+#define MAX_HP 100
 // レベル関連
 #define LEVEL 1
 // スタミナ関連
 #define STAMINA 150
+#define MIN_STAMINA 0
+#define MAX_STAMINA 150
 
 
 // その他
@@ -110,12 +121,324 @@
 // ダメージコライダーの計測時間
 #define DAMAGECOL 3.0f
 
+// ステージ番号
+#define STAGE_0 0
+#define STAGE_1 1
+#define STAGE_2 2
+#define STAGE_3 3
+#define STAGE_4 4
+#define STAGE_EX 5
+
+// ステージ1
+#define STARTPOS_X_1 26.0f
+#define STARTPOS_Y_1 6.5f
+#define STARTPOS_Z_1 -28.0f
+#define SAVEPOINT1POS_X_1 26.0f
+#define SAVEPOINT1POS_Y_1 10.0f
+#define SAVEPOINT1POS_Z_1 390.0f
+#define SAVEPOINT2POS_X_1 26.0f
+#define SAVEPOINT2POS_Y_1 10.0f
+#define SAVEPOINT2POS_Z_1 673.0f
+// ステージ2
+#define STARTPOS_X_2 0.0f
+#define STARTPOS_Y_2 20.0f
+#define STARTPOS_Z_2 50.0f
+#define SAVEPOINT1POS_X_2 0.0f
+#define SAVEPOINT1POS_Y_2 20.0f
+#define SAVEPOINT1POS_Z_2 480.0f
+#define SAVEPOINT2POS_X_2 0.0f
+#define SAVEPOINT2POS_Y_2 56.0f
+#define SAVEPOINT2POS_Z_2 994.0f
+// ステージ3
+#define STARTPOS_X_3 0.0f
+#define STARTPOS_Y_3 10.0f
+#define STARTPOS_Z_3 10.0f
+#define SAVEPOINT1POS_X_3 0.0f
+#define SAVEPOINT1POS_Y_3 10.0f
+#define SAVEPOINT1POS_Z_3 453.0f
+#define SAVEPOINT2POS_X_3 0.0f
+#define SAVEPOINT2POS_Y_3 10.0f
+#define SAVEPOINT2POS_Z_3 1550.0f
+
+// EXステージ
+#define STARTPOS_X_EX 0.0f
+#define STARTPOS_Y_EX 10.0f
+#define STARTPOS_Z_EX 10.0f
+#define SAVEPOINT1POS_X_EX 0.0f
+#define SAVEPOINT1POS_Y_EX 10.0f
+#define SAVEPOINT1POS_Z_EX 453.0f
+#define SAVEPOINT2POS_X_EX 0.0f
+#define SAVEPOINT2POS_Y_EX 10.0f
+#define SAVEPOINT2POS_Z_EX 1550.0f
+
+
+// 最大チャージ時間
+#define MAXCHARGETIME 2.0f
+// とげボール再開チャージ時間
+#define SPIKYCHARGETIME 5.0f
+// 最初のY軸方向の値
+#define SPIKYBALLVELOCITY_Y 1.4f
+// 最大Y軸方向の値
+
+#define MAXVELOCITY_Y 3.0f
+// 速度
+#define SPIKYSPEED 50.0f
+// 最大速度
+#define SPIKYMAXSPEED 100.0f
+// 飛距離
+#define SPIKYDISTANCE 50.0f
+// 最大飛距離
+#define MAXDISTANCE 300.0f
+// 飛距離の制限
+#define REDUCEDISTANCE 100.0f
+
 // プレイヤーのインスタンス
 CPlayer* CPlayer::spInstance = nullptr;
 
 CPlayer* CPlayer::Instance()
 {
 	return spInstance;
+}
+
+// 敵の数
+#define ENEMY_SIZE_0 0
+#define ENEMY_SIZE_1 1
+#define ENEMY_SIZE_2 2
+#define ENEMY_SIZE_3 3
+// 敵の位置を設定
+void CPlayer::LockOnToNearestEnemy(const std::vector<CXCharacter*>& enemies)
+{
+	float minDistance = MIN_CAMERADISTANCE;
+
+	// 一番近い敵を探す
+	for (CXCharacter* enemy : enemies)
+	{
+		float distance = (Position() - enemy->Position()).Length();
+
+		// 敵が範囲内に居たら一番近い敵を設定
+		if (distance < minDistance)
+		{
+			minDistance = distance;
+			mpNearestEnemy = enemy;
+		}
+	}
+
+	// 現在のロックオン対象が範囲外に出た場合、リセット
+	if (mpLockedOnEnemy != nullptr)
+	{
+		float lockedOnDistance = (Position() - mpLockedOnEnemy->Position()).Length();
+		if (lockedOnDistance > MIN_CAMERADISTANCE)
+		{
+			mpLockedOnEnemy = nullptr;
+		}
+	}
+
+	// ロックオン対象がいない場合、一番近い敵をロックオン
+	if (mpLockedOnEnemy == nullptr)
+	{
+		mpLockedOnEnemy = mpNearestEnemy;
+	}
+
+	// Qキーが押された場合、次の敵にロックオン
+	if (CInput::PushKey(VK_TAB))
+	{
+		// 敵が一体しかいない場合はロック解除しない
+		if (enemies.size() == ENEMY_SIZE_1)
+		{
+			return;
+		}
+
+		// 現在のロックオン対象以外で一番近い敵を探す
+		float nextMinDistance = MIN_CAMERADISTANCE;
+		CXCharacter* nextEnemy = nullptr;
+
+		for (CXCharacter* enemy : enemies)
+		{
+			// ロックオンしている敵がいればスキップ
+			if (enemy == mpLockedOnEnemy) continue;
+
+			float distance = (Position() - enemy->Position()).Length();
+			if (distance < nextMinDistance)
+			{
+				nextMinDistance = distance;
+				nextEnemy = enemy;
+			}
+		}
+
+		// 新しい敵にロックオン
+		if (nextEnemy != nullptr)
+		{
+			mpLockedOnEnemy = nextEnemy;
+		}
+	}
+
+	// 範囲内と範囲外の敵のカウント
+	int countInRange = 0;
+	int countOutOfRange = 0;
+
+	for (CXCharacter* enemy : enemies)
+	{
+		float distance = (Position() - enemy->Position()).Length();
+		if (distance <= MIN_CAMERADISTANCE)
+		{
+			countInRange++;
+		}
+		else
+		{
+			countOutOfRange++;
+		}
+	}
+
+	// 範囲外に出たらリセット
+	if (mpLockedOnEnemy != nullptr)
+	{
+		float lockedOnDistance = (Position() - mpLockedOnEnemy->Position()).Length();
+		if (lockedOnDistance > MIN_CAMERADISTANCE)
+		{
+			// 諸々の処理を初期化
+			mpQUI->SetShow(false);
+			mpTABUI->SetShow(false);
+			mpLockedOnEnemy = nullptr;
+			mpNearestEnemy = nullptr;
+		}
+		else
+		{
+			// 範囲内に敵がいない場合
+			if (countInRange == 0)
+			{
+				mpQUI->SetShow(false);
+				mpTABUI->SetShow(false);
+			}
+			// 範囲内に1体しかいない場合
+			else if (countInRange == ENEMY_SIZE_1 && countOutOfRange >= ENEMY_SIZE_1)
+			{
+				mpQUI->SetShow(true);
+				mpTABUI->SetShow(false);
+			}
+			// 敵が一体しかいない場合
+			else if (enemies.size() == ENEMY_SIZE_1)
+			{
+				mpQUI->SetShow(true);
+				mpTABUI->SetShow(false);
+			}
+			// 複数体いる場合
+			else
+			{
+				mpQUI->SetShow(true);
+				mpTABUI->SetShow(true);
+			}
+		}
+	}
+}
+
+// カメラの位置を設定
+void CPlayer::UpdateCameraPosition()
+{
+	int currentStage = CGameManager::StageNo();
+	// ステージ0では呼ばない
+	if (currentStage == STAGE_0) return;
+
+	if (mpLockedOnEnemy)
+	{
+		mpCanLockOn->Position(mpLockedOnEnemy->Position() + CVector(0.0f, 15.0f, 0.0f));
+		mpCanLockOn->SetShow(true);
+
+		if (CInput::PushKey('Q') && !mIsCameraReset) 
+		{
+			// ロックオン解除の処理
+			mIsCameraReset = true;
+		}
+		else if (CInput::PushKey('Q') && mIsCameraReset)
+		{
+			// ロックオン解除後、mIsCameraReset をリセット
+			mIsCameraReset = false;
+		}
+	}
+	else 
+	{
+		// ロックオンしていない場合はカメラをリセットする必要無し
+		mIsCameraReset = false;
+		mpCanLockOn->SetShow(false);
+	}
+
+	CCamera* mainCamera = CCamera::MainCamera();
+
+	if (mIsCameraReset)
+	{
+		mpCanLockOn->SetShow(false);
+		mpLockOn->SetShow(true);
+		mpLockOn->Position(mpLockedOnEnemy->Position() + CVector(0.0f, 15.0f, 0.0f));
+
+		// プレイヤーと敵の位置
+		CVector playerPos = Position();
+		CVector enemyPos = mpLockedOnEnemy->Position();
+
+		// プレイヤーと敵の中間位置
+		CVector midPoint = (playerPos + enemyPos) * 0.5f;
+
+		// プレイヤーと敵の方向ベクトルを計算(Y軸無視)
+		CVector directionToEnemy = enemyPos - playerPos;
+		directionToEnemy.Y(0.0f);
+		directionToEnemy.Normalize();
+
+		// カメラ距離と横方向オフセットの設定
+		// プレイヤーと敵からの距離
+		float cameraDistance = 70.0f;
+		// 横方向のオフセット
+		float sideOffset = 40.0f;
+
+		// カメラ位置の計算
+		// 反対方向に設定
+		CVector camOffset = directionToEnemy * -cameraDistance;
+
+		// 右方向へのベクトルを計算して、横方向に配置
+		CVector rightOffset = directionToEnemy.Cross(CVector::up) * sideOffset;
+
+		// カメラ位置を中間地点の斜め後方に設定
+		CVector camPos = midPoint + camOffset + rightOffset;
+		// 高さを調整(Y軸)
+		camPos.Y(40.0f);
+
+		// 一応この処理でも可能、ただし貫通する
+		//CVector CamPos = midPoint + Rotation() * CVector(0.0f, 40.0f, -60.0f);
+
+		// カメラを中間位置に向けて配置
+		mainCamera->LookAt
+		(
+			camPos,
+			midPoint,
+			CVector::up
+		);
+		// プレイヤーと敵を常に視野に収めるようにカメラを設定
+		mainCamera->SetFollowTargetTf(this);
+
+		mIsCameraStartPos = false;
+	}
+	else
+	{
+		mpLockOn->SetShow(false);
+
+		if (!mIsCameraStartPos)
+		{
+			mIsCameraStartPos = true;
+			// ロックオンが解除された際に、プレイヤー位置に戻す
+			CVector playerPos = Position();
+			CVector camPos = playerPos + Rotation() * CVector(0.0f, 14.0f, -60.0f);
+			mainCamera->LookAt
+			(
+				camPos,
+				playerPos,
+				CVector::up
+			);
+			mainCamera->SetFollowTargetTf(this);
+		}
+	}	
+}
+
+void CPlayer::UpdateLockOnAndCameraPosition(const std::vector<CXCharacter*>& enemies)
+{
+	LockOnToNearestEnemy(enemies);
+	UpdateCameraPosition();
 }
 
 // プレイヤーのアニメーションデータのテーブル
@@ -126,6 +449,7 @@ const CPlayer::AnimData CPlayer::ANIM_DATA[] =
 	{ "Character\\Monster1\\anim\\Warrok_Walking.x",				true,	86.0f	},	// 歩行
 	{ "Character\\Monster1\\anim\\Warrok_Punchi.x",				false,	50.0f	},		// 攻撃
 	{ "Character\\Monster1\\anim\\Warrok_StrongAttack.x",		false,	161.0f	},		// 強攻撃
+	{ "Character\\Monster1\\anim\\JumpAttack_223.x",			false,	223.0f	},		// 範囲攻撃
 	{ "Character\\Monster1\\anim\\Warrok_SpinAttack(1)_79.x",	false,	79.0f	},		// ダッシュアタック
 	{ "Character\\Monster1\\anim\\jump_start1.x",				false,	25.0f	},		// ジャンプ開始
 	{ "Character\\Monster1\\anim\\jump1.x",							true,	1.0f	},	// ジャンプ中
@@ -149,6 +473,130 @@ const CPlayer::AnimData CPlayer::ANIM_DATA[] =
 
 };
 
+// ステージ位置情報を配列として定義 拡張可能
+const CPlayer::StagePositions stagePositions[] = 
+{
+	// 三つ区切り
+	// 初期位置 → セーブポイント1の位置 → セーブポイント2の位置
+	// ステージ1
+	{ STARTPOS_X_1, STARTPOS_Y_1, STARTPOS_Z_1, SAVEPOINT1POS_X_1, SAVEPOINT1POS_Y_1, SAVEPOINT1POS_Z_1, SAVEPOINT2POS_X_1, SAVEPOINT2POS_Y_1, SAVEPOINT2POS_Z_1 },
+	// ステージ2
+	{ STARTPOS_X_2, STARTPOS_Y_2, STARTPOS_Z_2, SAVEPOINT1POS_X_2, SAVEPOINT1POS_Y_2, SAVEPOINT1POS_Z_2, SAVEPOINT2POS_X_2, SAVEPOINT2POS_Y_2, SAVEPOINT2POS_Z_2 },
+	// ステージ3
+	{ STARTPOS_X_3, STARTPOS_Y_3, STARTPOS_Z_3, SAVEPOINT1POS_X_3, SAVEPOINT1POS_Y_3, SAVEPOINT1POS_Z_3, SAVEPOINT2POS_X_3, SAVEPOINT2POS_Y_3, SAVEPOINT2POS_Z_3 },
+	// ステージ4
+	//{ 328.0f, -277.0f, -958.0f, 328.0f, -190.0f, -546.0f, 0.0f, 440.0f, -1890.0f }
+	// EXステージ
+	{ STARTPOS_X_EX, STARTPOS_Y_EX, STARTPOS_Z_EX, SAVEPOINT1POS_X_EX, SAVEPOINT1POS_Y_EX, SAVEPOINT1POS_Z_EX, SAVEPOINT2POS_X_EX, SAVEPOINT2POS_Y_EX, SAVEPOINT2POS_Z_EX },
+};
+
+// 復活地点を設定 拡張可能
+void CPlayer::SetPlayerPosition(int stageNumber)
+{
+	// ステージ番号に対応する位置データを取得
+	const auto& pos = stagePositions[stageNumber - 1];
+
+	// セーブポイント2の地点
+	if (mSavePoint2) 
+	{
+		Position(pos.SavePoint2PosX, pos.SavePoint2PosY, pos.SavePoint2PosZ);
+	}
+	// セーブポイント1の地点
+	else if (mSavePoint1) 
+	{
+		Position(pos.SavePoint1PosX, pos.SavePoint1PosY, pos.SavePoint1PosZ);
+	}
+	// 初期値点
+	else 
+	{
+		Position(pos.StartPosX, pos.StartPosY, pos.StartPosZ);
+	}
+	// 落下ダメージ状態に遷移
+	ChangeState(EState::eFallDamege);
+}
+
+#define NOITEM 0
+#define HAVEITEM_3 3
+// アイテムを取得
+void CPlayer::AddItem(ItemType item)
+{
+	// アイテムを3つ持っていなかったら、
+	// 追加
+	if (mInventory[item] <= HAVEITEM_3)
+	{
+		mInventory[item]++;
+	}
+}
+
+// 取得したアイテムを判定
+bool CPlayer::HasItem(ItemType item)
+{
+	if (mInventory.empty()) {
+		return ItemType::NONE == item;
+	}
+	return mInventory.find(item) != mInventory.end() && mInventory[item] > NOITEM;
+}
+
+// 取得したアイテムを判定
+void CPlayer::ClearItems()
+{
+	mInventory.clear();
+	//AddItem(ItemType::NONE);
+}
+
+// アイテムの取得の条件付けを今後行うための処理
+void CPlayer::PickUpItem(ItemType item)
+{
+	AddItem(item);
+}
+
+// 無敵アイテムの使用
+void CPlayer::UseInvincibleItem()
+{
+	if (HasItem(ItemType::INVINCIBLE)) {
+		TakeInvincible();
+		RemoveItem(ItemType::INVINCIBLE);
+	}
+}
+
+// 回復薬の使用
+void CPlayer::UseHealingItem()
+{
+	if (HasItem(ItemType::HEALING)) {
+		TakeRecovery(HEALING_1);
+		RemoveItem(ItemType::HEALING);
+	}
+}
+
+// 攻撃力アップアイテムの使用
+void CPlayer::UseAttackPotion()
+{
+	if (HasItem(ItemType::ATTACK_UP)) {
+		TakeAttackPotion(1);
+		RemoveItem(ItemType::ATTACK_UP);
+	}
+}
+
+// とげボールの使用
+void CPlayer::UseSpikyBall()
+{
+}
+
+// インベントリから特定のアイテムを削除
+void CPlayer::RemoveItem(ItemType item)
+{
+	if (mInventory[item] > NOITEM) {
+		mInventory[item]--;
+		if (mInventory[item] == NOITEM) {
+			mInventory.erase(item);	 // アイテムが0になったらインベントリから削除する
+		}
+	}
+	else if (CGameManager::StageNo() == NOITEM)
+	{
+		mInventory.erase(item);
+	}
+}
+
 // コンストラクタ
 CPlayer::CPlayer()
 	: CXCharacter(ETag::ePlayer, ETaskPriority::ePlayer, 0,
@@ -156,13 +604,13 @@ CPlayer::CPlayer()
 	, mState(EState::eReady)
 	, mInventory(std::map<ItemType, int>())
 	, mStateStep(0)
+	, mSpikTime(0.0f)
 	, mClimbTime(0.0f)
 	, mScaleTime(0.0f)
 	, mAttackTime(0.0f)
 	, mWeaponTime(0.0f)
 	, mMoveSpeedY(0.0f)
 	, mElapsedTime(0.0f)
-	, mSpikTime(0.0f)
 	, mHealingTime(0.0f)
 	, mReflectTime(0.0f)
 	, mMoveDistance(0.0f)
@@ -181,36 +629,42 @@ CPlayer::CPlayer()
 	, mMoveSpeed(CVector::zero)
 	, mGroundNormal(CVector::up)
 	, mClimbNormal(CVector::zero)
-	, mReflectionNormal(CVector::zero)
 	, mMoveStartPos(CVector::zero)
 	, mMoveTargetPos(CVector::zero)
-	, mClimbedStartPos(CVector::zero)
-	, mClimbedMovedPos(CVector::zero)
-	, mClimbedMovedUpPos(CVector::zero)
 	, mAttackStrongPos(CVector::zero)
+	, mClimbedMovedPos(CVector::zero)
+	, mClimbedStartPos(CVector::zero)
+	, mReflectionNormal(CVector::zero)
+	, mClimbedMovedUpPos(CVector::zero)
 	, mDash(false)
 	, mClimb(false)
 	, mHpHit(false)
 	, mDeath(false)
+	, mSpik1(false)
+	, mSpik2(false)
 	, mDamaged(false)
 	, mIsDeath(false)
 	, mIsAttack(false)
+	, mIsCanRockOnUI(false)
+	, mSpikyBall(false)
 	, mIsJumping(false)
 	, mClimbWall(false)
 	, mIsDashJump(false)
 	, mInvincible(false)
 	, mFallDamage(false)
 	, mSavePoint1(false)
-	, mSavePoint2(false)
+	, mSavePoint2(false)	
 	, mStage1Clear(false)
 	, mStage2Clear(false)
 	, mStage3Clear(false)
 	, mStage4Clear(false)
+	, mEXStageClear(false)
 	, mDamageEnemy(false)
 	, mStartStage1(false)
 	, mStartStage2(false)
 	, mStartStage3(false)
 	, mStartStage4(false)
+	, mStartEXStage(false)
 	, mClimbWallTop(false)
 	, mDamageObject(false)
 	, mIsStageClear(false)
@@ -220,27 +674,33 @@ CPlayer::CPlayer()
 	, mIsStage2Clear(false)
 	, mIsStage3Clear(false)
 	, mIsStage4Clear(false)
+	, mIsSmashAttack(false)
+	, mIsSmashAttackStart(false)
+	, mIsEXStageClear(false)
 	, mIsStartStage2(false)
 	, mIsStartStage3(false)
 	, mIsStartStage4(false)
+	, mIsStartEXStage(false)
+	, mIsCameraReset(false)
 	, mStaminaDepleted(false)
 	, mIsPlayedSlashSE(false)
+	, mIsCameraStartPos(false)
 	, mStaminaLowerLimit(false)
+	, mIsCameraDirection(false)
 	, mIsPlayedHitDamageSE(false)
-	, mIsSpawnedSlashEffect(false)
-	, mSpikyBall(false)
-	, mSpik1(false)
-	, mSpik2(false)
-	, mpRideObject(nullptr)
-	, mpUnderFootObject(nullptr)
-	, mpScreenItem(nullptr)
-	, mpSpikyBallUI(nullptr)
+	, mIsSpawnedSlashEffect(false)	
 	, mpMeat(nullptr)
 	, mpSpiky1(nullptr)
 	, mpSpiky2(nullptr)
+	, mpRideObject(nullptr)
+	, mpScreenItem(nullptr)
+	, mpSpikyBallUI(nullptr)
+	, mpUnderFootObject(nullptr)
+	, mpLockedOnEnemy(nullptr)
+	, mpNearestEnemy(nullptr)
+	, mpNextEnemy(nullptr)
 {
 	ClearItems();
-	//, mInventory(std::vector<ItemType>())
 	// インスタンスの設定
 	spInstance = this;
 
@@ -249,7 +709,7 @@ CPlayer::CPlayer()
 	// 斬撃エフェクトの生成済みフラグを初期化
 	mIsSpawnedSlashEffect = false;
 
-	Position(0.0f, 0.0f, 0.0f);
+	Position(CVector::zero);
 	mStartPos = Position();
 
 	// モデルデータ取得
@@ -273,6 +733,29 @@ CPlayer::CPlayer()
 	mpClimbUI->SetSize(100.0f, 100.0f);
 	mpClimbUI->SetShow(false);
 
+	// Qキーの画像表示
+	mpQUI = new COperationUI("QUI");
+	mpQUI->SetSize(100.0f, 100.0f);
+	mpQUI->SetPos(CVector2(100.0f, 220.0f));
+	mpQUI->SetShow(false);
+
+	// TABキーの画像表示
+	mpTABUI = new COperationUI("TABUI");
+	mpTABUI->SetSize(100.0f, 100.0f);
+	mpTABUI->SetPos(CVector2(100.0f, 320.0f));
+	mpTABUI->SetShow(false);
+
+	// ロックオン可能状態のUI
+	mpCanLockOn = new CCanLockOn(ETag::eBillboard,
+		ETaskPriority::eBackground, CVector::zero);
+	mpCanLockOn->SetShow(false);
+	// ロックオン時のUI
+	mpLockOn = new CLockOn(ETag::eBillboard,
+		ETaskPriority::eBackground, CVector::zero);
+	mpLockOn->SetShow(false);
+	mpLockOn->SetColor(CColor(1.0f, 1.0f, 0.0f));
+
+
 	// テーブル内のアニメーションデータを読み込み
 	int size = ARRAY_SIZE(ANIM_DATA);
 	for (int i = 0; i < size; i++)
@@ -291,7 +774,7 @@ CPlayer::CPlayer()
 	mpColliderLine = new CColliderLine
 	(
 		this, ELayer::ePlayer,
-		CVector(0.0f, 0.0f, 0.0f),
+		CVector(0.0f, -1.0f, 0.0f),
 		CVector(0.0f, PLAYER_HEIGHT, 0.0f)
 	);
 	mpColliderLine->SetCollisionLayers({ ELayer::eField,ELayer::eDamageObject, ELayer::eJumpingCol,
@@ -317,6 +800,16 @@ CPlayer::CPlayer()
 		ETag::eItemInvincible,ETag::eItemRecover,ETag::eSavePoint1, ETag::eSavePoint2, ETag::eObstacle,ETag::eJumpingObject,
 		ETag::eNeedleObject, ETag::eMeat, ETag::eSeesaw, ETag::eFall,ETag::ePropeller, ETag::eReflection});
 	//mpColliderCapsule->Position(0.0f, 5.0f, 1.0f);
+
+	// 敵との衝突判定を取得するコライダー
+	mpEnemyCollider = new CColliderSphere
+	(
+		this, ELayer::ePlayerCol,
+		1.1f
+	);
+	mpEnemyCollider->SetCollisionLayers({ ELayer::eEnemyCol });
+	const CMatrix* spineMtx2 = GetFrameMtx("Armature_mixamorig_Spine1");
+	mpEnemyCollider->SetAttachMtx(spineMtx2);
 	
 
 	// プレイヤーのリグに付けるかどうか考え中
@@ -399,6 +892,7 @@ CPlayer::~CPlayer()
 	SAFE_DELETE(mpColliderCapsule);
 	SAFE_DELETE(mpDamageCol);
 	SAFE_DELETE(mpClimbCol);
+	SAFE_DELETE(mpEnemyCollider);
 
 	// マジックソードを破棄
 	mpSword->Kill();
@@ -408,6 +902,9 @@ CPlayer::~CPlayer()
 	mpCutInClear->Kill();
 	mpCutInResult->Kill();
 	mpCutInDeathJump->Kill();
+
+	mpCanLockOn->Kill();
+	mpLockOn->Kill();
 }
 
 // 衝突処理
@@ -431,10 +928,12 @@ void CPlayer::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 			// 接地した地面の法線を記憶しておく
 			mGroundNormal = hit.adjust.Normalized();
 
+			// 乗ることができるオブジェクト
 			if (other->Tag() == ETag::eRideableObject)
 			{
 				mpRideObject = other->Owner();
 			}
+			// シーソーオブジェクト
 			else if (other->Tag() == ETag::eSeesaw)
 			{
 				mpUnderFootObject = other->Owner();
@@ -451,13 +950,14 @@ void CPlayer::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 			// 接地した地面の法線を記憶しておく
 			mGroundNormal = hit.adjust.Normalized();
 
+			// 乗るとこができるオブジェクト
 			if (other->Tag() == ETag::eRideableObject)
 			{
 				if (!mDamageObject)
 				{
-					TakeDamage(1);
+					TakeDamage(DAMAGE_1);
 
-					if (mCharaStatus.hp > 0)
+					if (mCharaStatus.hp > MIN_HP)
 					{
 						mDamageObject = true;
 						ChangeAnimation(EAnimType::eHit);
@@ -466,7 +966,6 @@ void CPlayer::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 					else
 					{
 						mDamageObject = true;
-						mDeath = true;
 						ChangeState(EState::eDeath);
 					}
 				}
@@ -526,95 +1025,11 @@ void CPlayer::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 		// 落下判定用のコライダーに触れたら
 		else if (other->Layer() == ELayer::eFall)
 		{
-			// ステージ番号
 			int currentStage = CGameManager::StageNo();
 
-			// ステージ番号が1だったら
-			if (currentStage == 1)
-			{
-				// 1面のセーブポイント
-				if (mSavePoint1 && mSavePoint2 ||
-					!mSavePoint1 && mSavePoint2)
-				{
-					ChangeState(EState::eFallDamege);
-					Position(26.0f, 10.0f, 673.0f);
-				}
-				else if (mSavePoint1)
-				{
-					ChangeState(EState::eFallDamege);
-					Position(26.0f, 10.0f, 390.0f);
-				}
-				else
-				{
-					// 初期値点に戻す
-					Position(26.0f, 6.5f, -28.0f);
-					ChangeState(EState::eFallDamege);
-				}
-			}
-			// ステージ番号が2だったら
-			else if (currentStage == 2)
-			{
-				// 初期値点に戻す
-				Position(0.0f, 20.0f, 50.0f);
-				ChangeState(EState::eFallDamege);
-				// 2面のセーブポイント
-				if (mSavePoint1 && mSavePoint2 ||
-					!mSavePoint1 && mSavePoint2)
-				{
-					ChangeState(EState::eFallDamege);
-					Position(0.0f, 56.0f, 994.0f);
-				}
-				else if (mSavePoint1)
-				{
-					ChangeState(EState::eFallDamege);
-					Position(0.0f, 20.0f, 480.0f);
-				}
-			}
-			// ステージ番号が3だったら
-			else if (currentStage == 3)
-			{
-				// 3面のセーブポイント1と2のチェック
-				if (mSavePoint1 && mSavePoint2 ||
-					!mSavePoint1 && mSavePoint2)
-				{
-					// SavePoint2がtrueならセーブポイント2のポジションを適用
-					ChangeState(EState::eFallDamege);
-					Position(0.0f, 10.0f, 1550.0f);
-				}
-				else if (mSavePoint1)
-				{
-					// セーブポイント1だけがtrueならセーブポイント1のポジションを適用
-					ChangeState(EState::eFallDamege);
-					Position(0.0f, 10.0f, 453.0f);
-				}
-				else
-				{
-					// 初期値点に戻す
-					Position(0.0f, 10.0f, 0.0f);
-					ChangeState(EState::eFallDamege);
-				}
-			}
-			// ステージ番号が4だったら
-			else if (currentStage == 4)
-			{
-				// 4面のセーブポイント1と2のチェック
-				if (mSavePoint1 && mSavePoint2 ||
-					!mSavePoint1 && mSavePoint2)
-				{
-					// SavePoint2がtrueならセーブポイント2のポジションを適用
-					Position(0.0f, 440.0f, -1890.0f);
-				}
-				else if (mSavePoint1)
-				{
-					// セーブポイント1だけがtrueならセーブポイント1のポジションを適用
-					Position(328.0f, -190.0f, -546.0f);
-				}
-				else
-				{
-					// 初期値点に戻す
-					Position(328.0f, -277.0f, -958.0f);
-					ChangeState(EState::eFallDamege);
-				}
+			// ステージ番号に応じてプレイヤーの位置を設定
+			if (currentStage >= STAGE_1 && currentStage <= STAGE_4) {
+				SetPlayerPosition(currentStage);
 			}
 		}
 		else if (other->Layer() == ELayer::eReflection)
@@ -702,9 +1117,9 @@ void CPlayer::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 		{
 			mIsStageClear = true;
 			mpColliderCapsule->SetEnable(false);
-			if (CGameManager::StageNo() == 1 ||
-				CGameManager::StageNo() == 2 ||
-				CGameManager::StageNo() == 3)
+			int currentStage = CGameManager::StageNo();
+			// ステージ番号に応じてプレイヤーの位置を設定
+			if (currentStage >= STAGE_1 && currentStage <= STAGE_4)
 			{
 				if (mIsGrounded && !mIsJumping)
 				{
@@ -733,7 +1148,11 @@ void CPlayer::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 		// 敵のキックコライダー
 		if (other->Layer() == ELayer::eKickCol)
 		{
-			ChangeState(EState::eHit);
+			if (mState != EState::eAttackSmash &&
+				mState != EState::eAttackSmashWait)
+			{
+				ChangeState(EState::eHit);
+			}
 		}
 		else if (other->Layer() == ELayer::eBiribiri)
 		{
@@ -742,11 +1161,19 @@ void CPlayer::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 		// 敵の弾のコライダー
 		else if (other->Layer() == ELayer::eBulletCol)
 		{
-			ChangeState(EState::eHitBullet);
+			if (mState != EState::eAttackSmash &&
+				mState != EState::eAttackSmashWait)
+			{
+				ChangeState(EState::eHitBullet);
+			}
 		}
 		else if (other->Layer() == ELayer::eAttackCol)
 		{
-			ChangeState(EState::eHitSword);
+			if (mState != EState::eAttackSmash &&
+				mState != EState::eAttackSmashWait)
+			{
+				ChangeState(EState::eHitSword);
+			}
 		}
 		// 針ブロックのコライダー
 		else if (other->Layer() == ELayer::eNeedleCol)
@@ -756,12 +1183,25 @@ void CPlayer::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 		// 炎に当たったら
 		else if (other->Layer() == ELayer::eFlame)
 		{
-			ChangeState(EState::eHit);
+			if (mState != EState::eAttackSmash &&
+				mState != EState::eAttackSmashWait)
+			{
+				ChangeState(EState::eHit);
+			}
 		}
 		// ステージ選択ステージのオブジェクトに当たったら
 		else if (other->Layer() == ELayer::eStageMenuObject)
 		{
 			
+		}
+	}
+
+	// 敵の衝突コライダーとの当たり判定を取るコライダー
+	if (self == mpEnemyCollider)
+	{
+		if (other->Layer() == ELayer::eEnemyCol)
+		{
+			Position(Position() + hit.adjust * hit.weight);			
 		}
 	}
 
@@ -896,13 +1336,15 @@ void CPlayer::CColliderTime()
 	}
 }
 
+#define BLINKSPEED 16.5f
+
 // 点滅する時間計測用
 void CPlayer::CDamageColorTime()
 {
 	if (mColElapsedTime <= DAMAGECOL && !mInvincible)
 	{
 		// 点滅の速度を調整するための定数
-		const float blinkSpeed = 16.5f;
+		const float blinkSpeed = BLINKSPEED;
 
 		// sin関数を使って点滅する色のアルファ値を計算
 		// 0.0～1.0の間を往復する
@@ -926,35 +1368,46 @@ void CPlayer::CDamageColorTime()
 	}
 }
 
-// // アニメーション終わりの体力判定処理
+// アニメーション終わりの体力判定処理
 void CPlayer::CHPJudgment()
 {
-	if (IsAnimationFinished())
+	if (mCharaStatus.hp > MIN_HP)
 	{
-		if (mCharaStatus.hp > 0)
-		{
-			mDamageEnemy = false;
-			mIsPlayedHitDamageSE = false;
-			ChangeState(EState::eIdle);
-		}
-		else if (mCharaStatus.hp <= 0)
-		{
-			mDeath = true;
-			mFallDamage = false;
-			mpDamageCol->SetEnable(false);
-			ChangeState(EState::eDeath);
-		}
+		mIsSmashAttackStart = false;
+		mIsCameraDirection = false;
+		mDamageEnemy = false;
+		mIsPlayedHitDamageSE = false;
+		ChangeState(EState::eIdle);
+	}
+	else if (mCharaStatus.hp <= MIN_HP)
+	{
+		mFallDamage = false;
+		mpDamageCol->SetEnable(false);
+		ChangeState(EState::eDeath);
 	}
 }
 
 // ジャンプ中に体力が0以下になった場合の処理
 void CPlayer::JumpingHpJudgment()
 {
-	if (mCharaStatus.hp <= 0)
+	if (mCharaStatus.hp <= MIN_HP)
 	{
-		mDeath = true;
+		mIsSmashAttackStart = false;
 		ChangeState(EState::eDeath);
 	}
+}
+
+// ステージ開始時の共通処理
+void CPlayer::CInitializeStageStart()
+{
+	mScaleTime = 0.0f;
+	mMoveSpeedY = 0.0f;
+	mElapsedTime = 0.0f;
+	Scale(CVector(1.0f, 1.0f, 1.0f));
+	SetAlpha(0.0f);
+	CFade::FadeIn();
+	mpColliderCapsule->SetEnable(true);
+	ChangeState(EState::eReady);
 }
 
 // ステージクリア時のアイテム削除処理
@@ -970,11 +1423,108 @@ void CPlayer::ItemDeletion()
 	RemoveItem(ItemType::DEFENSE);
 }
 
+// ステージクリア時の初期化処理
+void CPlayer::CResetStageData()
+{
+	mSavePoint1 = false;
+	mSavePoint2 = false;
+	mElapsedTime = 0.0f;
+	mpCutInClear->End();
+	ChangeState(EState::eReady);
+	Position(mStartPos);
+	mpColliderCapsule->SetEnable(true);
+}
+
+// ステージクリア時のステージ判定
+void CPlayer::CClearPreviousStage()
+{
+	if (mStage1Clear) 
+	{
+		mIsStage1Clear = false;
+		mStage1Clear = false;
+	}
+	else if (mStage2Clear) 
+	{
+		mIsStage2Clear = false;
+		mStage2Clear = false;
+	}
+	else if (mStage3Clear) 
+	{
+		mIsStage3Clear = false;
+		mStage3Clear = false;
+	}
+	else if (mStage4Clear)
+	{
+		mIsStage4Clear = false;
+		mStage4Clear = false;
+
+	}
+	else if (mEXStageClear)
+	{
+		mIsEXStageClear = false;
+		mEXStageClear = false;
+	}
+}
+
+// ステージクリアの処理を判定
+void CPlayer::CCompleteStage(int stageNo)
+{
+	CClearPreviousStage();
+
+	switch (stageNo) {
+	case 1:
+		mStage1Clear = true;
+		mIsStartStage2 = true;
+		CGameManager::StageClear();
+		break;
+	case 2:
+		mStage2Clear = true;
+		mIsStartStage3 = true;
+		CGameManager::StageClear();
+		break;
+	case 3:
+		mStage3Clear = true;
+		mIsStartStage4 = true;
+		CGameManager::GameClear();
+		break;
+	case 4:
+		mStage4Clear = true;
+		mIsStartEXStage = true;
+		CGameManager::GameClear();
+		break;
+	}
+	// 共通のリセット処理
+	CResetStageData();
+}
+
+// リザルト時の初期化処理
+void CPlayer::CHandleStageClear(bool& stageClearFlag)
+{
+	CResultAnnouncement* result = CResultAnnouncement::Instance();
+	if (result == nullptr) return;
+
+	if (result->IsResultOpened())
+	{
+		mMoveDistance = 0.0f;
+		mpCutInResult->End();
+		mpHpGauge->SetShow(true);
+		mpStaminaGauge->SetShow(true);
+		mpScreenItem->SetShow(true);
+		mpSpikyBallUI->SetShow(true);
+		mpMeat->SetShow(true);
+		mpColliderLine->SetEnable(true);
+		mpColliderCapsule->SetEnable(true);
+		mIsStageClear = false;
+
+		stageClearFlag = false;
+		StageFlagfalse();
+		ChangeState(EState::eIdle);
+	}
+}
+
 // 被ダメージ処理
 void CPlayer::TakeDamage(int damage)
 {
-	// SEを再生するとたまにエラーが発生する
-	// 一旦保留
 	mIsPlayedHitDamageSE = false;
 	if (!mIsPlayedHitDamageSE)
 	{
@@ -988,13 +1538,13 @@ void CPlayer::TakeDamage(int damage)
 	//mCharaStatus.hp = max(mCharaStatus.hp - damage, 0);
 	mCharaStatus.hp -= damage;
 	// HPが0になったら
-	if (mCharaStatus.hp <= 0)
+	if (mCharaStatus.hp <= MIN_HP)
 	{
-		mDeath = true;
 		ChangeState(EState::eDeath);
 	}
 }
 
+#define HEALINGTIME 3.0f
 // 回復処理
 void CPlayer::TakeRecovery(int recovery)
 {
@@ -1007,7 +1557,7 @@ void CPlayer::TakeRecovery(int recovery)
 	}
 
 	mIsHealingItem = true;
-	mHealingTime = 3.0f;
+	mHealingTime = HEALINGTIME;
 
 	// バフ1を生成
 	float dist = 0.1f;
@@ -1037,10 +1587,11 @@ void CPlayer::TakeRecovery(int recovery)
 	circle2->SetOwner(this);
 }
 
+#define INVINCIBLESTARTTIME 10.0f
 // 無敵状態処理(コライダーを一定時間オフにする)
 void CPlayer::TakeInvincible()
 {
-	mInvincibleStartTime = 10.0f;
+	mInvincibleStartTime = INVINCIBLESTARTTIME;
 	if (!mInvincible)
 	{
 		mpDamageCol->SetEnable(false);
@@ -1048,11 +1599,12 @@ void CPlayer::TakeInvincible()
 	}
 }
 
+#define ATTACKTIME 3.0f
 // 攻撃力を上昇させる
 void CPlayer::TakeAttackPotion(int attack)
 {
 	mIsAttackItem = true;
-	mAttackTime = 3.0;
+	mAttackTime = ATTACKTIME;
 	mCharaStatus.power += attack;
 
 	// バフ1を生成
@@ -1137,139 +1689,150 @@ void CPlayer::ChangeState(EState state)
 }
 
 // hp取得
-int CPlayer::GetHp()
+int CPlayer::GetHp() const
 {
 	return mCharaStatus.hp;
 }
 
 // 最大hp取得
-int CPlayer::GetMaxHp()
+int CPlayer::GetMaxHp() const
 {
 	return mCharaMaxStatus.hp;
 }
 
 // ジャンプをしたかどうか取得
-bool CPlayer::IsJumping()
+bool CPlayer::IsJumping() const
 {
 	return mIsJumping;
 }
 
 // 攻撃中かどうか
-bool CPlayer::IsAttack()
+bool CPlayer::IsAttack() const
 {
 	return mIsAttack;
 }
 
 // 死亡したかどうか
-bool CPlayer::IsDeath()
+bool CPlayer::IsMDeath() const
 {
 	return mIsDeath;
 }
 
 // 死亡したかどうか(mDeath)
-bool CPlayer::IsMDeath()
+bool CPlayer::IsDeath() const
 {
 	return mDeath;
 }
 
 // ステージ1をクリアしたか
-bool CPlayer::IsStage1Clear()
+bool CPlayer::IsStage1Clear() const
 {
 	return mIsStage1Clear;
 }
 
 // ステージ2をクリアしたか
-bool CPlayer::IsStage2Clear()
+bool CPlayer::IsStage2Clear() const
 {
 	return mIsStage2Clear;
 }
 
 // ステージ3をクリアしたか
-bool CPlayer::IsStage3Clear()
+bool CPlayer::IsStage3Clear() const
 {
 	return mIsStage3Clear;
 }
 
 // ステージ4をクリアしたか
-bool CPlayer::IsStage4Clear()
+bool CPlayer::IsStage4Clear() const
 {
 	return mIsStage4Clear;
 }
 
+bool CPlayer::IsEXStageClear() const
+{
+	return mIsEXStageClear;
+}
+
 // ステージをクリアしたか
-bool CPlayer::IsStageClear()
+bool CPlayer::IsStageClear() const
 {
 	return mIsStageClear;
 }
 
 // ステージ2に入れるかどうか
-bool CPlayer::IsStartStage2()
+bool CPlayer::IsStartStage2() const
 {
 	return mIsStartStage2;
 }
 
 // ステージ3に入れるかどうか
-bool CPlayer::IsStartStage3()
+bool CPlayer::IsStartStage3() const
 {
 	return mIsStartStage3;
 }
 
 // ステージ4に入れるかどうか
-bool CPlayer::IsStartStage4()
+bool CPlayer::IsStartStage4() const
 {
 	return mIsStartStage4;
 }
 
+bool CPlayer::IsStartEXStage() const
+{
+	return mIsStartEXStage;
+}
+
 // 攻撃力アップアイテムを使用したか
-bool CPlayer::IsAttackItem()
+bool CPlayer::IsAttackItem() const
 {
 	return mIsAttackItem;
 }
 
 // 攻撃力アップアイテムを使用したか
-bool CPlayer::IsHealingItem()
+bool CPlayer::IsHealingItem() const
 {
 	return mIsHealingItem;
 }
 
-bool CPlayer::IsSpikyBall()
+// とげボールを使用できるかどうか
+bool CPlayer::IsSpikyBall() const
 {
 	return mSpikyBall;
 }
 
-bool CPlayer::IsSpikyBallAppearance()
+// とげボールを出現させているかどうか
+bool CPlayer::IsSpikyBallAppearance() const
 {
 	return mSpik1;
 }
 
+// とげボールのリチャージ時間
 float CPlayer::GetSpikyTime() const
 {
 	return mSpikRechargeTime;
 }
 
-#define MAXCHARGETIME 2.0f
-#define SPIKYCHARGETIME 5.0f
-#define SPIKYBALLVELOCITY_Y 1.4f
-#define MAXVELOCITY_Y 3.0f
-#define SPIKYSPEED 50.0f
-#define SPIKYDISTANCE 50.0f
-#define SPIKYMAXSPEED 100.0f
-#define MAXDISTANCE 300.0f
-#define REDUCEDISTANCE 100.0f
-
+// とげボールの速度を取得
 float CPlayer::GetSpikyBallSpeed() const
 {
 	return SPIKYSPEED + (Math::Clamp01(mSpikTime / MAXCHARGETIME) * SPIKYMAXSPEED);
 }
 
+// とげボールの飛距離を取得
 float CPlayer::GetSpikyBallDistance() const
 {
 	return SPIKYDISTANCE + (Math::Clamp01(mSpikTime / MAXCHARGETIME) * (MAXDISTANCE - REDUCEDISTANCE));
 }
 
+// とげボールのY軸を取得
 float CPlayer::GetSpikyBallInitialVelocityY() const
 {
 	return SPIKYBALLVELOCITY_Y + (Math::Clamp01(mSpikTime / MAXCHARGETIME) * MAXVELOCITY_Y);
+}
+
+bool CPlayer::IsCameraReset() const
+{
+	return mIsCameraReset;
 }
 
 // ステージフラグをfalseにする関数
@@ -1279,11 +1842,19 @@ void CPlayer::StageFlagfalse()
 	mStage2Clear = false;
 	mStage3Clear = false;
 	mStage4Clear = false;
+	mEXStageClear = false;
 
 	mStartStage1 = false;
 	mStartStage2 = false;
 	mStartStage3 = false;
 	mStartStage4 = false;
+	mStartEXStage = false;
+
+	mIsStage1Clear = false;
+	mIsStage2Clear = false;
+	mIsStage3Clear = false;
+	mIsStage4Clear = false;
+	mIsEXStageClear = false;
 }
 
 // アニメーション切り替え
@@ -1311,6 +1882,7 @@ CVector CPlayer::CalcMoveVec() const
 	{
 		// 上方向ベクトル(設置している場合は、地面の法線)
 		CVector up = mIsGrounded ? mGroundNormal : CVector::up;
+
 		// カメラの向きに合わせた移動ベクトルに変換
 		CCamera* mainCamera = CCamera::MainCamera();
 		CVector camForward = mainCamera->VectorZ();
@@ -1394,7 +1966,7 @@ CVector CPlayer::ClimbMoveUpVec() const
 // プレイヤーがアクションを起こせるかどうか
 bool CPlayer::IsEnableAction() const
 {
-	return CGameManager::StageNo() > 0;
+	return CGameManager::StageNo() > STAGE_0;
 }
 
 // 準備中の状態
@@ -1480,6 +2052,10 @@ void CPlayer::UpdateIdle()
 		{
 			ChangeState(EState::eResult);
 		}
+		else if (mEXStageClear && !mIsEXStageClear)
+		{
+			ChangeState(EState::eResult);
+		}
 
 		if (!mIsDeath && mDeath)
 		{
@@ -1521,14 +2097,20 @@ void CPlayer::UpdateIdle()
 			mSpikTime = 0.0f;
 			ChangeState(EState::eAttackStrongStart);
 		}
+		// Eキーで範囲攻撃状態へ移行
+		else if (CInput::PushKey('E'))
+		{
+			mMoveSpeed = CVector::zero;
+			ChangeState(EState::eAttackSmashStart);
+		}
 		// SPACEキーでジャンプ開始へ移行
 		else if (CInput::PushKey(VK_SPACE) && !mIsDashJump)
 		{
-			if (mCharaStatus.stamina - 20 >= 0)
+			if (mCharaStatus.stamina - STAMINA_20 >= MIN_STAMINA)
 			{
 				ChangeState(EState::eJumpStart);
 				// スタミナが0以下にならない場合はジャンプを実行
-				mCharaStatus.stamina -= 20;
+				mCharaStatus.stamina -= STAMINA_20;
 			}
 			else
 			{
@@ -1582,6 +2164,7 @@ void CPlayer::UpdateMove()
 		{
 			if (CInput::Key(VK_SHIFT) && mIsGrounded)
 			{
+				mIsCameraDirection = true;
 				// スタミナが0以上かつ、スタミナの下限値フラグがfalseだったら
 				if (mCharaStatus.stamina >= 0 && !mStaminaLowerLimit)
 				{
@@ -1593,19 +2176,19 @@ void CPlayer::UpdateMove()
 						speed = DASH_SPEED;
 						mIsDashJump = true;
 						mDash = true;
-						mCharaStatus.stamina -= 1;
+						mCharaStatus.stamina -= STAMINA_1;
 
 						// ダッシュジャンプ移行
 						if ((CInput::PushKey(VK_SPACE) && mIsDashJump) && (mCharaStatus.stamina <= mCharaMaxStatus.stamina))
 						{
 							// ダッシュジャンプ移行時に
 							// スタミナが0以下になるかどうかを確認
-							if (mCharaStatus.stamina - 40 >= 0)
+							if (mCharaStatus.stamina - STAMINA_40 >= MIN_STAMINA)
 							{
 								mMoveSpeed = CVector::zero;
 								ChangeState(EState::eDashJumpStart);
 								// スタミナが0以下にならない場合はダッシュジャンプを実行
-								mCharaStatus.stamina -= 40;
+								mCharaStatus.stamina -= STAMINA_40;
 							}
 							else
 							{
@@ -1613,7 +2196,7 @@ void CPlayer::UpdateMove()
 							}
 						}
 
-						if (mCharaStatus.stamina <= 0)
+						if (mCharaStatus.stamina <= MIN_STAMINA)
 						{
 							ChangeState(EState::eDashEnd);
 							mStartDashTime = 0.0f;
@@ -1628,8 +2211,8 @@ void CPlayer::UpdateMove()
 						speed = RUN_SPEED;
 						mDash = true;
 						mIsDashJump = false;
-						mCharaStatus.stamina -= 1;
-						if (mCharaStatus.stamina <= 0)
+						mCharaStatus.stamina -= STAMINA_1;
+						if (mCharaStatus.stamina <= MIN_STAMINA)
 						{
 							ChangeState(EState::eDashEnd);
 							mStaminaLowerLimit = true;
@@ -1642,12 +2225,12 @@ void CPlayer::UpdateMove()
 					{
 						// ダッシュアタック移行時に、
 						// スタミナが0以下になるかどうかを確認
-						if (mCharaStatus.stamina - 20 >= 0)
+						if (mCharaStatus.stamina - STAMINA_20 >= MIN_STAMINA)
 						{
 							mMoveSpeed = CVector::zero;
 							ChangeState(EState::eAttackDash);
 							// スタミナが0以下にならない場合はダッシュアタックを実行
-							mCharaStatus.stamina -= 20;
+							mCharaStatus.stamina -= STAMINA_20;
 						}
 						else
 						{
@@ -1659,12 +2242,13 @@ void CPlayer::UpdateMove()
 				{
 					// 歩く
 					mStartDashTime = 0.0f;
+					mIsCameraDirection = false;
 					mIsDashJump = false;
 					mDash = false;
 					ChangeAnimation(EAnimType::eWalk);
 					if (mCharaStatus.stamina < mCharaMaxStatus.stamina)
 					{
-						mCharaStatus.stamina += 1;
+						mCharaStatus.stamina += STAMINA_1;
 						if (mCharaStatus.stamina >= mCharaMaxStatus.stamina)
 						{
 							mStaminaLowerLimit = false;
@@ -1675,12 +2259,13 @@ void CPlayer::UpdateMove()
 			else
 			{
 				mStartDashTime = 0.0f;
+				mIsCameraDirection = false;
 				mIsDashJump = false;
 				mDash = false;
 				ChangeAnimation(EAnimType::eWalk);
 				if (mCharaStatus.stamina < mCharaMaxStatus.stamina)
 				{
-					mCharaStatus.stamina += 1;
+					mCharaStatus.stamina += STAMINA_1;
 				}
 			}
 
@@ -1696,11 +2281,11 @@ void CPlayer::UpdateMove()
 			if (((CInput::PushKey(VK_CONTROL))) && (mCharaStatus.stamina <= mCharaMaxStatus.stamina))
 			{
 				// 回避行動前にスタミナが0以下になるかどうかを確認
-				if (mCharaStatus.stamina - 50 >= 0) {
+				if (mCharaStatus.stamina - STAMINA_50 >= MIN_STAMINA) {
 					mMoveSpeed = CVector::zero;
 					ChangeState(EState::eRotate);
 					// スタミナが0以下にならない場合は回避行動を実行
-					mCharaStatus.stamina -= 50;
+					mCharaStatus.stamina -= STAMINA_50;
 				}
 				else
 				{
@@ -1722,11 +2307,12 @@ void CPlayer::UpdateMove()
 			// 待機アニメーションに切り替え
 			ChangeAnimation(EAnimType::eIdle);
 			mStartDashTime = 0.0f;
+			mIsCameraDirection = false;
 			mIsDashJump = false;
 			mDash = false;
 			if (mCharaStatus.stamina < mCharaMaxStatus.stamina && !mDash)
 			{
-				mCharaStatus.stamina += 1;
+				mCharaStatus.stamina += STAMINA_1;
 			}
 		}
 	}
@@ -1769,6 +2355,63 @@ void CPlayer::UpdateAttackStrongStart()
 {
 	mAttackStrongPos = Position();
 	ChangeState(EState::eAttackStrong);
+}
+
+// 範囲攻撃開始
+void CPlayer::UpdateSmashAttackStart()
+{
+	mIsAttack = true;
+	mWeaponTime = 0.0f;
+	mpSword->AttachMtx(GetFrameMtx("Armature_mixamorig_RightHandMiddle1"));
+
+	mMoveSpeedY += SMASH_JUMP;
+	mIsJumping = true;
+	mIsGrounded = false;
+
+	JumpingHpJudgment();
+
+	// 攻撃アニメーションを開始
+	ChangeAnimation(EAnimType::eAttackSmash);
+	ChangeState(EState::eAttackSmash);
+}
+
+// 範囲攻撃
+void CPlayer::UpdateSmashAttack()
+{
+	mpSword->SetAlpha(0.0f);
+	JumpingHpJudgment();
+	SetAnimationSpeed(1.3f);
+	if (GetAnimationFrame() >= 20.0f)
+	{
+		mIsSmashAttack = true;
+		mMoveSpeed = CVector::zero;
+		mMoveSpeedY = 0.0f;
+	}
+	
+	if (GetAnimationFrame() >= 60.0f)
+	{
+		mIsSmashAttack = false;
+		ChangeState(EState::eAttackSmashWait);
+	}
+}
+
+// 範囲攻撃終了待ち
+void CPlayer::UpdateSmashAttackEnd()
+{
+	if (mIsGrounded && !mIsSmashAttackStart)
+	{
+		mIsSmashAttackStart = true;
+		SmashEffect();
+	}
+
+	if (IsAnimationFinished())
+	{
+		mpSword->SetAlpha(1.0f);
+		mIsSmashAttackStart = false;
+		SetAnimationSpeed(1.0f);
+		ChangeAnimation(EAnimType::eIdle);
+		ChangeState(EState::eIdle);
+	}
 }
 
 // 強攻撃
@@ -1931,11 +2574,11 @@ void CPlayer::UpdateAttackWait()
 		if (((CInput::PushKey(VK_CONTROL)) && KeyPush) && (mCharaStatus.stamina <= mCharaMaxStatus.stamina))
 		{
 			// 回避行動前にスタミナが0以下になるかどうかを確認
-			if (mCharaStatus.stamina - 50 >= 0)
+			if (mCharaStatus.stamina - STAMINA_50 >= MIN_STAMINA)
 			{
 				ChangeState(EState::eRotate);
 				// スタミナが0以下にならない場合は回避行動を実行
-				mCharaStatus.stamina -= 50;
+				mCharaStatus.stamina -= STAMINA_50;
 				mpSword->AttackEnd();
 
 			}
@@ -1947,12 +2590,12 @@ void CPlayer::UpdateAttackWait()
 		if (CInput::PushKey(VK_SPACE))
 		{
 			mpSword->AttackEnd();
-			if (mCharaStatus.stamina - 20 >= 0)
+			if (mCharaStatus.stamina - STAMINA_20 >= MIN_STAMINA)
 			{
 				ChangeState(EState::eJumpStart);
 				mIsSpawnedSlashEffect = false;
 				// スタミナが0以下にならない場合はジャンプを実行
-				mCharaStatus.stamina -= 20;
+				mCharaStatus.stamina -= STAMINA_20;
 			}
 			else
 			{
@@ -2024,7 +2667,9 @@ void CPlayer::UpdateDashAttackWait()
 void CPlayer::UpdateRotate()
 {
 	mpDamageCol->SetEnable(false);
+
 	mIsAttack = false;
+	mIsCameraDirection = true;
 	mWeaponTime = 0.0f;
 	mpSword->AttachMtx(GetFrameMtx("Armature_mixamorig_Spine1"));
 	mMoveSpeed = CVector::zero;
@@ -2046,6 +2691,7 @@ void CPlayer::UpdateRotateEnd()
 {
 	if (IsAnimationFinished())
 	{
+		mIsCameraDirection = false;
 		mpDamageCol->SetEnable(true);
 
 		ChangeState(EState::eIdle);
@@ -2088,146 +2734,14 @@ void CPlayer::UpdateClearEnd()
 				mElapsedTime += Time::DeltaTime();
 			}
 			else
-			{	
-				// ステージ1「ワンショット・フロア」
-				if (CGameManager::StageNo() == 1)
+			{
+				int currentStage = CGameManager::StageNo();
+				if (currentStage >= STAGE_1 && currentStage <= STAGE_4) 
 				{
-					mSavePoint1 = false;
-					mSavePoint2 = false;
-
-					mStage1Clear = true;
-					mIsStage1Clear = false;
-
-					mIsStartStage2 = true;
-
-					if (mStage2Clear)
-					{
-						mIsStage2Clear = false;
-						mStage2Clear = false;
-					}
-					else if (mStage3Clear)
-					{
-						mIsStage3Clear = false;
-						mStage3Clear = false;
-					}
-
-					mElapsedTime = 0.0f;
-					mpCutInClear->End();
-
-					// ステージをクリア
-					CGameManager::StageClear();
-					// ステージをクリアしたら、次のステージ開始まで準備中の状態に変更
-					ChangeState(EState::eReady);
-					Position(mStartPos);
-					mpColliderCapsule->SetEnable(true);
-				}
-				// ステージ2クリア
-				else if (CGameManager::StageNo() == 2)
-				{
-					mSavePoint1 = false;
-					mSavePoint2 = false;
-
-					mStage2Clear = true;
-					mIsStage2Clear = false;
-
-					mIsStartStage3 = true;
-
-					if (mStage1Clear)
-					{
-						mIsStage1Clear = false;
-						mStage1Clear = false;
-					}
-					else if (mStage3Clear)
-					{
-						mIsStage3Clear = false;
-						mStage3Clear = false;
-					}
-
-					mElapsedTime = 0.0f;
-					mpCutInClear->End();
-					// ステージをクリア
-					CGameManager::StageClear();
-					// ステージをクリアしたら、次のステージ開始まで準備中の状態に変更
-					ChangeState(EState::eReady);
-					Position(mStartPos);
-					mpColliderCapsule->SetEnable(true);
-				}
-				// ステージ3「平原」
-				else if (CGameManager::StageNo() == 3)
-				{
-					mSavePoint1 = false;
-					mSavePoint2 = false;
-
-					mStage3Clear = true;
-					mIsStage3Clear = false;
-
-					if (mStage1Clear)
-					{
-						mIsStage1Clear = false;
-						mStage1Clear = false;
-					}
-					else if (mStage2Clear)
-					{
-						mIsStage2Clear = false;
-						mStage2Clear = false;
-					}
-
-					mElapsedTime = 0.0f;
-					mpCutInClear->End();
-					// ステージをクリア
-					CGameManager::GameClear();
-					// ステージをクリア
-					//CGameManager::StageClear();
-					// ステージをクリアしたら、次のステージ開始まで準備中の状態に変更
-					ChangeState(EState::eReady);
-					mIsStartStage2 = false;
-					mIsStartStage3 = false;
-					// 消さないように
-					// 消したら不具合
-					//Position(mStartPos);
-					mpColliderCapsule->SetEnable(true);
-				}
-				// ステージ4クリア
-				else if (CGameManager::StageNo() == 2)
-				{
-					mSavePoint1 = false;
-					mSavePoint2 = false;
-
-					mStage4Clear = true;
-					mIsStage4Clear = false;
-
-					mIsStartStage4 = true;
-
-					if (mStage1Clear)
-					{
-						mIsStage1Clear = false;
-						mStage1Clear = false;
-					}
-					else if (mStage2Clear)
-					{
-						mIsStage2Clear = false;
-						mStage2Clear = false;
-					}
-					else if (mStage3Clear)
-					{
-						mIsStage3Clear = false;
-						mStage3Clear = false;
-					}
-
-					mElapsedTime = 0.0f;
-					mpCutInClear->End();
-					// ステージをクリア
-					CGameManager::GameClear();
-					// ステージをクリアしたら、次のステージ開始まで準備中の状態に変更
-					ChangeState(EState::eReady);
-					mIsStartStage2 = false;
-					mIsStartStage3 = false;
-					Position(mStartPos);
-					mpColliderCapsule->SetEnable(true);
+					CCompleteStage(currentStage);
 				}
 			}
 		}
-		//CXCharacter::Update();
 		return;
 	}
 	else
@@ -2244,7 +2758,7 @@ void CPlayer::UpdateResultJumpStart()
 	Scale(CVector(0.0f, 0.0f, 0.0f));
 	if (mpCutInResult->IsPlaying())
 	{
-
+		// 何もしない
 	}
 	else
 	{
@@ -2326,65 +2840,27 @@ void CPlayer::UpdateResultEnd()
 		if (mStage1Clear)
 		{
 			mIsStage1Clear = true;
-			CResultAnnouncement* result = CResultAnnouncement::Instance();
-			bool resultEnd = result->IsResultOpened();
-			if (resultEnd)
-			{
-				mMoveDistance = 0.0f;
-				mpCutInResult->End();
-				mpHpGauge->SetShow(true);
-				mpStaminaGauge->SetShow(true);
-				mpScreenItem->SetShow(true);
-				mpSpikyBallUI->SetShow(true);
-				mpMeat->SetShow(true);
-				mIsStageClear = false;
-
-				mIsStage1Clear = false;
-				StageFlagfalse();
-				ChangeState(EState::eIdle);
-			}
+			CHandleStageClear(mStage1Clear);
 		}
 		else if (mStage2Clear)
 		{
 			mIsStage2Clear = true;
-			CResultAnnouncement* result = CResultAnnouncement::Instance();
-			bool resultEnd = result->IsResultOpened();
-			if (resultEnd)
-			{
-				mMoveDistance = 0.0f;
-				mpCutInResult->End();
-				mpHpGauge->SetShow(true);
-				mpStaminaGauge->SetShow(true);
-				mpScreenItem->SetShow(true);
-				mpSpikyBallUI->SetShow(true);
-				mpMeat->SetShow(true);
-				mIsStageClear = false;
-
-				mIsStage2Clear = false;
-				StageFlagfalse();
-				ChangeState(EState::eIdle);
-			}
+			CHandleStageClear(mStage2Clear);
 		}
 		else if (mStage3Clear)
 		{
 			mIsStage3Clear = true;
-			CResultAnnouncement* result = CResultAnnouncement::Instance();
-			bool resultEnd = result->IsResultOpened();
-			if (resultEnd)
-			{
-				mMoveDistance = 0.0f;
-				mpCutInResult->End();
-				mpHpGauge->SetShow(true);
-				mpStaminaGauge->SetShow(true);
-				mpScreenItem->SetShow(true);
-				mpSpikyBallUI->SetShow(true);
-				mpMeat->SetShow(true);
-				mIsStageClear = false;
-
-				mIsStage3Clear = false;
-				StageFlagfalse();
-				ChangeState(EState::eIdle);
-			}
+			CHandleStageClear(mStage3Clear);
+		}
+		else if (mStage4Clear)
+		{
+			mIsStage4Clear = true;
+			CHandleStageClear(mStage4Clear);
+		}
+		else if (mEXStageClear)
+		{
+			mIsEXStageClear = true;
+			CHandleStageClear(mEXStageClear);
 		}
 	}
 }
@@ -2393,19 +2869,12 @@ void CPlayer::UpdateResultEnd()
 void CPlayer::UpdateRestart()
 {
 	mMoveSpeed = CVector::zero;
-	//mElapsedTime += Time::DeltaTime();
 	ChangeAnimation(EAnimType::eStandUp);
 	if (IsAnimationFinished())
 	{
 		mElapsedTime = 0.0f;
 		mScaleTime = 0.0f;
 		ChangeState(EState::eRestartEnd);
-		/*if (mElapsedTime > 1.0f)
-		{
-			mElapsedTime = 0.0f;
-			mScaleTime = 0.0f;
-			ChangeState(EState::eRestartEnd);
-		}*/
 	}
 }
 
@@ -2496,50 +2965,32 @@ void CPlayer::UpdateStartStageJumpEnd()
 	mMoveSpeed = CVector::zero;
 	mMoveSpeedY = -0.01f;
 	mpSword->SetAlpha(0.0f);
+
 	if (IsAnimationFinished())
 	{
-		mElapsedTime = 0.0f;
-		mpColliderCapsule->SetEnable(true);
-		ChangeState(EState::eReady);
+		// 各ステージ開始時の共通処理
+		CInitializeStageStart();
+
+		// ステージごとの処理
 		if (mStartStage1)
 		{
-			mScaleTime = 0.0f;
-			mMoveSpeedY = 0.0f;
-			Scale(CVector(1.0f, 1.0f, 1.0f));
-			SetAlpha(0.0f);
-			CFade::FadeIn();
-			ChangeState(EState::eReady);
 			CGameManager::Stage1();
 		}
 		else if (mStartStage2)
 		{
-			mScaleTime = 0.0f;
-			mMoveSpeedY = 0.0f;
-			Scale(CVector(1.0f, 1.0f, 1.0f));
-			SetAlpha(0.0f);
-			CFade::FadeIn();
-			ChangeState(EState::eReady);
 			CGameManager::Stage2();
 		}
 		else if (mStartStage3)
 		{
-			mScaleTime = 0.0f;
-			mMoveSpeedY = 0.0f;
-			Scale(CVector(1.0f, 1.0f, 1.0f));
-			SetAlpha(0.0f);
-			CFade::FadeIn();
-			ChangeState(EState::eReady);
 			CGameManager::Stage3();
 		}
 		else if (mStartStage4)
 		{
-			mScaleTime = 0.0f;
-			mMoveSpeedY = 0.0f;
-			Scale(CVector(1.0f, 1.0f, 1.0f));
-			SetAlpha(0.0f);
-			CFade::FadeIn();
-			ChangeState(EState::eReady);
 			CGameManager::Stage4();
+		}
+		else if (mStartEXStage)
+		{
+			CGameManager::EXStage();
 		}
 	}
 }
@@ -2548,28 +2999,28 @@ void CPlayer::UpdateStartStageJumpEnd()
 void CPlayer::UpdateDeath()
 {
 	mMoveSpeed = CVector::zero;
-	mMoveSpeedY += GRAVITY;
+	mpSword->AttackEnd();
+	mpDamageCol->SetEnable(false);
+	mpCanLockOn->SetShow(false);
+	mpLockOn->SetShow(false);
+	mpQUI->SetShow(false);
+	mpTABUI->SetShow(false);
 
-	mDeath = true;
-
-	if (mState == EState::eIdle || IsAnimationFinished())
+	ChangeAnimation(EAnimType::eDeath);
+	if (mpCutInDeath->IsPlaying())
 	{
-		mpDamageCol->SetEnable(false);
-		mpSword->AttackEnd();
-		mMoveSpeed = CVector::zero;
-		mMoveSpeedY = 0.0f;
-		if (mpCutInDeath->IsPlaying())
-		{
-			// キャラクターの更新
-			CXCharacter::Update();
-			return;
-		}
-		else
-		{
-			mpCutInDeath->Setup(this);
-			mpCutInDeath->Start();
-		}
-		ChangeAnimation(EAnimType::eDeath);
+		//// キャラクターの更新
+		//CXCharacter::Update();
+		return;
+	}
+	else
+	{
+		mpCutInDeath->Setup(this);
+		mpCutInDeath->Start();
+	}
+
+	if (IsAnimationFinished())
+	{
 		ChangeState(EState::eDeathEnd);
 	}
 }
@@ -2578,23 +3029,26 @@ void CPlayer::UpdateDeath()
 void CPlayer::UpdateDeathEnd()
 {
 	mMoveSpeed = CVector::zero;
-	mMoveSpeedY += GRAVITY;
-	if (IsAnimationFinished())
-	{
-		mpCutInDeath->End();
-		mDamaged = false;
-		mDamageObject = false;
-		mDamageEnemy = false;
-		mCharaStatus = mCharaMaxStatus;
-		mpHpGauge->SetMaxValue(mCharaMaxStatus.hp);
-		mpDamageCol->SetEnable(true);
-		// 死亡
-		CGameManager::StageOver();
-		// 死亡したら、次のステージ開始まで準備中の状態に変更
-		ChangeState(EState::eReady);
-	}
+	mpCanLockOn->SetShow(false);
+	mpLockOn->SetShow(false);
+	mpQUI->SetShow(false);
+	mpTABUI->SetShow(false);
+	mpCutInDeath->End();
+	mDamaged = false;
+	mDamageObject = false;
+	mDamageEnemy = false;
+	mDeath = true;
+	mCharaStatus = mCharaMaxStatus;
+	mpHpGauge->SetMaxValue(mCharaMaxStatus.hp);
+	mpDamageCol->SetEnable(true);
+	// 死亡
+	CGameManager::StageOver();
+	// 死亡したら、次のステージ開始まで準備中の状態に変更
+	ChangeState(EState::eReady);
 }
 
+// 現在は使用していないので、ダメージを受けるオブジェクトを実装していなければ、
+// 消してもいい
 // 再起
 void CPlayer::UpdateReStart()
 {
@@ -2616,7 +3070,7 @@ void CPlayer::UpdateHit()
 
 	if (!mDamageEnemy)
 	{
-		TakeDamage(3);
+		TakeDamage(DAMAGE_3);
 		mDamageEnemy = true;
 	}
 
@@ -2631,8 +3085,10 @@ void CPlayer::UpdateHit()
 
 	mpDamageCol->SetEnable(false);
 	ChangeAnimation(EAnimType::eHitJ);
-
-	CHPJudgment();
+	if (IsAnimationFinished())
+	{
+		CHPJudgment();
+	}
 }
 
 // 敵の弾の攻撃を受けた時
@@ -2645,7 +3101,7 @@ void CPlayer::UpdateHitBullet()
 
 	if (!mDamageEnemy)
 	{
-		TakeDamage(1);
+		TakeDamage(DAMAGE_1);
 		mDamageEnemy = true;
 	}
 
@@ -2660,8 +3116,10 @@ void CPlayer::UpdateHitBullet()
 
 	mpDamageCol->SetEnable(false);
 	ChangeAnimation(EAnimType::eHit);
-
-	CHPJudgment();
+	if (IsAnimationFinished())
+	{
+		CHPJudgment();
+	}
 }
 
 // 敵の剣の攻撃を受けた時
@@ -2687,8 +3145,10 @@ void CPlayer::UpdateHitSword()
 
 	mpDamageCol->SetEnable(false);
 	ChangeAnimation(EAnimType::eHit);
-
-	CHPJudgment();
+	if (IsAnimationFinished())
+	{
+		CHPJudgment();
+	}
 }
 
 // ダメージを受ける(オブジェクト)
@@ -2714,8 +3174,10 @@ void CPlayer::UpdateHitObj()
 
 	mpDamageCol->SetEnable(false);
 	ChangeAnimation(EAnimType::eHit);
-
-	CHPJudgment();
+	if (IsAnimationFinished())
+	{
+		CHPJudgment();
+	}
 }
 
 // 落下ダメージ
@@ -2727,7 +3189,7 @@ void CPlayer::UpdateFallDamage()
 	if (!mFallDamage)
 	{
 		mFallDamage = true;
-		TakeDamage(1);
+		TakeDamage(DAMAGE_1);
 	}
 
 	if (mSpik1)
@@ -2744,15 +3206,14 @@ void CPlayer::UpdateFallDamage()
 	ChangeAnimation(EAnimType::eFallingFlat);
 	if (IsAnimationFinished())
 	{
-		if (mCharaStatus.hp > 0)
+		if (mCharaStatus.hp > MIN_HP)
 		{
 			mFallDamage = false;
 			mIsPlayedHitDamageSE = false;
 			ChangeState(EState::eStandUp);
 		}
-		else if (mCharaStatus.hp <= 0)
+		else if (mCharaStatus.hp <= MIN_HP)
 		{
-			mDeath = true;
 			mFallDamage = false;
 			mpDamageCol->SetEnable(false);
 			ChangeState(EState::eDeath);
@@ -3108,7 +3569,7 @@ void CPlayer::UpdateWireClimb()
 
 	if (mClimbStaminaTime >= 0.2f)
 	{
-		mCharaStatus.stamina -= 2;
+		mCharaStatus.stamina -= STAMINA_2;
 		mClimbStaminaTime = 0.0f;
 	}
 	else
@@ -3116,7 +3577,7 @@ void CPlayer::UpdateWireClimb()
 		mClimbStaminaTime += Time::DeltaTime();
 	}
 
-	if (mCharaStatus.stamina <= 0)
+	if (mCharaStatus.stamina <= STAMINA_0)
 	{
 		mClimb = false;
 		ChangeState(EState::eIdle);
@@ -3197,18 +3658,20 @@ void CPlayer::UpdateWireClimbedTop()
 	}
 }
 
+// 落下スピード
+#define MOVESPEEDY_FALL -2.5f
 // 落下状態
 void CPlayer::UpdateFalling()
 {
-	mMoveSpeedY = -2.5f;
+	mMoveSpeedY = MOVESPEEDY_FALL;
 	ChangeAnimation(EAnimType::eFalling);
 	if (mIsGrounded)
 	{
-		if (mCharaStatus.hp > 0)
+		if (mCharaStatus.hp > MIN_HP)
 		{
 			ChangeState(EState::eFallDamege);
 		}
-		else if (mCharaStatus.hp <= 0)
+		else if (mCharaStatus.hp <= MIN_HP)
 		{
 			ChangeState(EState::eFallDamege);
 		}
@@ -3335,7 +3798,7 @@ void CPlayer::UpdateJumping()
 {
 	if (mCharaStatus.stamina < mCharaMaxStatus.stamina)
 	{
-		mCharaStatus.stamina += 1;
+		mCharaStatus.stamina += STAMINA_1;
 	}
 
 	if (mMoveSpeedY <= 0.0f)
@@ -3354,7 +3817,7 @@ void CPlayer::UpdateJumpingEnd()
 
 	if (mCharaStatus.stamina < mCharaMaxStatus.stamina)
 	{
-		mCharaStatus.stamina += 1;
+		mCharaStatus.stamina += STAMINA_1;
 	}
 
 	if (IsAnimationFinished() && mIsGrounded)
@@ -3382,7 +3845,7 @@ void CPlayer::UpdateHighJumping()
 {
 	if (mCharaStatus.stamina < mCharaMaxStatus.stamina)
 	{
-		mCharaStatus.stamina += 1;
+		mCharaStatus.stamina += STAMINA_1;
 	}
 
 	if (mMoveSpeedY <= 0.0f)
@@ -3401,7 +3864,7 @@ void CPlayer::UpdateHighJumpingEnd()
 
 	if (mCharaStatus.stamina < mCharaMaxStatus.stamina)
 	{
-		mCharaStatus.stamina += 1;
+		mCharaStatus.stamina += STAMINA_1;
 	}
 
 	if (IsAnimationFinished() && mIsGrounded)
@@ -3428,7 +3891,7 @@ void CPlayer::UpdateTargetPosition()
 {
 	if (mCharaStatus.stamina < mCharaMaxStatus.stamina)
 	{
-		mCharaStatus.stamina += 1;
+		mCharaStatus.stamina += STAMINA_1;
 	}
 
 	if (IsAnimationFinished())
@@ -3491,7 +3954,7 @@ void CPlayer::UpdateTargetPositionEnd()
 
 	if (mCharaStatus.stamina < mCharaMaxStatus.stamina)
 	{
-		mCharaStatus.stamina += 1;
+		mCharaStatus.stamina += STAMINA_1;
 	}
 
 	if (IsAnimationFinished() && mIsGrounded)
@@ -3522,7 +3985,7 @@ void CPlayer::UpdateReflection()
 		}
 		break;
 	case 1:
-		if (mCharaStatus.hp > 0)
+		if (mCharaStatus.hp > MIN_HP)
 		{
 			mDamageEnemy = false;
 			mIsPlayedHitDamageSE = false;
@@ -3530,9 +3993,8 @@ void CPlayer::UpdateReflection()
 			mReflectTime = 0.0f;
 			ChangeState(EState::eIdle);
 		}
-		else if (mCharaStatus.hp <= 0)
+		else if (mCharaStatus.hp <= MIN_HP)
 		{
-			mDeath = true;
 			mFallDamage = false;
 			mpDamageCol->SetEnable(false);
 			mStateStep = 0;
@@ -3554,7 +4016,7 @@ void CPlayer::UpdateDeathJumpStart()
 	Scale(CVector(0.0f, 0.0f, 0.0f));
 	if (mpCutInDeathJump->IsPlaying())
 	{
-
+		// 何もしない
 	}
 	else
 	{
@@ -3565,7 +4027,6 @@ void CPlayer::UpdateDeathJumpStart()
 	ChangeState(EState::eDeathJump);
 
 	mMoveSpeedY = JUMP_DEATH;
-	mIsGrounded = false;
 }
 
 // 死亡ジャンプ
@@ -3575,8 +4036,8 @@ void CPlayer::UpdateDeathJump()
 	CPlayer* player = CPlayer::Instance();
 	CVector playerPos = player->Position();
 	CVector current = VectorZ();
-	CVector targetPos = playerPos + current * 0.5f;
-	float per = mResultElapsedTime / 1.5f;
+	CVector targetPos = playerPos + current * 0.3f;
+	float per = mResultElapsedTime / 1.3f;
 	CVector pos = CVector::Lerp(playerPos, targetPos, per);
 	Position(pos);
 
@@ -3590,7 +4051,7 @@ void CPlayer::UpdateDeathJump()
 	mResultElapsedTime += Time::DeltaTime();
 	mScaleTime += Time::DeltaTime();
 
-	if (mResultElapsedTime > 1.5f)
+	if (mResultElapsedTime >= 1.3f)
 	{
 		if (mIsGrounded)
 		{
@@ -3605,10 +4066,7 @@ void CPlayer::UpdateDeathJump()
 // 死亡ジャンプ終了
 void CPlayer::UpdateDeathJumpEnd()
 {
-	if (mIsGrounded)
-	{
-		ChangeState(EState::eIdle);
-	}
+	ChangeState(EState::eIdle);
 }
 
 // 指定された位置まで移動する
@@ -3698,24 +4156,29 @@ bool CPlayer::CanMoveTo() const
 void CPlayer::StartStage(int stageNo)
 {
 	// ステージ1に入れる状態で、ステージ1を開始したら
-	if (stageNo == 1)
+	if (stageNo == STAGE_1)
 	{
 		// ステージ1のフラグをオン
 		mStartStage1 = true;
 	}
-	else if (stageNo == 2 && mIsStartStage2)
+	else if (stageNo == STAGE_2 && mIsStartStage2)
 	{
 		mStartStage2 = true;
 	}
 	// ステージ3を開始したら、ステージ3のフラグをオン
-	else if (stageNo == 3 && mIsStartStage3)
+	else if (stageNo == STAGE_3 && mIsStartStage3)
 	{
 		mStartStage3 = true;
 	}
 	// ステージ4を開始したら、ステージ4のフラグをオン
-	else if (stageNo == 4 && mIsStartStage4)
+	else if (stageNo == STAGE_4 && mIsStartStage4)
 	{
 		mStartStage4 = true;
+	}
+	// EXステージを開始したら、ステージ4のフラグをオン
+	else if (stageNo == STAGE_EX && mIsStartEXStage)
+	{
+		mStartEXStage = true;
 	}
 	// それ以外は、ステージ移動状態へ進行しない
 	else return;
@@ -3780,6 +4243,42 @@ bool CPlayer::IsEnableStepSmoke() const
 	return false;
 }
 
+// 範囲攻撃用のエフェクトを表示
+void CPlayer::SmashEffect()
+{
+	// 衝撃波(一旦追加)
+	//CShockWave_1* shockwave = new CShockWave_1
+	//(
+	//	this,
+	//	Position() + CVector(0.0f, 0.0f, 0.0f),
+	//	CVector(0.3f, 0.3f, 0.3f),
+	//	CVector(0.5f, 0.5f, 0.5f),
+	//	VectorZ(),
+	//	70.0f,
+	//	100.0f
+	//);
+	//shockwave->SetColor(CColor(0.9f, 0.8f, 0.7f));
+	//CStageManager::AddTask(shockwave);
+
+	CVector PlayerPos = Position();
+	CVector PlayerForward = VectorZ();
+	PlayerPos = PlayerPos + (PlayerForward * 15.0f);
+
+	// 衝撃波(一旦追加)
+	//CShockWave_1* shockwave1 = new CShockWave_1
+	//(
+	//	this,
+	//	PlayerPos,
+	//	CVector(0.3f, 0.3f, 0.3f),
+	//	CVector(0.8f, 0.8f, 0.8f),
+	//	VectorZ(),
+	//	70.0f,
+	//	100.0f
+	//);
+	//shockwave1->SetColor(CColor(0.9f, 0.8f, 0.7f));
+	//CStageManager::AddTask(shockwave1);
+}
+
 void CPlayer::CheckUnderFootObject()
 {
 	if (mpUnderFootObject == nullptr) return;
@@ -3817,8 +4316,10 @@ void CPlayer::Update()
 	//CDebugPrint::Print("speed:%f:\n", GetSpikyBallSpeed());
 	//CDebugPrint::Print("mSpik2:%s\n", mSpik2 ? "true" : "false");
 	//CDebugPrint::Print("strongpos:%f %f %f\n", mAttackStrongPos.X(), mAttackStrongPos.Y(), mAttackStrongPos.Z());
+	
 	mIsStartStage2 = true;
 	mIsStartStage3 = true;
+
 
 	SetParent(mpRideObject);
 	SetColor(CColor(1.0, 1.0, 1.0, 1.0));
@@ -3880,16 +4381,14 @@ void CPlayer::Update()
 	{
 		ChangeState(EState::eReady);
 	}
-
-	/*if (mState != EState::eJumpStart &&
-		mState != EState::eJump &&
-		mState != EState::eJumpEnd)
+	else if (CGameManager::GameState() == EGameState::eStage4)
 	{
-		if (mMoveSpeedY <= -3.5f)
-		{
-			ChangeState(EState::eFalling);
-		}
-	}*/
+		ChangeState(EState::eReady);
+	}
+	else if (CGameManager::GameState() == EGameState::eEXStage)
+	{
+		ChangeState(EState::eReady);
+	}
 
 	if (mMoveSpeedY <= -4.0f)
 	{
@@ -3946,6 +4445,18 @@ void CPlayer::Update()
 		// 強攻撃
 	case EState::eAttackStrong:
 		UpdateAttackStrong();
+		break;
+		// 範囲攻撃開始
+	case EState::eAttackSmashStart:
+		UpdateSmashAttackStart();
+		break;
+		// 範囲攻撃中
+	case EState::eAttackSmash:
+		UpdateSmashAttack();
+		break;
+		// 範囲攻撃開始
+	case EState::eAttackSmashWait:
+		UpdateSmashAttackEnd();
 		break;
 		// 強攻撃終了待ち
 	case EState::eAttackStrongWait:
@@ -4164,17 +4675,14 @@ void CPlayer::Update()
 	{
 		UpdateMove();
 	}
-
 	// 準備中でなければ、移動処理などを行う
 	if (mState != EState::eReady)
 	{
-		if (!mClimb)
+		if (!mClimb|| !mIsSmashAttack ||
+			mState != EState::eDeath ||
+			mState != EState::eDeathEnd)
 		{
 			mMoveSpeedY -= GRAVITY;
-		}
-		else if (mState != EState::eDeath || mState != EState::eDeathEnd)
-		{
-			mMoveSpeedY = 0.0f;
 		}
 
 		CVector moveSpeed = mMoveSpeed + CVector(0.0f, mMoveSpeedY, 0.0f);
@@ -4233,6 +4741,21 @@ void CPlayer::Update()
 				target = moveSpeed;
 				target.Y(0.0f);
 				target.Normalize();
+				// ロックオン中は敵の方向を向く
+				if (mpLockedOnEnemy || mpNearestEnemy || mpNextEnemy && mIsCameraReset)
+				{
+					// プレイヤーと敵の位置を取得
+					CVector playerPos = Position();
+					CVector enemyPos = mpLockedOnEnemy->Position();
+
+					// プレイヤーから敵への方向ベクトルを計算
+					CVector directionToEnemy = enemyPos - playerPos;
+					directionToEnemy.Y(0.0f); // 高さ方向（Y軸）は無視
+
+					// 敵の方向を向く
+					target = directionToEnemy;
+					target.Normalize();
+				}
 			}
 			CVector forward = CVector::Slerp(current, target, rotationSpeed);
 			Rotation(CQuaternion::LookRotation(forward));
@@ -4279,40 +4802,40 @@ void CPlayer::Update()
 		}
 	}
 
-	// キャラクターのデバッグ表示
-	static bool debug = false;
-	if (CInput::PushKey('R'))
-	{
-		debug = !debug;
-	}
-	if (debug)
-	{
-		//CDebugPrint::Print(" レベル %d\n", mCharaMaxStatus.level);
-		CDebugPrint::Print(" HP%d / %d\n", mCharaStatus.hp, mCharaMaxStatus.hp);
-		CDebugPrint::Print(" 攻撃値%d\n", mCharaStatus.power);
-		CDebugPrint::Print(" ST%d / %d\n", mCharaStatus.stamina, mCharaMaxStatus.stamina);
-	}
-	// 1キーを押しながら、↑ ↓ でHP増減
-	if (CInput::Key('1'))
-	{
-		if (CInput::PushKey(VK_UP)) mCharaStatus.hp++;
-		else if (CInput::PushKey(VK_DOWN)) mCharaStatus.hp--;
-	}
-	else if (CInput::Key('2'))
-	{
-		if (CInput::PushKey(VK_UP))
-		{
-			mIsStartStage2 = true;
-			mIsStartStage3 = true;
-			//mIsStartStage4 = true;
-		}
-		else if (CInput::PushKey(VK_DOWN))
-		{
-			mIsStartStage2 = false;
-			mIsStartStage3 = false;
-			mIsStartStage4 = false;
-		}
-	}
+	//// キャラクターのデバッグ表示
+	//static bool debug = false;
+	//if (CInput::PushKey('R'))
+	//{
+	//	debug = !debug;
+	//}
+	//if (debug)
+	//{
+	//	//CDebugPrint::Print(" レベル %d\n", mCharaMaxStatus.level);
+	//	CDebugPrint::Print(" HP%d / %d\n", mCharaStatus.hp, mCharaMaxStatus.hp);
+	//	CDebugPrint::Print(" 攻撃値%d\n", mCharaStatus.power);
+	//	CDebugPrint::Print(" ST%d / %d\n", mCharaStatus.stamina, mCharaMaxStatus.stamina);
+	//}
+	//// 1キーを押しながら、↑ ↓ でHP増減
+	//if (CInput::Key('1'))
+	//{
+	//	if (CInput::PushKey(VK_UP)) mCharaStatus.hp++;
+	//	else if (CInput::PushKey(VK_DOWN)) mCharaStatus.hp--;
+	//}
+	//else if (CInput::Key('2'))
+	//{
+	//	if (CInput::PushKey(VK_UP))
+	//	{
+	//		mIsStartStage2 = true;
+	//		mIsStartStage3 = true;
+	//		//mIsStartStage4 = true;
+	//	}
+	//	else if (CInput::PushKey(VK_DOWN))
+	//	{
+	//		mIsStartStage2 = false;
+	//		mIsStartStage3 = false;
+	//		mIsStartStage4 = false;
+	//	}
+	//}
 
 	// 現在のHPを設定
 	mpHpGauge->SetValue(mCharaStatus.hp);
@@ -4334,13 +4857,15 @@ void CPlayer::Update()
 	// キャラクターの更新
 	CXCharacter::Update();
 	mpDamageCol->Update();
+	mpEnemyCollider->Update();
 	mpColliderCapsule->Update();
 	mpSword->UpdateAttachMtx();
 	
 	if (CGameManager::StageNo() == 1 ||
 		CGameManager::StageNo() == 2 ||
 		CGameManager::StageNo() == 3 ||
-		CGameManager::StageNo() == 4)
+		CGameManager::StageNo() == 4 ||
+		CGameManager::StageNo() == 5)
 	{
 		mpHpGauge->SetShow(true);
 		mpStaminaGauge->SetShow(true);
@@ -4361,8 +4886,12 @@ void CPlayer::Update()
 		mpSpikyBallUI->Close();
 		mpMeat->SetShow(false);
 		mpMeat->Close();
+		mpCanLockOn->SetShow(false);
+		mpLockOn->SetShow(false);
+		mpQUI->SetShow(false);
+		mpTABUI->SetShow(false);
 	}
-
+	CDebugPrint::Print("mIsGrounded:%s\n", mIsGrounded ? "true" : "false");
 	mIsGrounded = false;
 	mClimbWall = false;
 	mClimbWallTop = false;
@@ -4383,86 +4912,12 @@ void CPlayer::Update()
 	/*CDebugPrint::Print("mIsGrounded:%s\n", mIsGrounded ? "true" : "false");*/
 	//CDebugPrint::Print("mSpeedY:%f\n", mMoveSpeedY);
 	//CDebugPrint::Print("Position: %f %f %f\n", Position().X(), Position().Y(), Position().Z());
-}
 
-// アイテムを取得
-void CPlayer::AddItem(ItemType item)
-{
-	// アイテムを3つ持っていなかったら、
-	// 追加
-	if (mInventory[item] <= 3)
-	{
-		mInventory[item]++;
-	}
-}
+	CDebugPrint::Print("mIsDeath:%s\n", mIsDeath ? "true" : "false");
+	CDebugPrint::Print("mDeath:%s\n", mDeath ? "true" : "false");
 
-// 取得したアイテムを判定
-bool CPlayer::HasItem(ItemType item)
-{
-	if (mInventory.empty()) {
-		return ItemType::NONE == item;
-	}
-	return mInventory.find(item) != mInventory.end() && mInventory[item] > 0;
-}
-
-// 取得したアイテムを判定
-void CPlayer::ClearItems()
-{
-	mInventory.clear();
-	//AddItem(ItemType::NONE);
-}
-
-// アイテムの取得の条件付けを今後行うための処理
-void CPlayer::PickUpItem(ItemType item)
-{
-	AddItem(item);
-}
-
-// 無敵アイテムの使用
-void CPlayer::UseInvincibleItem()
-{
-	if (HasItem(ItemType::INVINCIBLE)) {
-		TakeInvincible();
-		RemoveItem(ItemType::INVINCIBLE);
-	}
-}
-
-// 回復薬の使用
-void CPlayer::UseHealingItem()
-{
-	if (HasItem(ItemType::HEALING)) {
-		TakeRecovery(1);
-		RemoveItem(ItemType::HEALING);
-	}
-}
-
-// 攻撃力アップアイテムの使用
-void CPlayer::UseAttackPotion()
-{
-	if (HasItem(ItemType::ATTACK_UP)) {
-		TakeAttackPotion(1);
-		RemoveItem(ItemType::ATTACK_UP);
-	}
-}
-
-// とげボールの使用
-void CPlayer::UseSpikyBall()
-{
-}
-
-// インベントリから特定のアイテムを削除
-void CPlayer::RemoveItem(ItemType item)
-{
-	if (mInventory[item] > 0) {
-		mInventory[item]--;
-		if (mInventory[item] == 0) {
-			mInventory.erase(item);	 // アイテムが0になったらインベントリから削除する
-		}
-	}
-	else if (CGameManager::StageNo() == 0)
-	{
-		mInventory.erase(item);
-	}
+	mIsStartStage4 = true;
+	mIsStartEXStage = true;
 }
 
 // 描画
