@@ -11,6 +11,7 @@ class CModel;
 
 class CMyShader : public CShader {
 private:
+	void SetShader(CMaterial* material);
 	//ƒ}ƒeƒŠƒAƒ‹‚Ìİ’è
 	void SetShader(CModelX* model, CMaterial* material);
 	//•`‰æˆ—
@@ -18,6 +19,8 @@ private:
 public:
 	//•`‰æˆ—
 	void Render(CModelX* model, CMatrix* combinedMatrix);
+	void Render(const CModel* model, const CMatrix& matrix);
+
 	//	void Render(CModel *mesh);
 };
 

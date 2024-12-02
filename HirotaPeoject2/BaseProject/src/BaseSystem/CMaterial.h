@@ -21,7 +21,7 @@ private:
 	void DisableBlend();
 
 	//マテリアル毎の頂点数
-	int mVertexNum;
+	//int mVertexNum;
 	//拡散光の色RGBA
 	float mDiffuse[4];
 	float mPower;
@@ -38,6 +38,11 @@ private:
 	EBlend mBlendType;
 
 public:
+	void Specular(float r, float g, float b);
+	void Emissive(float r, float g, float b);
+	void Power(float p);
+	//マテリアル毎の頂点数
+	int mVertexNum;
 	//テクスチャ読み込み
 	bool LoadTexture(std::string name, std::string path, bool dontDelete);
 	//テクスチャの取得

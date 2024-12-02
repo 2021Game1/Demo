@@ -1,3 +1,4 @@
+#include "glew.h"
 #include "CModel.h"
 #include "CVector.h"
 #include "Maths.h"
@@ -137,6 +138,8 @@ bool CModel::Load(std::string path, bool dontDelete)
 
 	CreateVertexBuffer();
 
+	mShader.Load("shader\\skinmesh.vert", "shader\\skinmesh.flag");
+
 	return true;
 }
 
@@ -205,6 +208,15 @@ bool CModel::LoadMaterial(std::string path, bool dontDelete)
 			std::string texPath = dirPath + str[1];
 			mpMaterials[idx]->LoadTexture(str[1], texPath.c_str(), dontDelete);
 		}
+		else if (strcmp(str[0], "Ns") == 0) {
+			mpMaterials[idx]->Power(atof(str[1]));
+		}
+		else if (strcmp(str[0], "Ks") == 0) {
+			mpMaterials[idx]->Specular(atof(str[1]), atof(str[2]), atof(str[3]));
+		}
+		else if (strcmp(str[0], "Ke") == 0) {
+			mpMaterials[idx]->Emissive(atof(str[1]), atof(str[2]), atof(str[3]));
+		}
 
 	}
 
@@ -236,6 +248,7 @@ CModel::CModel()
 	, mIsDepthWrite(true)
 	, mIsCullFace(true)
 	, mBlendMode(EBlend::eAlpha)
+	, mMyVertexBufferId(0)
 {
 }
 
@@ -337,6 +350,10 @@ void CModel::SetupEffectSettings()
 //Render(行列)
 void CModel::Render(const CMatrix& m)
 {
+	mShader.Render(this, m);
+
+	return;
+
 	// 完全に透明な状態であれば、描画しない
 	if (mColor.A() == 0.0f) return;
 
@@ -394,6 +411,10 @@ void CModel::Render(const CMatrix& m)
 
 void CModel::CreateVertexBuffer()
 {
+	//メッシュ毎に一回作成すればよい
+	if (mMyVertexBufferId > 0)
+		return;
+
 	mpVertexes = new CVertex[mTriangles.size() * 3];
 	int idx = 0;
 	for (int i = 0; i < mpMaterials.size(); i++)
@@ -415,5 +436,16 @@ void CModel::CreateVertexBuffer()
 			}
 		}
 	}
+
+	//頂点バッファの作成
+	glGenBuffers(1, &mMyVertexBufferId);
+	//頂点バッファをバインド
+	glBindBuffer(GL_ARRAY_BUFFER, mMyVertexBufferId);
+	//バインドしたバッファにデータを転送
+	glBufferData(GL_ARRAY_BUFFER
+		, sizeof(CVertex) * mTriangles.size() * 3
+		, mpVertexes, GL_STATIC_DRAW);
+	//バインド解除
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
