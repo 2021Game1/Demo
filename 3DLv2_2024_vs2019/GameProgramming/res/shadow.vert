@@ -34,4 +34,5 @@ void main(void)
 
 	//デプステクスチャのテクスチャ座標を求める
 	TexCoord1 = TextureMatrix1 * comb * vec4(aPosition,1);
+	TexCoord1 = vec4(TexCoord1.xyz / TexCoord1.w, 1.0);
 }
