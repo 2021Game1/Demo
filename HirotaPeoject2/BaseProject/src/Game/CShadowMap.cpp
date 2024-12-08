@@ -2,6 +2,8 @@
 #include "CShadowMap.h"
 #include "CMatrix.h"
 
+CMatrix	CShadowMap::msModelviewLight; //モデルビュー変換行列の保存用
+
 CShadowMap::CShadowMap()
 	: mDepthTextureID(0)
 	, mFb(0)
@@ -47,37 +49,6 @@ void CShadowMap::Init()
 	// GL_CLAMP 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	// 書き込むポリゴンのテクスチャ座標地のRとテクスチャとの比較を行うようにする
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-
-	// もしRの値がテクスチャの値以下なら真(つまり日向)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-
-	// 比較の結果をアルファ値として得る
-	glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_ALPHA);
-	// アルファテストの比較関数
-	glAlphaFunc(GL_GEQUAL, 0.5f);
-	
-	// テクスチャ座標に視点座標系における物体の座標値を用いる
-	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-
-	// 生成したテクスチャ座標をそのまま(S,T,R,Q)に使う
-	static const GLdouble genfunc[][4] =
-	{
-		{1.0,0.0,0.0,0.0},
-		{0.0,1.0,0.0,0.0},
-		{0.0,0.0,1.0,0.0},
-		{0.0,0.0,0.0,1.0},
-	};
-
-	glTexGendv(GL_S, GL_EYE_PLANE, genfunc[0]);
-	glTexGendv(GL_T, GL_EYE_PLANE, genfunc[1]);
-	glTexGendv(GL_R, GL_EYE_PLANE, genfunc[2]);
-	glTexGendv(GL_Q, GL_EYE_PLANE, genfunc[3]);
 
 	// テクスチャの解除
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -206,88 +177,40 @@ void CShadowMap::Render()
 	// フレームバッファとデプスバッファをクリアする
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// モデルビュー変換行列の設定
-	// モデルビュー行列に切り替え
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glMultMatrixf(modelviewCamera.M());
-
-	// 光源の明るさを陰の部分での明るさに設定
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, mShadowCol);
-
-	// 影の描画
-	if (mpRender)
-	{
-		(*mpRender)();
-	}
-
-	// デプステクスチャの設定
+	/* テクスチャユニット１に切り替える */
 	glActiveTexture(GL_TEXTURE1);
+
+	/* テクスチャのモデルビュー変換行列と透視変換行列の積をかける */
+	//テクスチャ変換行列を作成
+	msModelviewLight = modelviewLight * CMatrix().Scale(0.5, 0.5, 0.5) * CMatrix().Translate(0.5, 0.5, 0.5);
+
+	/* モデルビュー変換行列に戻す */
+	glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
+	glLoadMatrixf(modelviewCamera.M());
+
+	/* テクスチャオブジェクトを結合する */
 	glBindTexture(GL_TEXTURE_2D, mDepthTextureID);
 
-	// テクスチャ変換行列を設定する
-	glMatrixMode(GL_TEXTURE);
-	glLoadIdentity();
-
-	// テクスチャ座標の[-1,1]の範囲を[0,1]の範囲に収める
-	glTranslated(0.5, 0.5, 0.5);
-	glScaled(0.5, 0.5, 0.5);
-	// テクスチャのモデルビュー変換行列と透視変換行列の積をかける
-	glMultMatrixf(modelviewLight.M());
-
-	// 現在のモデルビュー変換の逆変換をかけておく
-	CMatrix inverse = modelviewCamera.Transpose();
-	inverse.M(0, 3, 0);
-	inverse.M(1, 3, 0);
-	inverse.M(2, 3, 0);
-	inverse = CMatrix().Translate(-modelviewCamera.M(3, 0), -modelviewCamera.M(3, 1),
-		-modelviewCamera.M(3, 2)) * inverse;
-	glMultMatrixf(inverse.M());
-
-	// モデルビュー変換行列に戻す
-	glMatrixMode(GL_MODELVIEW);
-
-	// テクスチャマッピングとテクスチャ座標の自動生成を有効にする
+	/* テクスチャマッピングを有効にする */
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_GEN_S);
-	glEnable(GL_TEXTURE_GEN_T);
-	glEnable(GL_TEXTURE_GEN_R);
-	glEnable(GL_TEXTURE_GEN_Q);
 
-	// アルファテストを有効にして影の部分だけを描画する
-	glEnable(GL_ALPHA_TEST);
-	// 日向の部分がもとの図形に重ねて描かれるように奥行きの比較関数を変更する
-	glDepthFunc(GL_LEQUAL);
-
-	// 光源の明るさを日向の部分での明るさに設定
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightcol);
-	// テクスチャユニット0に切り替える
+	/* テクスチャユニット0に切り替える */
 	glActiveTexture(GL_TEXTURE0);
-	// 日向の描画
+
 	if (mpRender)
 	{
+		//glMultMatrixf(modelviewCamera.M());
 		(*mpRender)();
 	}
 
-	// 奥行きの比較関数をもとに戻す
-	glDepthFunc(GL_LESS);
-	// アルファテストを無効にする
-	glDisable(GL_ALPHA_TEST);
-
-	// テクスチャマッピングとテクスチャ座標の自動生成を無効にする
-	glDisable(GL_TEXTURE_GEN_S);
-	glDisable(GL_TEXTURE_GEN_T);
-	glDisable(GL_TEXTURE_GEN_R);
-	glDisable(GL_TEXTURE_GEN_Q);
-	glDisable(GL_TEXTURE_2D);
-
-	// デプステクスチャを解除する
+	/* テクスチャユニット１に切り替える */
 	glActiveTexture(GL_TEXTURE1);
+	/* テクスチャオブジェクトの結合を解除する */
 	glBindTexture(GL_TEXTURE_2D, 0);
-	// テクスチャ変換行列を設定する
-	glMatrixMode(GL_TEXTURE);
-	glLoadIdentity();
+	/* テクスチャマッピングを無効にする */
+	glDisable(GL_TEXTURE_2D);
+	/* テクスチャユニット0に切り替える */
 	glActiveTexture(GL_TEXTURE0);
 
-	glMatrixMode(GL_MODELVIEW);
 }

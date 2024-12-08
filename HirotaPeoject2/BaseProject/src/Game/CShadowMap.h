@@ -25,6 +25,8 @@ class CShadowMap
 	// 初期化処理
 	void Init();
 public:
+	static CMatrix	msModelviewLight; //モデルビュー変換行列の保存用
+
 	// コンストラクタ
 	CShadowMap();
 	// デストラクタ

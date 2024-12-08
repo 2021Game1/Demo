@@ -44,10 +44,10 @@ CTaskManager::CTaskManager()
 
 {
 	// シャドウマップ
-	//float shadowColor[] = { 0.3f, 0.3f, 0.3f, 0.15f };  //影の色
-	//float lightPos[] = { 600.0f, 2000, 0.0f };  //光源の位置 :2000.0f
-	//mShadowMap.Init(TEXWIDTH, TEXHEIGHT, RenderShadow,
-	//	shadowColor, lightPos);
+	float shadowColor[] = { 0.3f, 0.3f, 0.3f, 0.15f };  //影の色
+	float lightPos[] = { 600.0f, 2000, 0.0f };  //光源の位置 :2000.0f
+	mShadowMap.Init(TEXWIDTH, TEXHEIGHT, RenderShadow,
+		shadowColor, lightPos);
 }
 
 // デストラクタ
@@ -321,15 +321,15 @@ void CTaskManager::Render()
 		mShadowMap.Render();
 
 		// 3D関連の描画
-		for (CTask* task : m3dTasks)
-		{
-			// 表示フラグがオンならば、
-			if (task->IsShow())
-			{
-				// タスクを描画
-				task->Render();
-			}
-		}
+		//for (CTask* task : m3dTasks)
+		//{
+		//	// 表示フラグがオンならば、
+		//	if (task->IsShow())
+		//	{
+		//		// タスクを描画
+		//		task->Render();
+		//	}
+		//}
 	}
 
 	// 2D描画用のカメラに切り替える

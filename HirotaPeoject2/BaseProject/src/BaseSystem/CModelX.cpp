@@ -559,7 +559,7 @@ bool CModelX::Load(std::string path, bool dontDelete)
 	//スキンマトリックスのエリア作成
 	mpSkinningMatrix = new CMatrix[mFrame.size()];
 	//シェーダー読み込み
-	mShader.Load("Shader\\skinmesh.vert", "Shader\\skinmesh.flag");
+	mShader.Load("Shader\\shadow.vert", "Shader\\shadow.flag");
 
 	return true;
 
@@ -837,6 +837,7 @@ void CMesh::CreateVertexBuffer()
 			}
 			//マテリアル毎の頂点数を追加する
 			mMaterialVertexCount.push_back(k - w);
+			mMaterial[i]->mVertexNum = k - w;
 		}
 		//頂点バッファの作成
 		glGenBuffers(1, &mMyVertexBufferId);

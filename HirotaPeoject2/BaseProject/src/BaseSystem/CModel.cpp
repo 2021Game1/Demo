@@ -138,7 +138,7 @@ bool CModel::Load(std::string path, bool dontDelete)
 
 	CreateVertexBuffer();
 
-	mShader.Load("shader\\skinmesh.vert", "shader\\skinmesh.flag");
+	mShader.Load("shader\\shadow.vert", "shader\\shadow.flag");
 
 	return true;
 }

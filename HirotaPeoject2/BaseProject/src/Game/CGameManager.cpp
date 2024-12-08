@@ -344,7 +344,7 @@ void CGameManager::UpdateEXStage()
 	ScoreReset();
 
 	mElapsedStageTime += Time::DeltaTime();
-	if (mElapsedStageTime > 15.0f)
+	if (mElapsedStageTime > 35.0f)
 	{
 		ChangeState(EGameState::eGame);
 	}
