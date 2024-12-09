@@ -1,4 +1,4 @@
-#version 330
+#version 330 core
 uniform vec3 lightVec;
 uniform vec3 lightAmbientColor;
 uniform vec3 lightDiffuseColor;
@@ -10,8 +10,8 @@ uniform vec3 Emissive;
 uniform float Pow;
 uniform int TextureFlg;
 uniform sampler2D Sampler;	//テクスチャ
-//uniform sampler2DShadow DepthTexture;	//デプステクスチャ
-uniform sampler2D DepthTexture;	//デプステクスチャ
+uniform sampler2DShadow DepthTexture;	//デプステクスチャ
+//uniform sampler2D DepthTexture;	//デプステクスチャ
 
 //頂点シェーダーから受け取る変数
 in vec3 N;//法線ベクトル
@@ -36,11 +36,11 @@ void main() {
 		texColor = texture(Sampler, TexCoord0);
 	}
 	//デプステクスチャの値を取得
-//	float shd = shadow2DProj(DepthTexture, TexCoord1).r;
-	float shd = texture(DepthTexture, TexCoord1.xy).r + 0.0000025;
+	float shd = shadow2DProj(DepthTexture, TexCoord1).r;
+	//float shd = texture(DepthTexture, TexCoord1.xy).r + 0.0000025;
 	//値が0は影にする
-//	if(shd == 0.0) 
-	if(shd < TexCoord1.z)
+	if(shd == 0.0) 
+	//if(shd < TexCoord1.z)
 	{
 		texColor = texColor * 0.4;
 		texColor.w = 1.0;

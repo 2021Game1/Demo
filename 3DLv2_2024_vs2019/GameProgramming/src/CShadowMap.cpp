@@ -142,7 +142,7 @@ void CShadowMap::Render()
 	glLoadIdentity(); //行列の初期化
 
 	//光源位置から見るように行列を設定する
-	gluPerspective(60.0, (GLdouble)mTextureWidth / (GLdouble)mTextureHeight, 1.0, 100000.0);
+	gluPerspective(75.0, (GLdouble)mTextureWidth / (GLdouble)mTextureHeight, 1.0, 100000.0);
 	gluLookAt(mLightPos[0], mLightPos[1], mLightPos[2], mLightPos[0] - 10.0f, 0, mLightPos[2] - 10.0f, 0.0, 1.0, 0.0);
 	/* 設定した透視変換行列×モデルビュー変換行列を保存しておく */
 	glGetFloatv(GL_MODELVIEW_MATRIX, modelviewLight.M());
@@ -156,11 +156,17 @@ void CShadowMap::Render()
 	/* デプスバッファには背面のポリゴンの奥行きを記録するようにする */
 	glCullFace(GL_FRONT);
 
-	//デプステクスチャへの描画
+	// シャドウマップの描画時にバイアスを適用する
+	glEnable(GL_POLYGON_OFFSET_FILL);
+	glPolygonOffset(1.5f, 3.5f);
+
+	// デプステクスチャへの描画
 	if (mpRender)
 	{
 		(*mpRender)();
 	}
+
+	glDisable(GL_POLYGON_OFFSET_FILL);
 
 	/* フレームバッファオブジェクトへのレンダリング終了 */
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
