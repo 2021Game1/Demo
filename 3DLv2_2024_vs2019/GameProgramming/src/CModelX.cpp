@@ -331,7 +331,7 @@ void CModelX::RenderShader(CMatrix* pCombinedMatrix)
 	mShader.Render(this, pCombinedMatrix);
 }
 
-void CModelX::AddAnimationSet(const char* file)
+size_t CModelX::AddAnimationSet(const char* file)
 {
 	//
 //ファイルサイズを取得する
@@ -340,7 +340,7 @@ void CModelX::AddAnimationSet(const char* file)
 	fp = fopen(file, "rb");	//ファイルをオープンする
 	if (fp == NULL) {	//エラーチェック
 		printf("fopen error:%s￥n", file);
-		return;
+		return 0;
 	}
 	//ファイルの最後へ移動
 	fseek(fp, 0L, SEEK_END);
@@ -373,7 +373,7 @@ void CModelX::AddAnimationSet(const char* file)
 		}
 	}
 	SAFE_DELETE_ARRAY(buf);	//確保した領域を開放する
-
+	return mAnimationSet.size();
 }
 
 bool CModelX::IsLoaded()

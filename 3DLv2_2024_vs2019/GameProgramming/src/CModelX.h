@@ -211,7 +211,7 @@ public:
 	void RenderShader(CMatrix* m);
 
 	//アニメーションセットの追加
-	void AddAnimationSet(const char* file);
+	size_t AddAnimationSet(const char* file);
 
 	bool IsLoaded();
 	/*

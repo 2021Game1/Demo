@@ -14,10 +14,9 @@ public:
 	virtual void Collision() {}
 
 	//デフォルトコンストラクタ
-	CTask()
-		: mpNext(nullptr), mpPrev(nullptr), mPriority(0), mEnabled(true) {}
+	CTask();
 	//デストラクタ virtualにしないと子クラスのデストラクタが呼ばれない
-	virtual ~CTask() {}
+	virtual ~CTask();
 	//更新
 	virtual void Update() {}
 	//描画

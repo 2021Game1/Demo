@@ -154,7 +154,8 @@ void CShadowMap::Render()
 	glDisable(GL_LIGHTING);
 
 	/* デプスバッファには背面のポリゴンの奥行きを記録するようにする */
-	glCullFace(GL_FRONT);
+	//glCullFace(GL_FRONT);
+	glCullFace(GL_BACK); //表面に変更
 
 	// シャドウマップの描画時にバイアスを適用する
 	glEnable(GL_POLYGON_OFFSET_FILL);

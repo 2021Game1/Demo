@@ -34,6 +34,9 @@
     <Filter Include="ソース ファイル\Task">
       <UniqueIdentifier>{aea615ad-a553-4e69-bac9-0eea21bcdbe2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Character\Paladin">
+      <UniqueIdentifier>{b8fa390b-6e86-43ec-8bf3-97ea8fc3de80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -129,9 +132,6 @@
     <ClCompile Include="src\CXEnemy.cpp">
       <Filter>ソース ファイル\Character</Filter>
     </ClCompile>
-    <ClCompile Include="src\CPaladin.cpp">
-      <Filter>ソース ファイル\Character</Filter>
-    </ClCompile>
     <ClCompile Include="src\CMyShader.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
@@ -152,6 +152,24 @@
     </ClCompile>
     <ClCompile Include="src\CShadowMap.cpp">
       <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CPaladin.cpp">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CPaladinIdle.cpp">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CPaladinWalk.cpp">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CPaladinAttack.cpp">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CPaladinBase.cpp">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CTask.cpp">
+      <Filter>ソース ファイル\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +272,6 @@
     <ClInclude Include="src\CXEnemy.h">
       <Filter>ソース ファイル\Character</Filter>
     </ClInclude>
-    <ClInclude Include="src\CPaladin.h">
-      <Filter>ソース ファイル\Character</Filter>
-    </ClInclude>
     <ClInclude Include="src\CMyShader.h">
       <Filter>ソース ファイル\Model</Filter>
     </ClInclude>
@@ -277,6 +292,24 @@
     </ClInclude>
     <ClInclude Include="src\CShadowMap.h">
       <Filter>ソース ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CPaladin.h">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CState.h">
+      <Filter>ソース ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CPaladinAttack.h">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CPaladinWalk.h">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CPaladinIdle.h">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CPaladinBase.h">
+      <Filter>ソース ファイル\Character\Paladin</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

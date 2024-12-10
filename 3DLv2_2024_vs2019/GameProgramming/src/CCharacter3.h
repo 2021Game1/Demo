@@ -57,6 +57,10 @@ public:
 	{
 		return mState;
 	}
+	void AddTargetPosition(const CVector& v)
+	{
+		mTargetPosition = mTargetPosition + v;
+	}
 protected:
 	CVector mAdjust;
 	bool mGrounded;
