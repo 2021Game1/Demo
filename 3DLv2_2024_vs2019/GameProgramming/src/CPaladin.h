@@ -1,7 +1,6 @@
 #ifndef CPALADIN_H
 #define CPALADIN_H
-
-#include "CPaladinBase.h"
+#include "CXCharacter.h"
 #include "CColliderCapsule.h"
 #include "CInput.h"
 #include "CState.h"
