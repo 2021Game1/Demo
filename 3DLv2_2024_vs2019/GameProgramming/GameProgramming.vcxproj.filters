@@ -165,9 +165,6 @@
     <ClCompile Include="src\CPaladinAttack.cpp">
       <Filter>ソース ファイル\Character\Paladin</Filter>
     </ClCompile>
-    <ClCompile Include="src\CPaladinBase.cpp">
-      <Filter>ソース ファイル\Character\Paladin</Filter>
-    </ClCompile>
     <ClCompile Include="src\CTask.cpp">
       <Filter>ソース ファイル\Task</Filter>
     </ClCompile>
@@ -312,9 +309,6 @@
       <Filter>ソース ファイル\Character\Paladin</Filter>
     </ClInclude>
     <ClInclude Include="src\CPaladinIdle.h">
-      <Filter>ソース ファイル\Character\Paladin</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CPaladinBase.h">
       <Filter>ソース ファイル\Character\Paladin</Filter>
     </ClInclude>
     <ClInclude Include="src\CPaladinJump.h">

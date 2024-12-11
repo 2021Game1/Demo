@@ -35,7 +35,6 @@
     <ClCompile Include="src\CMyShader.cpp" />
     <ClCompile Include="src\CPaladin.cpp" />
     <ClCompile Include="src\CPaladinAttack.cpp" />
-    <ClCompile Include="src\CPaladinBase.cpp" />
     <ClCompile Include="src\CPaladinIdle.cpp" />
     <ClCompile Include="src\CPaladinJump.cpp" />
     <ClCompile Include="src\CPaladinRun.cpp" />
@@ -83,7 +82,6 @@
     <ClInclude Include="src\CMyShader.h" />
     <ClInclude Include="src\CPaladin.h" />
     <ClInclude Include="src\CPaladinAttack.h" />
-    <ClInclude Include="src\CPaladinBase.h" />
     <ClInclude Include="src\CPaladinIdle.h" />
     <ClInclude Include="src\CPaladinJump.h" />
     <ClInclude Include="src\CPaladinRun.h" />
