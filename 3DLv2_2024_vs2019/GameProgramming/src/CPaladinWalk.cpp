@@ -3,7 +3,7 @@
 
 // CPaladinWalk class
 
-#define ANIMATION_WALK "res\\paladin\\Paladin WProp J Nordstrom@Sword And Shield Walk.fbx.x"
+#define ANIMATION_FILE "res\\paladin\\Paladin WProp J Nordstrom@Sword And Shield Walk.fbx.x"
 #define ANIMATION_SIZE 33
 
 CPaladinWalk::CPaladinWalk(CPaladin* parent)
@@ -12,7 +12,7 @@ CPaladinWalk::CPaladinWalk(CPaladin* parent)
 	mState = CCharacter3::EState::EWALK;
 	if (mpParent->Model()->IsLoaded())
 	{
-		mAnimNo = mpParent->Model()->AddAnimationSet(ANIMATION_WALK) - 1;
+		mAnimNo = mpParent->Model()->AddAnimationSet(ANIMATION_FILE) - 1;
 	}
 }
 
@@ -98,6 +98,5 @@ void CPaladinWalk::Update()
 	if (mInput.Key(VK_SPACE))
 	{
 		mState = CCharacter3::EState::EJUMP;
-		//mVelocityG = 1.0f;
 	}
 }

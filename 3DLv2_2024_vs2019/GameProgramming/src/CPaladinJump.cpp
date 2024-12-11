@@ -1,0 +1,29 @@
+#include "CPaladinJump.h"
+
+#define ANIMATION_FILE "res\\paladin\\Sword And Shield Jump.x"
+#define ANIMATION_SIZE 51
+
+CPaladinJump::CPaladinJump(CPaladin* parent)
+{
+	mpParent = parent;
+	mState = CCharacter3::EState::EJUMP;
+	if (mpParent->Model()->IsLoaded())
+	{
+		mAnimNo = mpParent->Model()->AddAnimationSet(ANIMATION_FILE) - 1;
+	}
+}
+
+void CPaladinJump::Start()
+{
+	mpParent->ChangeAnimation(mAnimNo, false, ANIMATION_SIZE);
+	mState = CCharacter3::EState::EJUMP;
+	mpParent->VelocityG(2.5);
+}
+
+void CPaladinJump::Update()
+{
+	if (mpParent->IsAnimationFinished())
+	{
+		mState = CCharacter3::EState::EIDLE;
+	}
+}

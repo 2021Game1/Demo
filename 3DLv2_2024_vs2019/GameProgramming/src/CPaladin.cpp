@@ -4,11 +4,11 @@
 #include "CPaladinIdle.h"
 #include "CPaladinWalk.h"
 #include "CPaladinAttack.h"
+#include "CPaladinJump.h"
 
 
 #define PALADIN_MODEL_PATH "res\\paladin\\paladin.x"
 //追加のアニメーションセット
-#define ANIMATION_JUMP "res\\paladin\\Sword And Shield Jump.x"
 
 //#define ANIMATION_ATTACKSP1 "res\\paladin\\SwordAndShieldAttack.x"
 
@@ -33,11 +33,6 @@ CPaladin::CPaladin()
 	if (sModel.IsLoaded() == false)
 	{
 		sModel.Load(PALADIN_MODEL_PATH);
-		//アニメーションの追加
-		//sModel.AddAnimationSet(ANIMATION_IDLE);
-		//sModel.AddAnimationSet(ANIMATION_WALK);
-		//sModel.AddAnimationSet(ANIMATION_ATTACK);
-		sModel.AddAnimationSet(ANIMATION_JUMP);
 	}
 	Init(&sModel);
 	mColBody.Matrix(&mpCombinedMatrix[3]);
@@ -46,8 +41,10 @@ CPaladin::CPaladin()
 	mState = EState::EIDLE;
 	mpState = mpIdle = new CPaladinIdle(this);
 	mpState->Start();
+
 	mpWalk = new CPaladinWalk(this);
 	mpAttack = new CPaladinAttack(this);
+	mpJump = new CPaladinJump(this);
 }
 
 CPaladin::~CPaladin()
@@ -55,6 +52,7 @@ CPaladin::~CPaladin()
 	delete mpIdle;
 	delete mpWalk;
 	delete mpAttack;
+	delete mpJump;
 }
 
 CPaladin::CPaladin(const CVector& pos, const CVector& rot, const CVector& scale)
@@ -79,7 +77,7 @@ void CPaladin::Update()
 		switch (mState)
 		{
 		case EState::EJUMP:
-			Jump();
+			mpState = mpJump;
 			break;
 		case EState::EIDLE:
 			mpState = mpIdle;
@@ -165,11 +163,3 @@ void CPaladin::Collision()
 	CCollisionManager::Instance()->Collision(&mColSword, COLLISIONRANGE);
 }
 
-void CPaladin::Jump()
-{
-	ChangeAnimation(1, true, 51);
-	if (IsAnimationFinished())
-	{
-		mState = EState::EIDLE;
-	}
-}

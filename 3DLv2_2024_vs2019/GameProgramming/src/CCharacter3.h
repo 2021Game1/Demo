@@ -61,6 +61,10 @@ public:
 	{
 		mTargetPosition = mTargetPosition + v;
 	}
+	void VelocityG(float v)
+	{
+		mVelocityG = v;
+	}
 protected:
 	CVector mAdjust;
 	bool mGrounded;

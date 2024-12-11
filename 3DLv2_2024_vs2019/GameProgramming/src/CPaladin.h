@@ -17,19 +17,16 @@ public:
 	void Collision();
 	static CModelX* Model() { return &sModel; }
 private:
-	CState* mpState;
-	void Jump();
-	//void Idle();
-	//void Walk();
-	//void Attack();
+	static CModelX sModel;
 	CColliderCapsule mColBody;	//‘Ì
 	CColliderCapsule mColSword;
-	static CModelX sModel;
-	CInput mInput;
+	//CInput mInput;
 
+	CState* mpState;
 	CState* mpIdle;
 	CState* mpWalk;
 	CState* mpAttack;
+	CState* mpJump;
 };
 
 #define VELOCITY 0.1f

@@ -2,7 +2,7 @@
 
 // CPaladinIdle class
 
-#define ANIMATION_IDLE "res\\paladin\\Sword And Shield Idle.x"
+#define ANIMATION_FILE "res\\paladin\\Sword And Shield Idle.x"
 #define IDLE_ANIMATION_SIZE 221
 
 CPaladinIdle::CPaladinIdle(CPaladin* parent)
@@ -11,7 +11,7 @@ CPaladinIdle::CPaladinIdle(CPaladin* parent)
 	mState = CCharacter3::EState::EIDLE;
 	if (mpParent->Model()->IsLoaded())
 	{
-		mAnimNo = mpParent->Model()->AddAnimationSet(ANIMATION_IDLE) - 1;
+		mAnimNo = mpParent->Model()->AddAnimationSet(ANIMATION_FILE) - 1;
 	}
 }
 
@@ -39,6 +39,10 @@ void CPaladinIdle::Update()
 	if (flg)
 	{
 		mState = CCharacter3::EState::EWALK;
+	}
+	if (mInput.Key(VK_SPACE))
+	{
+		mState = CCharacter3::EState::EJUMP;
 	}
 	if (mInput.Key(VK_LBUTTON))
 	{
