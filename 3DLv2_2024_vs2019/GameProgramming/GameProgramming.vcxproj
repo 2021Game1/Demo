@@ -38,6 +38,7 @@
     <ClCompile Include="src\CPaladinBase.cpp" />
     <ClCompile Include="src\CPaladinIdle.cpp" />
     <ClCompile Include="src\CPaladinJump.cpp" />
+    <ClCompile Include="src\CPaladinRun.cpp" />
     <ClCompile Include="src\CPaladinWalk.cpp" />
     <ClCompile Include="src\CPlayer.cpp" />
     <ClCompile Include="src\CShader.cpp" />
@@ -85,6 +86,7 @@
     <ClInclude Include="src\CPaladinBase.h" />
     <ClInclude Include="src\CPaladinIdle.h" />
     <ClInclude Include="src\CPaladinJump.h" />
+    <ClInclude Include="src\CPaladinRun.h" />
     <ClInclude Include="src\CPaladinWalk.h" />
     <ClInclude Include="src\CPlayer.h" />
     <ClInclude Include="src\CShader.h" />

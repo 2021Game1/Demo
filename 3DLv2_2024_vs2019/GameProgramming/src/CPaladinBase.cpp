@@ -81,19 +81,19 @@ void CPaladinBase::Update()
 
 		if (v.Length() > 0.001f)
 		{
-			if (v.Length() < mVelocity)
+			if (v.Length() < mSpeed)
 			{
-				mVelocity -= 0.01f;
+				mSpeed -= 0.01f;
 			}
-			else if (mVelocity < VELOCITY)
+			else if (mSpeed < VELOCITY)
 			{
-				mVelocity += 0.01f;
+				mSpeed += 0.01f;
 			}
-			mPosition = mPosition + v.Normalize() * mVelocity;
+			mPosition = mPosition + v.Normalize() * mSpeed;
 		}
 		else
 		{
-			mVelocity = 0.0f;
+			mSpeed = 0.0f;
 		}
 	}
 

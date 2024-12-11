@@ -65,13 +65,18 @@ public:
 	{
 		mVelocityG = v;
 	}
+	const CVector& Velocity()
+	{
+		return mVelocity;
+	}
 protected:
 	CVector mAdjust;
 	bool mGrounded;
 	CVector mTargetPosition;
 	float mGravity;
 	float mVelocityG;
-	float mVelocity;
+	float mSpeed;
+	CVector mVelocity;
 
 	ETag mTag;
 	EState mState;

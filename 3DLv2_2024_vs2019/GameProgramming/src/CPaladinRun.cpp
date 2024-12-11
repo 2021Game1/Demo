@@ -1,28 +1,26 @@
-#include "CPaladinWalk.h"
+#include "CPaladinRun.h"
 #include "CActionCamera.h"
 
-// CPaladinWalk class
-
-#define ANIMATION_FILE "res\\paladin\\Paladin WProp J Nordstrom@Sword And Shield Walk.fbx.x"
+#define ANIMATION_FILE "res\\paladin\\Paladin WProp J Nordstrom@Sword And Shield Run.fbx.x"
 #define ANIMATION_SIZE 33
 
-CPaladinWalk::CPaladinWalk(CPaladin* parent)
+CPaladinRun::CPaladinRun(CPaladin* parent)
 {
 	mpParent = parent;
-	mState = CCharacter3::EState::EWALK;
+	mState = CCharacter3::EState::ERUN;
 	if (mpParent->Model()->IsLoaded())
 	{
 		mAnimNo = mpParent->Model()->AddAnimationSet(ANIMATION_FILE) - 1;
 	}
 }
 
-void CPaladinWalk::Start()
+void CPaladinRun::Start()
 {
 	mpParent->ChangeAnimation(mAnimNo, true, ANIMATION_SIZE);
-	mState = CCharacter3::EState::EWALK;
+	mState = CCharacter3::EState::ERUN;
 }
 
-void CPaladinWalk::Update()
+void CPaladinRun::Update()
 {
 	//ƒJƒƒ‰‚Ì‘O•û
 	CVector cameraZ = CActionCamera::Instance()->VectorZ();
@@ -82,7 +80,7 @@ void CPaladinWalk::Update()
 		}
 		//ˆÚ“®•ûŒü‚ÖˆÚ“®
 		//mTargetPosition = mTargetPosition + move * VELOCITY;
-		mpParent->AddTargetPosition(move * (VELOCITY / 2.0f));
+		mpParent->AddTargetPosition(move * VELOCITY);
 		mState = CCharacter3::EState::EWALK;
 	}
 	else
@@ -99,9 +97,16 @@ void CPaladinWalk::Update()
 	{
 		mState = CCharacter3::EState::EJUMP;
 	}
-
-	if (mInput.Key(VK_SHIFT))
+	else
 	{
-		mState = CCharacter3::EState::ERUN;
+		if (mInput.Key(VK_SHIFT))
+		{
+			mState = CCharacter3::EState::ERUN;
+		}
+		else
+		{
+			mState = CCharacter3::EState::EWALK;
+		}
 	}
+
 }

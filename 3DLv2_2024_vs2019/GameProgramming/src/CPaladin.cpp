@@ -5,6 +5,7 @@
 #include "CPaladinWalk.h"
 #include "CPaladinAttack.h"
 #include "CPaladinJump.h"
+#include "CPaladinRun.h"
 
 
 #define PALADIN_MODEL_PATH "res\\paladin\\paladin.x"
@@ -45,6 +46,7 @@ CPaladin::CPaladin()
 	mpWalk = new CPaladinWalk(this);
 	mpAttack = new CPaladinAttack(this);
 	mpJump = new CPaladinJump(this);
+	mpRun = new CPaladinRun(this);
 }
 
 CPaladin::~CPaladin()
@@ -76,6 +78,9 @@ void CPaladin::Update()
 		mState = mpState->State();
 		switch (mState)
 		{
+		case EState::ERUN:
+			mpState = mpRun;
+			break;
 		case EState::EJUMP:
 			mpState = mpJump;
 			break;
@@ -102,19 +107,20 @@ void CPaladin::Update()
 
 		if (v.Length() > 0.001f)
 		{
-			if (v.Length() < mVelocity)
+			if (v.Length() < mSpeed)
 			{
-				mVelocity -= 0.01f;
+				mSpeed -= 0.005f;
 			}
-			else if (mVelocity < VELOCITY)
+			else if (mSpeed < VELOCITY)
 			{
-				mVelocity += 0.01f;
+				mSpeed += 0.005f;
 			}
-			mPosition = mPosition + v.Normalize() * mVelocity;
+			mVelocity = v.Normalize() * mSpeed;
+			mPosition = mPosition + mVelocity;
 		}
 		else
 		{
-			mVelocity = 0.0f;
+			mSpeed = 0.0f;
 		}
 	}
 

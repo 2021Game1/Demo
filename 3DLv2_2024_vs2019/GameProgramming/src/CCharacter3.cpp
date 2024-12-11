@@ -9,7 +9,7 @@ CCharacter3::CCharacter3()
 	, mState(EState::EZERO)
 	, mGravity(GRAVITY)
 	, mVelocityG(0.0f)
-	, mVelocity(0.0f)
+	, mSpeed(0.0f)
 	, mGrounded(false)
 {
 	//タスクリストに追加
