@@ -134,7 +134,7 @@ void CApplication::Update()
 	mModelViewInverse.M(2, 3, 0);
 
 	//Õ“Ëˆ—
-	CTaskManager::Instance()->Collision();
+	//CTaskManager::Instance()->Collision();
 //	CCollisionManager::Instance()->Collision();
 
 	mShadowMap.Render();

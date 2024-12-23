@@ -3,6 +3,7 @@
 
 CTask::CTask()
 	: mpNext(nullptr), mpPrev(nullptr), mPriority(0), mEnabled(true)
+	, mpLeft(nullptr), mpParent(nullptr), mpRight(nullptr)
 {
 	//CTaskManager::Instance()->Add(this);
 }
