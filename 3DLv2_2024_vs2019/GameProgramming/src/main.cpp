@@ -5,6 +5,11 @@
 #include "main.h"
 #include "CApplication.h"
 #include "CInput.h"
+#include <string>
+
+#define TITLE_NAME "Demo Program "
+
+int gFps = 0;
 
 CApplication gApplication;
 
@@ -47,6 +52,7 @@ LARGE_INTEGER last_time;	//前回のカウンタ値
 void idle() {
 	LARGE_INTEGER freq;		//一秒当たりのカウンタ数
 	LARGE_INTEGER time;		//今回のカウンタ値
+	LONGLONG delta;		//今回のカウンタ値
 
 	//一秒間のカウンタ数を取得
 	QueryPerformanceFrequency(&freq);
@@ -58,9 +64,12 @@ void idle() {
 		//現在のシステムのカウント数を取得
 		QueryPerformanceCounter(&time);
 
+		delta = time.QuadPart - last_time.QuadPart;
 		//今のカウント-前回のカウント < 1秒当たりのカウント数を60で割る(1/60秒当たりのカウント数)
-	} while (time.QuadPart - last_time.QuadPart < freq.QuadPart / 60);
+	} while (delta < freq.QuadPart / 60);
 	last_time = time;
+
+	gFps = freq.QuadPart / delta;
 
 	//描画する関数を呼ぶ
 	display();
@@ -78,7 +87,7 @@ int main(int argc , char** argv)
 
 	/* Create a windowed mode window and its OpenGL context */
 #ifndef FULL_SCREEN
-	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, TITLE_NAME, NULL, NULL);
 #else
 	//Full Screen
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World", glfwGetPrimaryMonitor(), NULL);
@@ -131,6 +140,9 @@ int main(int argc , char** argv)
 	{
 
 		idle();
+
+		std::string newTitle = TITLE_NAME + std::to_string(gFps);
+		glfwSetWindowTitle(window, newTitle.c_str());
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

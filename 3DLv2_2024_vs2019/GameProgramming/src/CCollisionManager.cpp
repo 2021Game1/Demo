@@ -4,8 +4,30 @@
 //マネージャのインスタンス
 CCollisionManager* CCollisionManager::mpInstance = nullptr;
 
+void CCollisionManager::Collision(CCollider* m, CTask* o, int low, int high)
+{
+	if (o == nullptr) return;
+	if (low <= o->mPriority)
+		Collision(m, o->mpLeft, low, high);
+	if (low <= o->mPriority
+		&& o->mPriority <= high)
+	{
+		if (m->mpParent && m != o)
+			m->Parent()->Collision(m, (CCollider*)o);
+	}
+	if(o->mPriority <= high)
+		Collision(m, o->mpRight, low, high);
+}
+
 void CCollisionManager::Collision(CCollider* c, int range)
 {
+	int low = c->mPriority - range;
+	int high = low + range * 2;
+
+	Collision(c, mRoot.mpLeft, low, high);
+
+	return;
+
 	//現在位置を先頭にする
 	CCollider* task = (CCollider*)mHead.mpNext;
 	//範囲まで読み飛ばし

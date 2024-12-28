@@ -40,12 +40,14 @@ public:
 	CTask* Max(CTask* task);
 	CTask* Min(CTask* task);
 
+	void Move(CTask* dest, CTask* src);
+
 protected:
 	//デフォルトコンストラクタ
 	CTaskManager();
 	CTask mHead;//先頭タスク
 	CTask mTail;//最終タスク
-	CTask *mpRoot; //Rootノード
+	CTask mRoot; //Rootノード
 private:
 	//タスクマネージャのインスタンス
 	static CTaskManager* mpInstance;

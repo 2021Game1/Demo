@@ -66,6 +66,11 @@ void CCollider::ChangePriority(int priority)
 	mPriority = priority;
 	CCollisionManager::Instance()->Remove(this); //ˆê’Uíœ
 	CCollisionManager::Instance()->Add(this); //’Ç‰Á
+#ifdef _DEBUG
+
+	//printf("%d\n", priority);
+
+#endif
 }
 
 bool CCollider::CollisionTriangleSphere(CCollider* t, CCollider* s, CVector* a)

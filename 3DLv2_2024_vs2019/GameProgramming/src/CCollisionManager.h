@@ -10,6 +10,7 @@
 class CCollisionManager : public CTaskManager
 {
 public:
+	void Collision(CCollider* m, CTask* o, int low, int high);
 	//衝突処理
 	//Collision(コライダ, 範囲)
 	//コライダの優先度+範囲～優先度-範囲までのコライダと衝突判定を実行する

@@ -16,7 +16,6 @@ CTaskManager* CTaskManager::Instance()
 
 //デフォルトコンストラクタ
 CTaskManager::CTaskManager()
-	: mpRoot(&mHead)
 {
 	mHead.mpNext = &mTail;
 	mTail.mpPrev = &mHead;
@@ -34,7 +33,7 @@ void CTaskManager::Delete(CTask* task)
 
 void CTaskManager::Delete() 
 {
-	Delete(mpRoot);
+	Delete(mRoot.mpLeft);
 
 	return;
 
@@ -70,38 +69,67 @@ CTask* CTaskManager::Min(CTask* task)
 //
 //}
 
-void CTaskManager::Remove(CTask* task)
+void CTaskManager::Move(CTask* dest, CTask* src)
 {
-	if (task->mpLeft != nullptr)
+	if (dest->mpParent->mpLeft == dest)
+		dest->mpParent->mpLeft = src;
+	if (dest->mpParent->mpRight == dest)
+		dest->mpParent->mpRight = src;
+	src->mpParent = dest->mpParent;
+
+	if (dest->mpLeft != nullptr)
 	{
-		CTask* max = Max(task);
-		max->mpParent->mpRight = max->mpLeft;
-		if (task->mpParent->mpLeft == task)
-			task->mpParent->mpLeft = max;
-		if (task->mpParent->mpRight == task)
-			task->mpParent->mpRight = max;
+		dest->mpLeft->mpParent = src;
 	}
-	else if (task->mpRight != nullptr)
+	src->mpLeft = dest->mpLeft;
+
+	if (dest->mpRight != nullptr)
 	{
-		CTask* min = Min(task);
-		min->mpParent->mpLeft = min->mpRight;
-		if (task->mpParent->mpLeft == task)
-			task->mpParent->mpLeft = min;
-		if (task->mpParent->mpRight == task)
-			task->mpParent->mpRight = min;
+		dest->mpRight->mpParent = src;
+	}
+	src->mpRight = dest->mpRight;
+}
+
+
+void CTaskManager::Remove(CTask* remove)
+{
+	if (remove->mpLeft != nullptr)
+	{
+		CTask* move = Max(remove->mpLeft);
+		if (move != remove->mpLeft)
+		{
+			move->mpParent->mpRight = move->mpLeft;
+			Move(remove, move);
+		}
+		else
+		{
+			remove->mpLeft = move->mpLeft;
+			Move(remove, move);
+		}
+	}
+	else if (remove->mpRight != nullptr)
+	{
+		CTask* move = Min(remove->mpRight);
+
+		if (move != remove->mpRight)
+		{
+			move->mpParent->mpLeft = move->mpRight;
+			Move(remove, move);
+		}
+		else
+		{
+			remove->mpRight = move->mpRight;
+			Move(remove, move);
+		}
 	}
 	else
 	{
-		if (task->mpParent->mpLeft == task)
-			task->mpParent->mpLeft = nullptr;
-		if (task->mpParent->mpRight == task)
-			task->mpParent->mpRight = nullptr;
+		if (remove->mpParent->mpLeft == remove)
+			remove->mpParent->mpLeft = nullptr;
+		if (remove->mpParent->mpRight == remove)
+			remove->mpParent->mpRight = nullptr;
 	}
-
-	////タスクの前の次を、タスクの次にする
-	//task->mpPrev->mpNext = task->mpNext;
-	////タスクの次の前を、タスクの前にする
-	//task->mpNext->mpPrev = task->mpPrev;
+	remove->mpParent = remove->mpLeft = remove->mpRight = nullptr;
 }
 
 CTaskManager::~CTaskManager() {
@@ -109,7 +137,22 @@ CTaskManager::~CTaskManager() {
 
 void CTaskManager::Add(CTask* parent, CTask* addTask)
 {
-	if (addTask->mPriority <= parent->mPriority)
+	if (addTask->mPriority == parent->mPriority)
+	{
+		if (parent->mpLeft == nullptr)
+		{
+			addTask->mpParent = parent;
+			parent->mpLeft = addTask;
+		}
+		else
+		{
+			addTask->mpLeft = parent->mpLeft;
+			parent->mpLeft->mpParent = addTask;
+			parent->mpLeft = addTask;
+			addTask->mpParent = parent;
+		}
+	}
+	else if (addTask->mPriority < parent->mPriority)
 	{
 		if (parent->mpLeft == nullptr)
 		{
@@ -139,15 +182,15 @@ void CTaskManager::Add(CTask* parent, CTask* addTask)
 //Add(タスクのポインタ)
 void CTaskManager::Add(CTask* addTask)
 {
-	//if (mpRoot == nullptr)
-	//{
-	//	mpRoot = addTask;
-	//	return;
-	//}
-	//else
-	//{
-		Add(mpRoot, addTask);
-	//}
+	if (mRoot.mpLeft == nullptr)
+	{
+		mRoot.mpLeft = addTask;
+		addTask->mpParent = &mRoot;
+	}
+	else
+	{
+		Add(mRoot.mpLeft, addTask);
+	}
 
 	return;
 
@@ -188,7 +231,7 @@ void CTaskManager::Update(CTask * task)
 void CTaskManager::Update() 
 {
 
-	Update(mpRoot);
+	Update(mRoot.mpLeft);
 
 	return;
 
@@ -213,7 +256,7 @@ void CTaskManager::Render(CTask* task)
 //描画
 void CTaskManager::Render() {
 
-	Render(mpRoot);
+	Render(mRoot.mpLeft);
 
 	return;
 
@@ -238,7 +281,7 @@ void CTaskManager::Collision(CTask *task)
 //衝突処理
 void CTaskManager::Collision()
 {
-	Collision(mpRoot);
+	Collision(mRoot.mpLeft);
 
 	return;
 
