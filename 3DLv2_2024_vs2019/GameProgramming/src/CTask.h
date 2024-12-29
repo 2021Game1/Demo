@@ -27,7 +27,7 @@ protected:
 private:
 	CTask* mpNext;//次のポインタ
 	CTask* mpPrev;//前のポインタ
-	CTask *mpLeft, *mpParent, *mpRight; //左ポインタ、右ポインタ
+	CTask* mpParent; //親ポインタ
 };
 
 #endif

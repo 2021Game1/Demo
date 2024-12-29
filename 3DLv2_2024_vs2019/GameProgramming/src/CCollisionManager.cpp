@@ -8,7 +8,7 @@ void CCollisionManager::Collision(CCollider* m, CTask* o, int low, int high)
 {
 	if (o == nullptr) return;
 	if (low <= o->mPriority)
-		Collision(m, o->mpLeft, low, high);
+		Collision(m, o->mpPrev, low, high);
 	if (low <= o->mPriority
 		&& o->mPriority <= high)
 	{
@@ -16,7 +16,7 @@ void CCollisionManager::Collision(CCollider* m, CTask* o, int low, int high)
 			m->Parent()->Collision(m, (CCollider*)o);
 	}
 	if(o->mPriority <= high)
-		Collision(m, o->mpRight, low, high);
+		Collision(m, o->mpNext, low, high);
 }
 
 void CCollisionManager::Collision(CCollider* c, int range)
@@ -24,7 +24,7 @@ void CCollisionManager::Collision(CCollider* c, int range)
 	int low = c->mPriority - range;
 	int high = low + range * 2;
 
-	Collision(c, mRoot.mpLeft, low, high);
+	Collision(c, mRoot.mpPrev, low, high);
 
 	return;
 

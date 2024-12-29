@@ -2,8 +2,7 @@
 #include "CTaskManager.h"
 
 CTask::CTask()
-	: mpNext(nullptr), mpPrev(nullptr), mPriority(0), mEnabled(true)
-	, mpLeft(nullptr), mpParent(nullptr), mpRight(nullptr)
+	: mpNext(nullptr), mpPrev(nullptr), mPriority(0), mEnabled(true), mpParent(nullptr)
 {
 	//CTaskManager::Instance()->Add(this);
 }
