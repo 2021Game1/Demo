@@ -13,9 +13,12 @@ void CCollisionManager::Collision(CCollider* m, CTask* o, int low, int high)
 		if (o->mPriority <= high)
 		{
 			if (m->mpParent && m != o)
-				m->Parent()->Collision(m, (CCollider*)o);
-			Collision(m, o->mpNext, low, high);
+				m->mpParent->Collision(m, (CCollider*)o);
 		}
+	}
+	if (o->mPriority <= high)
+	{
+		Collision(m, o->mpNext, low, high);
 	}
 }
 
