@@ -26,8 +26,8 @@ public:
 	virtual ~CTaskManager();
 	//リストに追加
 	//Add(タスクのポインタ)
-	void Add(CTask* addTask);
-	void Add(CTask* parent, CTask* addTask);
+	void Add(CTask* add);
+	void Add(CTask* parent, CTask* add);
 
 	//更新
 	void Update();
@@ -47,7 +47,7 @@ protected:
 	CTaskManager();
 	CTask mHead;//先頭タスク
 	CTask mTail;//最終タスク
-	CTask mRoot; //Rootノード
+	//CTask mRoot; //Rootノード
 private:
 	//タスクマネージャのインスタンス
 	static CTaskManager* mpInstance;

@@ -33,7 +33,7 @@ void CTaskManager::Delete(CTask* task)
 
 void CTaskManager::Delete() 
 {
-	Delete(mRoot.mpPrev);
+	Delete(mHead.mpPrev);
 
 	return;
 
@@ -135,61 +135,61 @@ void CTaskManager::Remove(CTask* remove)
 CTaskManager::~CTaskManager() {
 }
 
-void CTaskManager::Add(CTask* parent, CTask* addTask)
+void CTaskManager::Add(CTask* parent, CTask* add)
 {
-	if (addTask->mPriority == parent->mPriority)
+	if (add->mPriority == parent->mPriority)
 	{
 		if (parent->mpPrev == nullptr)
 		{
-			addTask->mpParent = parent;
-			parent->mpPrev = addTask;
+			add->mpParent = parent;
+			parent->mpPrev = add;
 		}
 		else
 		{
-			addTask->mpPrev = parent->mpPrev;
-			parent->mpPrev->mpParent = addTask;
-			parent->mpPrev = addTask;
-			addTask->mpParent = parent;
+			add->mpPrev = parent->mpPrev;
+			parent->mpPrev->mpParent = add;
+			parent->mpPrev = add;
+			add->mpParent = parent;
 		}
 	}
-	else if (addTask->mPriority < parent->mPriority)
+	else if (add->mPriority < parent->mPriority)
 	{
 		if (parent->mpPrev == nullptr)
 		{
-			addTask->mpParent = parent;
-			parent->mpPrev = addTask;
+			add->mpParent = parent;
+			parent->mpPrev = add;
 		}
 		else
 		{
-			Add(parent->mpPrev, addTask);
+			Add(parent->mpPrev, add);
 		}
 	}
 	else
 	{
 		if (parent->mpNext == nullptr)
 		{
-			addTask->mpParent = parent;
-			parent->mpNext = addTask;
+			add->mpParent = parent;
+			parent->mpNext = add;
 		}
 		else
 		{
-			Add(parent->mpNext, addTask);
+			Add(parent->mpNext, add);
 		}
 	}
 }
 
 //リストに追加
 //Add(タスクのポインタ)
-void CTaskManager::Add(CTask* addTask)
+void CTaskManager::Add(CTask* add)
 {
-	if (mRoot.mpPrev == nullptr)
+	if (mHead.mpPrev == nullptr)
 	{
-		mRoot.mpPrev = addTask;
-		addTask->mpParent = &mRoot;
+		mHead.mpPrev = add;
+		add->mpParent = &mHead;
 	}
 	else
 	{
-		Add(mRoot.mpPrev, addTask);
+		Add(mHead.mpPrev, add);
 	}
 
 	return;
@@ -231,7 +231,7 @@ void CTaskManager::Update(CTask * task)
 void CTaskManager::Update() 
 {
 
-	Update(mRoot.mpPrev);
+	Update(mHead.mpPrev);
 
 	return;
 
@@ -256,7 +256,7 @@ void CTaskManager::Render(CTask* task)
 //描画
 void CTaskManager::Render() {
 
-	Render(mRoot.mpPrev);
+	Render(mHead.mpPrev);
 
 	return;
 
@@ -281,7 +281,7 @@ void CTaskManager::Collision(CTask *task)
 //衝突処理
 void CTaskManager::Collision()
 {
-	Collision(mRoot.mpPrev);
+	Collision(mHead.mpPrev);
 
 	return;
 
