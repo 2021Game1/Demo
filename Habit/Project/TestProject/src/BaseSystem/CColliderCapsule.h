@@ -45,9 +45,11 @@ public:
 	// コライダー描画
 	void Render() override;
 
-protected:
 	// コライダーの情報を更新
 	void UpdateCol() override;
+protected:
+	// コライダーの情報を更新
+	//void UpdateCol() override;
 
 private:
 	CVector mV[2];	// カプセルを構成する線分の頂点配列

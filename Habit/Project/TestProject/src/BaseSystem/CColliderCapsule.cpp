@@ -65,4 +65,6 @@ void CColliderCapsule::UpdateCol()
 
 	// バウンディングボックスを更新
 	mBounds = CBounds::GetCapsuleBounds(mWV[0], mWV[1], mRadius);
+
+	Priority(mWV[0], mWV[1]);
 }

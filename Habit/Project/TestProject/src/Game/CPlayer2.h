@@ -45,6 +45,8 @@ public:
 	//描画処理
 	void Render() override;
 
+	void Collision();
+
 private:
 	// キーの入力情報から移動ベクトルを求める
 	CVector CalcMoveVec() const;

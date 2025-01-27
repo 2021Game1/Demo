@@ -407,3 +407,12 @@ void CTaskManager::Render()
 	// 3D描画用のカメラへ戻す
 	CCamera::End2DCamera();
 }
+
+void CTaskManager::Collision()
+{
+	// 3Dタスクリスト内のタスクを順番に更新
+	for (CTask* task : m3dTasks)
+	{
+		task->Collision();
+	}
+}

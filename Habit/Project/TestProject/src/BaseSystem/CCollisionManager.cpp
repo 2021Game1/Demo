@@ -26,6 +26,7 @@ void CCollisionManager::ClearInstance()
 // コンストラクタ
 CCollisionManager::CCollisionManager()
 	: mIsShowCollider(false)
+	, mpRoot(nullptr)
 {
 }
 
@@ -162,4 +163,190 @@ void CCollisionManager::Render()
 		col->Render();
 	}
 #endif
+}
+
+void CCollisionManager::Add(CBTree* add)
+{
+	if (mpRoot == nullptr)
+	{
+		mpRoot = add;
+		add->mpParentNode = mpRoot;
+	}
+	else
+	{
+		Add(mpRoot, add);
+	}
+}
+
+void CCollisionManager::Add(CBTree* parent, CBTree* add)
+{
+	if (add->mPriority == parent->mPriority)
+	{
+		if (parent->mpLeft == nullptr)
+		{
+			add->mpParentNode = parent;
+			parent->mpLeft = add;
+		}
+		else
+		{
+			add->mpLeft = parent->mpLeft;
+			parent->mpLeft->mpParentNode = add;
+			parent->mpLeft = add;
+			add->mpParentNode = parent;
+		}
+	}
+	else if (add->mPriority < parent->mPriority)
+	{
+		if (parent->mpLeft == nullptr)
+		{
+			add->mpParentNode = parent;
+			parent->mpLeft = add;
+		}
+		else
+		{
+			Add(parent->mpLeft, add);
+		}
+	}
+	else
+	{
+		if (parent->mpRight == nullptr)
+		{
+			add->mpParentNode = parent;
+			parent->mpRight = add;
+		}
+		else
+		{
+			Add(parent->mpRight, add);
+		}
+	}
+}
+
+void CCollisionManager::Collision(CBTree* m, CBTree* o, int low, int high)
+{
+	if (o == nullptr) return;
+	if (low <= o->mPriority)
+	{
+		Collision(m, o->mpLeft, low, high);
+		if (o->mPriority <= high)
+		{
+			if (m != o)
+				Collision((CCollider*)m, (CCollider*)o);
+		}
+	}
+	if (o->mPriority <= high)
+	{
+		Collision(m, o->mpRight, low, high);
+	}
+}
+
+#define COLLISION_RANGE 3000 //衝突判定範囲
+void CCollisionManager::Collision(CBTree* c)
+{
+	int low = c->mPriority - COLLISION_RANGE;
+	int high = c->mPriority + COLLISION_RANGE;
+
+	Collision(c, mpRoot, low, high);
+}
+
+void CCollisionManager::Remove(CBTree* remove)
+{
+	if (remove->mpLeft != nullptr)
+	{
+		CBTree* move = Max(remove->mpLeft);
+		if (move != remove->mpLeft)
+		{
+			move->mpParentNode->mpRight = move->mpLeft;
+			Move(remove, move);
+		}
+		else
+		{
+			remove->mpLeft = move->mpLeft;
+			Move(remove, move);
+		}
+	}
+	else if (remove->mpRight != nullptr)
+	{
+		CBTree* move = Min(remove->mpRight);
+
+		if (move != remove->mpRight)
+		{
+			move->mpParentNode->mpLeft = move->mpRight;
+			Move(remove, move);
+		}
+		else
+		{
+			remove->mpRight = move->mpRight;
+			Move(remove, move);
+		}
+	}
+	else
+	{
+		if (remove->mpParentNode == remove)
+		{
+			CCollisionManager::Instance()->mpRoot = nullptr;
+		}
+		else
+		{
+			if (remove->mpParentNode->mpLeft == remove)
+				remove->mpParentNode->mpLeft = nullptr;
+			if (remove->mpParentNode->mpRight == remove)
+				remove->mpParentNode->mpRight = nullptr;
+		}
+	}
+	remove->mpParentNode = remove->mpLeft = remove->mpRight = nullptr;
+}
+
+CBTree* CCollisionManager::Max(CBTree* task)
+{
+	if (task->mpRight == nullptr)
+		return task;
+	return Max(task->mpRight);
+}
+
+CBTree* CCollisionManager::Min(CBTree* task)
+{
+	if (task->mpLeft == nullptr)
+		return task;
+	return Min(task->mpLeft);
+}
+
+void CCollisionManager::Move(CBTree* dest, CBTree* src)
+{
+	// Parentの更新
+	if (dest->mpParentNode == dest)
+	{
+		// destがRootの時
+		CCollisionManager::Instance()->mpRoot = src;
+		src->mpParentNode = src;
+	}
+	else
+	{
+		if (dest->mpParentNode->mpLeft == dest)
+			dest->mpParentNode->mpLeft = src;
+		if (dest->mpParentNode->mpRight == dest)
+			dest->mpParentNode->mpRight = src;
+		src->mpParentNode = dest->mpParentNode;
+	}
+	// 左の更新
+	if (dest->mpLeft != nullptr)
+	{
+		dest->mpLeft->mpParentNode = src;
+	}
+	src->mpLeft = dest->mpLeft;
+	// 右の更新
+	if (dest->mpRight != nullptr)
+	{
+		dest->mpRight->mpParentNode = src;
+	}
+	src->mpRight = dest->mpRight;
+}
+
+void CCollisionManager::UpdateAllNode(CBTree* t)
+{
+	if (t->mpLeft)
+		UpdateAllNode(t->mpLeft);
+	((CCollider*)t)->Update();
+	((CCollider*)t)->UpdateCol();
+	if (t->mpRight)
+		UpdateAllNode(t->mpRight);
 }

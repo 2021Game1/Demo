@@ -7,6 +7,8 @@
 #include "CBounds.h"
 #include "CRect.h"
 
+#include "CBTree.h"
+
 class CObjectBase;
 class CCollisionManager;
 class CColliderLine;
@@ -36,7 +38,7 @@ public:
 /// <summary>
 /// コライダーのベースクラス
 /// </summary>
-class CCollider : public CTransform
+class CCollider : public CTransform, public CBTree
 {
 	friend CCollisionManager;
 public:
@@ -426,9 +428,11 @@ public:
 	/// <returns>押し戻し割合（0.0f ～ 1.0f）</returns>
 	static float CalcPushBackRatio(CCollider* self, CCollider* other);
 
-protected:
 	// コライダーの情報を更新
 	virtual void UpdateCol() = 0;
+protected:
+	// コライダーの情報を更新
+	//virtual void UpdateCol() = 0;
 
 	/// <summary>
 	/// コライダーの設定

@@ -76,4 +76,6 @@ void CColliderSphere::UpdateCol()
 
 	// バウンディングボックスを更新
 	mBounds = CBounds::GetSphereBounds(mWPos, mWRadius);
+
+	Priority(mWPos);
 }

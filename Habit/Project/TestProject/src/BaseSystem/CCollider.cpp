@@ -20,16 +20,21 @@ CCollider::CCollider(CObjectBase* owner, ELayer layer, EColliderType type,
 	, mCollisionLayers(~0)
 	, mCollisionTags(~0)
 	, mpAttachMtx(nullptr)
+	//, mpParent(nullptr)
+	//, mpLeft(nullptr)
+	//, mpRight(nullptr)
 {
 	// コリジョンリストに追加
-	CCollisionManager::Instance()->Add(this);
+	//CCollisionManager::Instance()->Add(this);
+	CCollisionManager::Instance()->Add((CBTree*)this);
 }
 
 // デストラクタ
 CCollider::~CCollider()
 {
 	// コリジョンリストから削除
-	CCollisionManager::Instance()->Remove(this);
+	//CCollisionManager::Instance()->Remove(this);
+	CCollisionManager::Instance()->Remove((CBTree*)this);
 }
 
 // 衝突判定レイヤーを取得

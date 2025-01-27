@@ -46,4 +46,6 @@ void CColliderMesh::UpdateCol()
 		v.wv.V[2] = v.lv.V[2] * m;
 		v.bounds = CBounds::GetTriangleBounds(v.wv.V[0], v.wv.V[1], v.wv.V[2]);
 	}
+
+	Priority(CVector() * m);
 }

@@ -17,6 +17,9 @@
 #include "CSwitchDoor.h"
 #include "CClearArea.h"
 
+#include "CCollisionManager.h"
+#include "CTaskManager.h"
+
 // コンストラクタ
 CGameScene3::CGameScene3()
 	: CSceneBase(EScene::eGame3)
@@ -233,6 +236,9 @@ void CGameScene3::Load()
 
 	// ゲームメニューを作成
 	mpGameMenu = new CInventory();
+
+	CTaskManager::Instance()->Update();
+	CCollisionManager::Instance()->UpdateAllNode(CCollisionManager::Instance()->mpRoot);
 }
 
 // シーン更新処理

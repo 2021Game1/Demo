@@ -62,6 +62,8 @@ public:
 	//表示フラグを取得
 	bool IsShow() const;
 
+	virtual void Collision() {}
+
 private:
 	ETaskPriority mPriority;	//優先度
 	int mSortOrder;		//優先度内での順番

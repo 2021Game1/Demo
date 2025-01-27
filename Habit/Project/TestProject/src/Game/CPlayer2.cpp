@@ -12,6 +12,8 @@
 
 #include "CDebugFieldOfView.h"
 
+#include "CCollisionManager.h"
+
 // プレイヤーのインスタンス
 CPlayer2* CPlayer2::spInstatnce = nullptr;
 
@@ -561,6 +563,13 @@ void CPlayer2::TakeDamege(int damage)
 void CPlayer2::Render()
 {
 	CXCharacter::Render();
+}
+
+void CPlayer2::Collision()
+{	
+	mpColliderCapsule->Update();
+	mpColliderCapsule->UpdateCol();
+	CCollisionManager::Instance()->Collision((CBTree*)mpColliderCapsule);
 }
 
 // アニメーションの切り替え

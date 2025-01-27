@@ -90,4 +90,5 @@ void CColliderLine::UpdateCol()
 
 	// バウンディングボックスを更新
 	mBounds = CBounds::GetLineBounds(mWV[0], mWV[1]);
+	Priority(mWV[0], mWV[1]);
 }

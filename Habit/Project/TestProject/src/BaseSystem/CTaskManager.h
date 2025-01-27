@@ -66,6 +66,8 @@ public:
 	// 描画
 	void Render();
 
+	void Collision();
+
 private:
 	//シャドウマップ用Renderメソッド
 	static void CTaskManager::RenderShadow();
