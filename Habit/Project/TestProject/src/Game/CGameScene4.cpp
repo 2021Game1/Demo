@@ -17,6 +17,8 @@
 #include "CSwitchDoor.h"
 #include "CClearArea.h"
 
+#include "CCollisionManager.h"
+
 // コンストラクタ
 CGameScene4::CGameScene4()
 	: CSceneBase(EScene::eGame3)
@@ -41,8 +43,8 @@ void CGameScene4::Load()
 	//リソースの読み込みやクラスの生成を行う
 	CResourceManager::Load<CModel>("Field", "Field\\stage1\\floor.obj");
 	CResourceManager::Load<CModel>("Wall", "Field\\UnderGround\\passage2.obj");
-	//CResourceManager::Load<CModel>("Wall_Col", "Field\\UnderGround\\passage2.obj");
-	CResourceManager::Load<CModel>("Wall_Col", "Field\\stage1\\wall_col.obj");
+	CResourceManager::Load<CModel>("Wall_Col", "Field\\UnderGround\\passage2.obj");
+	//CResourceManager::Load<CModel>("Wall_Col", "Field\\stage1\\wall_col.obj");
 	CResourceManager::Load<CModel>("Gimmick_Wall", "Field\\stage1\\gimmick_wall.obj");
 	CResourceManager::Load<CModel>("Switch", "Object\\Switch.obj");
 	CResourceManager::Load<CModel>("Goal", "Object\\clear_area.obj");
@@ -234,6 +236,8 @@ void CGameScene4::Load()
 
 	// ゲームメニューを作成
 	mpGameMenu = new CInventory();
+
+	CCollisionManager::Instance()->UpdateAllNode(CCollisionManager::Instance()->mpRoot);
 }
 
 // シーン更新処理

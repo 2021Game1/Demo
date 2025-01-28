@@ -19,5 +19,5 @@ public:
 	CBTree* mpParentNode;
 	CBTree* mpLeft;
 	CBTree* mpRight;
-	unsigned int mPriority;
+	int mPriority;
 };

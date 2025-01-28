@@ -239,7 +239,7 @@ void CCollisionManager::Collision(CBTree* m, CBTree* o, int low, int high)
 	}
 }
 
-#define COLLISION_RANGE 3000 //Õ“Ë”»’è”ÍˆÍ
+#define COLLISION_RANGE 30 //Õ“Ë”»’è”ÍˆÍ
 void CCollisionManager::Collision(CBTree* c)
 {
 	int low = c->mPriority - COLLISION_RANGE;

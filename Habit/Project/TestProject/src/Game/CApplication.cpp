@@ -55,7 +55,7 @@ void CApplication::Update()
 	// タスクの更新処理
 	CTaskManager::Instance()->Update();
 	// 衝突処理
-	CCollisionManager::Instance()->CollisionAll();
+	//CCollisionManager::Instance()->CollisionAll();
 	CTaskManager::Instance()->Collision();
 
 	// サウンドの更新
