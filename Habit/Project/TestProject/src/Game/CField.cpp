@@ -19,6 +19,7 @@ CField* CField::Instance()
 CField::CField()
 	: CObjectBase(ETag::eField, ETaskPriority::eBackground)
 	, mEffectAnimData(1, 11, true, 11, 0.03f)
+	, mpColliderMesh(nullptr)
 {
 	assert(spInstance == nullptr);
 	spInstance = this;
@@ -44,7 +45,7 @@ CField::CField()
 			break;
 	}
 	// 床のコライダーを生成
-	mpColliderMesh = new CColliderMesh(this, ELayer::eField, mpModel, true);
+	//mpColliderMesh = new CColliderMesh(this, ELayer::eField, mpModel, true);
 
 	// 壁を生成
 	CreateWalls();
@@ -137,9 +138,9 @@ void CField::CreateWalls()
 			// 壁の生成
 			CWall* wall = new CWall
 			(
+				CVector(300.0f, 200.0f, 0.0f),
 				CVector(0.0f, 0.0f, 0.0f),
-				CVector(0.0f, 0.0f, 0.0f),
-				CVector(1.0f, 1.0f, 1.0f)
+				CVector(29.0f, 29.0f, 29.0f)
 			);
 			mWalls.push_back(wall);	// 生成した壁を壁のリストに追加
 
@@ -374,11 +375,11 @@ bool CField::CollisionRay(const CVector& start, const CVector& end, CHitInfo* hi
 	bool isHit = false;
 
 	// フィールドのオブジェクトとの衝突判定
-	if (CCollider::CollisionRay(mpColliderMesh, start, end, &tHit))
-	{
-		*hit = tHit;
-		isHit = this;
-	}
+	//if (CCollider::CollisionRay(mpColliderMesh, start, end, &tHit))
+	//{
+	//	*hit = tHit;
+	//	isHit = this;
+	//}
 
 	// 壁との衝突判定
 	for (CWall* wall : mWalls)

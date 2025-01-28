@@ -11,14 +11,14 @@ CTrap::CTrap()
 	mpModel = CResourceManager::Get<CModel>("Choco");
 
 	// コライダーを作成
-	mpCollider = new CColliderMesh
+	CColliderMesh* mpCollider = new CColliderMesh
 	(
 		this, ELayer::eAttackCol,
 		mpModel, true
 	);
 	// プレイヤーと衝突するように設定
-	mpCollider->SetCollisionTags({ ETag::ePlayer });
-	mpCollider->SetCollisionLayers({ ELayer::ePlayer });
+	//mpCollider->SetCollisionTags({ ETag::ePlayer });
+	//mpCollider->SetCollisionLayers({ ELayer::ePlayer });
 
 }
 

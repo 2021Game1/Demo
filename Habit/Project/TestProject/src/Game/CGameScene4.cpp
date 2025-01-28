@@ -62,7 +62,7 @@ void CGameScene4::Load()
 	// プレイヤー生成
 	CPlayer2* pico = new CPlayer2();
 	pico->Scale(1.0f, 1.0f, 1.0f);
-	pico->Position(0.0f, 0.0f, 0.0f);
+	pico->Position(-1000.0f, 0.0f, 0.0f);
 
 	// 敵①生成
 	CEnemy2* enemy1 = new CEnemy2
@@ -217,12 +217,12 @@ void CGameScene4::Load()
 	door4->AddSwitch(push_switch4);		// 押したら開くスイッチを追加
 	door4->AddSwitch(push_switch5);		// 押したら開くスイッチを追加
 
-	CClearArea* clearArea = new CClearArea
-	(
-		CVector(-105.0f, 0.0f, 385.0f),
-		CVector(0.0f, 0.0f, 0.0f),
-		CVector(1.0f, 1.0f, 1.0f)
-	);
+	//CClearArea* clearArea = new CClearArea
+	//(
+	//	CVector(-105.0f, 0.0f, 385.0f),
+	//	CVector(0.0f, 0.0f, 0.0f),
+	//	CVector(1.0f, 1.0f, 1.0f)
+	//);
 
 	// CGameCamera2のテスト
 	CVector atPos = pico->Position() + CVector(0.0f, 10.0f, 0.0f);
@@ -237,7 +237,7 @@ void CGameScene4::Load()
 	// ゲームメニューを作成
 	mpGameMenu = new CInventory();
 
-	CCollisionManager::Instance()->UpdateAllNode(CCollisionManager::Instance()->mpRoot);
+	//CCollisionManager::Instance()->UpdateAllNode(CCollisionManager::Instance()->mpRoot);
 }
 
 // シーン更新処理

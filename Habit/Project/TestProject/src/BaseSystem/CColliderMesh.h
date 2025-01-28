@@ -7,7 +7,7 @@
 /*
 モデルデータから三角コライダの生成
 */
-class CColliderMesh : public CCollider
+class CColliderMesh // : public CCollider
 {
 public:
 	/// <summary>
@@ -27,15 +27,16 @@ public:
 	const std::list<STVertexData>& Get() const;
 
 	// コライダー描画
-	void Render() override;
+	void Render(); //override;
 
 protected:
 	// コライダーの情報を更新
-	void UpdateCol() override;
+	void UpdateCol(); //override;
 
 private:
 	//三角コライダの配列作成
 	std::list<STVertexData> mVertices;
+	CColliderTriangle* mpTriangles;
 };
 
 #endif

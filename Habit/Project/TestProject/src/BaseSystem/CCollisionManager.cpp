@@ -224,6 +224,7 @@ void CCollisionManager::Add(CBTree* parent, CBTree* add)
 void CCollisionManager::Collision(CBTree* m, CBTree* o, int low, int high)
 {
 	if (o == nullptr) return;
+	printf("%ld:%ld\n", m->mPriority, o->mPriority);
 	if (low <= o->mPriority)
 	{
 		Collision(m, o->mpLeft, low, high);
@@ -239,7 +240,7 @@ void CCollisionManager::Collision(CBTree* m, CBTree* o, int low, int high)
 	}
 }
 
-#define COLLISION_RANGE 30 //Õ“Ë”»’è”ÍˆÍ
+#define COLLISION_RANGE 1900 //Õ“Ë”»’è”ÍˆÍ
 void CCollisionManager::Collision(CBTree* c)
 {
 	int low = c->mPriority - COLLISION_RANGE;

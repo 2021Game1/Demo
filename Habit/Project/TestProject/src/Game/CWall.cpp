@@ -4,6 +4,11 @@
 // コンストラクタ
 CWall::CWall(const CVector& pos, const CVector& angle, const CVector& size)
 {
+	// 位置と向きとサイズを設定
+	Position(pos);
+	Rotation(angle);
+	Scale(size);
+
 	// 現在のシーンを取得
 	mScene = CSceneManager::Instance()->GetCurrentScene();
 	switch (mScene)
@@ -43,12 +48,6 @@ CWall::CWall(const CVector& pos, const CVector& angle, const CVector& size)
 			break;
 		}
 	}
-
-	// 位置と向きとサイズを設定
-	Position(pos);
-	Rotation(angle);
-	Scale(size);
-
 }
 
 // デストラクタ
@@ -64,7 +63,7 @@ bool CWall::CollisionRay(const CVector& start, const CVector& end, CHitInfo* hit
 	//壁のコライダーが存在しなければ、衝突していない
 	if (mpColliderMesh == nullptr) return false;
 
-	return CCollider::CollisionRay(mpColliderMesh, start, end, hit);
+	return false;//  CCollider::CollisionRay(mpColliderMesh, start, end, hit);
 }
 
 // 更新処理

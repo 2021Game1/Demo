@@ -43,9 +43,11 @@ public:
 	// コライダー描画
 	void Render() override;
 
-protected:
 	// コライダーの情報を更新
 	void UpdateCol() override;
+protected:
+	// コライダーの情報を更新
+	//void UpdateCol() override;
 
 private:
 	CVector mV[3];	// 三角形の頂点の配列
