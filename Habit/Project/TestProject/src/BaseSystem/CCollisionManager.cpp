@@ -223,13 +223,22 @@ void CCollisionManager::Add(CTree* parent, CTree* add)
 	}
 }
 
+int max = 0;
+int nest = 0;
+
 void CCollisionManager::Collision(CTree* m, CTree* o, int low, int high)
 {
 	if (o == nullptr) return;
 	//printf("%ld:%ld\n", m->mPriority, o->mPriority);
 	if (low <= o->mPriority)
 	{
+		if (max < ++nest)
+		{
+			max = nest;
+			printf("max = %d\n", max);
+		}
 		Collision(m, o->mpLeft, low, high);
+		nest--;
 		if (o->mPriority <= high)
 		{
 			if (m != o)
@@ -238,11 +247,17 @@ void CCollisionManager::Collision(CTree* m, CTree* o, int low, int high)
 	}
 	if (o->mPriority <= high)
 	{
+		if (max < ++nest)
+		{
+			max = nest;
+			printf("max = %d\n", max);
+		}
 		Collision(m, o->mpRight, low, high);
+		nest--;
 	}
 }
 
-#define COLLISION_RANGE 30 //Õ“Ë”»’è”ÍˆÍ
+#define COLLISION_RANGE 50 //Õ“Ë”»’è”ÍˆÍ
 void CCollisionManager::Collision(CTree* c)
 {
 	int low = c->mPriority - COLLISION_RANGE;

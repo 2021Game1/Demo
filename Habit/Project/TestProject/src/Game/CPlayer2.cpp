@@ -255,6 +255,8 @@ void CPlayer2::Update()
 	mpHpGauge->SetMaxPoint(mMaxHp);
 	mpHpGauge->SetCurPoint(mHp);
 
+	mpColliderCapsule->Update();
+	mpColliderCapsule->UpdateCol();
 }
 
 // ステータスを整数にして取得する
@@ -567,8 +569,6 @@ void CPlayer2::Render()
 
 void CPlayer2::Collision()
 {	
-	mpColliderCapsule->Update();
-	mpColliderCapsule->UpdateCol();
 	CCollisionManager::Instance()->Collision((CTree*)mpColliderCapsule);
 }
 
