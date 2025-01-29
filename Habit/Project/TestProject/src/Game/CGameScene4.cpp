@@ -50,7 +50,7 @@ void CGameScene4::Load()
 	CResourceManager::Load<CModel>("Switch", "Object\\Switch.obj");
 	CResourceManager::Load<CModel>("Goal", "Object\\clear_area.obj");
 	CResourceManager::Load<CModelX>("Player2", "Character\\Player2\\pico.x");
-	CResourceManager::Load<CModelX>("Enemy2", "Character\\Enemy\\warrok\\warrok.x");
+	//CResourceManager::Load<CModelX>("Enemy2", "Character\\Enemy\\warrok\\warrok.x");
 
 	// ÉQÅ[ÉÄBGMÇì«Ç›çûÇ›
 	CBGMManager::Instance()->Play(EBGMType::eGame);
@@ -63,45 +63,45 @@ void CGameScene4::Load()
 	// ÉvÉåÉCÉÑÅ[ê∂ê¨
 	CPlayer2* pico = new CPlayer2();
 	pico->Scale(1.0f, 1.0f, 1.0f);
-	pico->Position(-1000.0f, 0.0f, 0.0f);
+	pico->Position(-900.0f, -200.0f, 0.0f);
 
 	// ìGá@ê∂ê¨
-	CEnemy2* enemy1 = new CEnemy2
-	(
-		{
-			CVector(110.0f, 0.0f, 100.0f),
-			CVector(-80.0f, 0.0f, 100.0f),
-			CVector(-90.0f, 0.0f, 0.0f),
-			CVector(-180.0f, 0.0f, 0.0f),
-			CVector(-180.0f, 0.0f, 100.0f),
-			CVector(-180.0f, 0.0f, 0.0f),
-			CVector(120.0f,0.0f,0.0f)
-		}
-	);
-	enemy1->Scale(1.0f, 1.0f, 1.0f);
-	enemy1->Position(CVector(0.0f, 0.0, 100.0f));
+	//CEnemy2* enemy1 = new CEnemy2
+	//(
+	//	{
+	//		CVector(110.0f, 0.0f, 100.0f),
+	//		CVector(-80.0f, 0.0f, 100.0f),
+	//		CVector(-90.0f, 0.0f, 0.0f),
+	//		CVector(-180.0f, 0.0f, 0.0f),
+	//		CVector(-180.0f, 0.0f, 100.0f),
+	//		CVector(-180.0f, 0.0f, 0.0f),
+	//		CVector(120.0f,0.0f,0.0f)
+	//	}
+	//);
+	//enemy1->Scale(1.0f, 1.0f, 1.0f);
+	//enemy1->Position(CVector(0.0f, 0.0, 100.0f));
 
-	// ìGáAê∂ê¨
-	CEnemy2* enemy2 = new CEnemy2
-	(
-		{
-			CVector(-30.0f, 0.0f, 190.0f),
-			CVector(-30.0f, 0.0f, 260.0f),
-			CVector(-120.0f, 0.0f, 320.0f),
-			CVector(-180.0f, 0.0f, 320.0f),
-			CVector(-180.0f, 0.0f, 450.0f),
-			CVector(0.0f, 0.0f, 450.0f),
-			CVector(0.0f, 0.0f, 350.0f),
-			CVector(-100.0f, 0.0f, 310.0f),
-			CVector(-100.0f, 0.0f, 280.0f),
-			CVector(-40.0f, 0.0f, 270.0f),
-			CVector(90.0f, 0.0f, 280.0f),
-			CVector(90.0f, 0.0f, 440.0f),
-			CVector(100.0f, 0.0f, 190.0f),
-		}
-	);
-	enemy2->Scale(1.0f, 1.0f, 1.0f);
-	enemy2->Position(CVector(70.0f, 0.0, 190.0f));
+	//// ìGáAê∂ê¨
+	//CEnemy2* enemy2 = new CEnemy2
+	//(
+	//	{
+	//		CVector(-30.0f, 0.0f, 190.0f),
+	//		CVector(-30.0f, 0.0f, 260.0f),
+	//		CVector(-120.0f, 0.0f, 320.0f),
+	//		CVector(-180.0f, 0.0f, 320.0f),
+	//		CVector(-180.0f, 0.0f, 450.0f),
+	//		CVector(0.0f, 0.0f, 450.0f),
+	//		CVector(0.0f, 0.0f, 350.0f),
+	//		CVector(-100.0f, 0.0f, 310.0f),
+	//		CVector(-100.0f, 0.0f, 280.0f),
+	//		CVector(-40.0f, 0.0f, 270.0f),
+	//		CVector(90.0f, 0.0f, 280.0f),
+	//		CVector(90.0f, 0.0f, 440.0f),
+	//		CVector(100.0f, 0.0f, 190.0f),
+	//	}
+	//);
+	//enemy2->Scale(1.0f, 1.0f, 1.0f);
+	//enemy2->Position(CVector(70.0f, 0.0, 190.0f));
 
 	//// ìGáBê∂ê¨
 	//CEnemy2* enemy3 = new CEnemy2

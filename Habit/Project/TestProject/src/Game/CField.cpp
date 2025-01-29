@@ -44,10 +44,10 @@ CField::CField()
 			mpModel = CResourceManager::Get<CModel>("Field");
 			break;
 		case EScene::eGame4:
-			Position(CVector(300.0f, 200.0f, 0.0f));
+			Position(CVector(0.0f, 0.0f, 0.0f));
 			//Position(CVector());
 			Rotate(CVector(0.0f, 0.0f, 0.0f));
-			Scale(CVector(29.0f, 29.0f, 29.0f));
+			Scale(CVector(20.0f, 20.0f, 20.0f));
 			// 床のモデルデータを取得
 			mpModel = CResourceManager::Get<CModel>("Field");
 			break;
