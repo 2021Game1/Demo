@@ -7,7 +7,7 @@
 #include "CBounds.h"
 #include "CRect.h"
 
-#include "CBTree.h"
+#include "CTree.h"
 
 class CObjectBase;
 class CCollisionManager;
@@ -38,7 +38,7 @@ public:
 /// <summary>
 /// コライダーのベースクラス
 /// </summary>
-class CCollider : public CTransform, public CBTree
+class CCollider : public CTransform, public CTree
 {
 	friend CCollisionManager;
 public:

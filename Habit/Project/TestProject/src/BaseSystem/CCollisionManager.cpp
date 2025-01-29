@@ -167,7 +167,7 @@ void CCollisionManager::Render()
 #endif
 }
 
-void CCollisionManager::Add(CBTree* add)
+void CCollisionManager::Add(CTree* add)
 {
 	if (mpRoot == nullptr)
 	{
@@ -180,7 +180,7 @@ void CCollisionManager::Add(CBTree* add)
 	}
 }
 
-void CCollisionManager::Add(CBTree* parent, CBTree* add)
+void CCollisionManager::Add(CTree* parent, CTree* add)
 {
 	if (add->mPriority == parent->mPriority)
 	{
@@ -223,7 +223,7 @@ void CCollisionManager::Add(CBTree* parent, CBTree* add)
 	}
 }
 
-void CCollisionManager::Collision(CBTree* m, CBTree* o, int low, int high)
+void CCollisionManager::Collision(CTree* m, CTree* o, int low, int high)
 {
 	if (o == nullptr) return;
 	//printf("%ld:%ld\n", m->mPriority, o->mPriority);
@@ -242,8 +242,8 @@ void CCollisionManager::Collision(CBTree* m, CBTree* o, int low, int high)
 	}
 }
 
-#define COLLISION_RANGE 1900 //Õ“Ë”»’è”ÍˆÍ
-void CCollisionManager::Collision(CBTree* c)
+#define COLLISION_RANGE 300 //Õ“Ë”»’è”ÍˆÍ
+void CCollisionManager::Collision(CTree* c)
 {
 	int low = c->mPriority - COLLISION_RANGE;
 	int high = c->mPriority + COLLISION_RANGE;
@@ -251,11 +251,11 @@ void CCollisionManager::Collision(CBTree* c)
 	Collision(c, mpRoot, low, high);
 }
 
-void CCollisionManager::Remove(CBTree* remove)
+void CCollisionManager::Remove(CTree* remove)
 {
 	if (remove->mpLeft != nullptr)
 	{
-		CBTree* move = Max(remove->mpLeft);
+		CTree* move = Max(remove->mpLeft);
 		if (move != remove->mpLeft)
 		{
 			move->mpParentNode->mpRight = move->mpLeft;
@@ -269,7 +269,7 @@ void CCollisionManager::Remove(CBTree* remove)
 	}
 	else if (remove->mpRight != nullptr)
 	{
-		CBTree* move = Min(remove->mpRight);
+		CTree* move = Min(remove->mpRight);
 
 		if (move != remove->mpRight)
 		{
@@ -299,21 +299,21 @@ void CCollisionManager::Remove(CBTree* remove)
 	remove->mpParentNode = remove->mpLeft = remove->mpRight = nullptr;
 }
 
-CBTree* CCollisionManager::Max(CBTree* task)
+CTree* CCollisionManager::Max(CTree* task)
 {
 	if (task->mpRight == nullptr)
 		return task;
 	return Max(task->mpRight);
 }
 
-CBTree* CCollisionManager::Min(CBTree* task)
+CTree* CCollisionManager::Min(CTree* task)
 {
 	if (task->mpLeft == nullptr)
 		return task;
 	return Min(task->mpLeft);
 }
 
-void CCollisionManager::Move(CBTree* dest, CBTree* src)
+void CCollisionManager::Move(CTree* dest, CTree* src)
 {
 	// Parent‚ÌXV
 	if (dest->mpParentNode == dest)
@@ -344,7 +344,7 @@ void CCollisionManager::Move(CBTree* dest, CBTree* src)
 	src->mpRight = dest->mpRight;
 }
 
-void CCollisionManager::UpdateAllNode(CBTree* t)
+void CCollisionManager::UpdateAllNode(CTree* t)
 {
 	if (t->mpLeft)
 		UpdateAllNode(t->mpLeft);

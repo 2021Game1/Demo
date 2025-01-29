@@ -17,7 +17,7 @@
     <ClCompile Include="src\BaseSystem\CBillBoard.cpp" />
     <ClCompile Include="src\BaseSystem\CBillBoardImage.cpp" />
     <ClCompile Include="src\BaseSystem\CBounds.cpp" />
-    <ClCompile Include="src\BaseSystem\CBTree.cpp" />
+    <ClCompile Include="src\BaseSystem\CTree.cpp" />
     <ClCompile Include="src\BaseSystem\CButton.cpp" />
     <ClCompile Include="src\BaseSystem\CCamera.cpp" />
     <ClCompile Include="src\BaseSystem\CCollider.cpp" />
@@ -141,7 +141,7 @@
     <ClInclude Include="src\BaseSystem\CBillBoard.h" />
     <ClInclude Include="src\BaseSystem\CBillBoardImage.h" />
     <ClInclude Include="src\BaseSystem\CBounds.h" />
-    <ClInclude Include="src\BaseSystem\CBTree.h" />
+    <ClInclude Include="src\BaseSystem\CTree.h" />
     <ClInclude Include="src\BaseSystem\CButton.h" />
     <ClInclude Include="src\BaseSystem\CCamera.h" />
     <ClInclude Include="src\BaseSystem\CCollider.h" />

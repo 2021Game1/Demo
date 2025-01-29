@@ -481,7 +481,7 @@
     <ClCompile Include="src\Game\CGameScene4.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\BaseSystem\CBTree.cpp">
+    <ClCompile Include="src\BaseSystem\CTree.cpp">
       <Filter>ソース ファイル\BaseSystem\Collider</Filter>
     </ClCompile>
   </ItemGroup>
@@ -873,7 +873,7 @@
     <ClInclude Include="src\Game\CGameScene4.h">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\BaseSystem\CBTree.h">
+    <ClInclude Include="src\BaseSystem\CTree.h">
       <Filter>ソース ファイル\BaseSystem\Collider</Filter>
     </ClInclude>
   </ItemGroup>

@@ -26,7 +26,7 @@ CCollider::CCollider(CObjectBase* owner, ELayer layer, EColliderType type,
 {
 	// コリジョンリストに追加
 	//CCollisionManager::Instance()->Add(this);
-	CCollisionManager::Instance()->Add((CBTree*)this);
+	CCollisionManager::Instance()->Add((CTree*)this);
 }
 
 // デストラクタ
@@ -34,7 +34,7 @@ CCollider::~CCollider()
 {
 	// コリジョンリストから削除
 	//CCollisionManager::Instance()->Remove(this);
-	CCollisionManager::Instance()->Remove((CBTree*)this);
+	CCollisionManager::Instance()->Remove((CTree*)this);
 }
 
 // 衝突判定レイヤーを取得

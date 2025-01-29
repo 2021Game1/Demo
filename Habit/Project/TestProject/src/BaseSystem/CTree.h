@@ -2,10 +2,10 @@
 
 class CVector;
 
-class CBTree
+class CTree
 {
 public:
-	CBTree()
+	CTree()
 		: mpParentNode(nullptr)
 		, mpLeft(nullptr)
 		, mpRight(nullptr)
@@ -16,8 +16,8 @@ public:
 	void Priority(const CVector& v, const CVector& v2);
 	void Priority(const CVector& v, const CVector& v2, const CVector& v3);
 
-	CBTree* mpParentNode;
-	CBTree* mpLeft;
-	CBTree* mpRight;
+	CTree* mpParentNode;
+	CTree* mpLeft;
+	CTree* mpRight;
 	int mPriority;
 };
