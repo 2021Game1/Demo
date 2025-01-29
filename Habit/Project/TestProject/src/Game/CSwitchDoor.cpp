@@ -29,7 +29,8 @@ CSwitchDoor::CSwitchDoor(const CVector& pos, const CVector& angle, const CVector
 			break;
 		}
 	case EScene::eGame3:
-		{
+	case EScene::eGame4:
+	{
 			// 扉のモデルデータ取得(今は壁を設定している)
 			mpModel = CResourceManager::Get<CModel>("Gimmick_Wall");
 

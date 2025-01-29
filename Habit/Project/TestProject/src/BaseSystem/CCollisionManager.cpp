@@ -68,8 +68,10 @@ void CCollisionManager::Collision(CCollider* col0, CCollider* col1)
 	if (col1->Owner() != nullptr && !col1->Owner()->IsEnableCol()) return;
 
 	// 相手のコライダーと衝突判定を行うコライダーでなければ、衝突判定を行わない
-	if (!col0->IsCollision(col1)) return;
-	if (!col1->IsCollision(col0)) return;
+	if (!col0->IsCollision(col1))
+		return;
+	if (!col1->IsCollision(col0))
+		return;
 
 	// どちらのコライダーもメッシュコライダーでなければ、
 	if (col0->mType != EColliderType::eMesh && col1->mType != EColliderType::eMesh)
@@ -224,7 +226,7 @@ void CCollisionManager::Add(CBTree* parent, CBTree* add)
 void CCollisionManager::Collision(CBTree* m, CBTree* o, int low, int high)
 {
 	if (o == nullptr) return;
-	printf("%ld:%ld\n", m->mPriority, o->mPriority);
+	//printf("%ld:%ld\n", m->mPriority, o->mPriority);
 	if (low <= o->mPriority)
 	{
 		Collision(m, o->mpLeft, low, high);

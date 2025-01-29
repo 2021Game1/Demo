@@ -21,7 +21,7 @@
 
 // コンストラクタ
 CGameScene4::CGameScene4()
-	: CSceneBase(EScene::eGame3)
+	: CSceneBase(EScene::eGame4)
 	, mpGameMenu(nullptr)
 {
 }
@@ -41,7 +41,8 @@ void CGameScene4::Load()
 
 	//ここでゲーム中に必要な
 	//リソースの読み込みやクラスの生成を行う
-	CResourceManager::Load<CModel>("Field", "Field\\stage1\\floor.obj");
+	//CResourceManager::Load<CModel>("Field", "Field\\stage1\\floor.obj");
+	CResourceManager::Load<CModel>("Field", "Field\\UnderGround\\passage2.obj");
 	CResourceManager::Load<CModel>("Wall", "Field\\UnderGround\\passage2.obj");
 	CResourceManager::Load<CModel>("Wall_Col", "Field\\UnderGround\\passage2.obj");
 	//CResourceManager::Load<CModel>("Wall_Col", "Field\\stage1\\wall_col.obj");
