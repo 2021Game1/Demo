@@ -238,7 +238,6 @@ void CGameScene3::Load()
 	mpGameMenu = new CInventory();
 
 	CTaskManager::Instance()->Update();
-	CCollisionManager::Instance()->UpdateAllNode(CCollisionManager::Instance()->mpRoot);
 }
 
 // シーン更新処理

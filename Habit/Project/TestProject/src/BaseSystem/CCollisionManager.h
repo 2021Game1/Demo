@@ -61,7 +61,7 @@ public:
 	CTree* Min(CTree* task);
 	// Move(ˆÚ“®æ, ˆÚ“®Œ³j
 	void Move(CTree* dest, CTree* src);
-	void UpdateAllNode(CTree* t);
+	//void UpdateAllNode(CTree* t);
 
 	//2•ª’Tõ–Ø
 	CTree* mpRoot;

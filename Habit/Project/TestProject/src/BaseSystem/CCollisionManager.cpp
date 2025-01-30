@@ -262,7 +262,7 @@ void CCollisionManager::Collision(CTree* m, CTree* o, int low, int high)
 	}
 }
 
-#define COLLISION_RANGE 50 //衝突判定範囲
+#define COLLISION_RANGE 100 //衝突判定範囲
 void CCollisionManager::Collision(CTree* c)
 {
 	int low = c->mPriority - COLLISION_RANGE;
@@ -273,54 +273,82 @@ void CCollisionManager::Collision(CTree* c)
 
 void CCollisionManager::Remove(CTree* remove)
 {
+	//左がある時は、左の最大値ノードと入替
 	if (remove->mpLeft != nullptr)
 	{
+		//左ノード内の最大値ノードをMaxで取得
 		CTree* move = Max(remove->mpLeft);
-		if (move != remove->mpLeft)
-		{
-			move->mpParentNode->mpRight = move->mpLeft;
-			Move(remove, move);
-		}
-		else
+		//最大値がすぐ左
+		if (move == remove->mpLeft)
 		{
 			remove->mpLeft = move->mpLeft;
-			Move(remove, move);
 		}
+		//最大値が左ではない場合
+		else
+		{
+			//最大値の親ノードの右に、最大値ノードの左を歳入
+			move->mpParentNode->mpRight = move->mpLeft;
+			//最大値ノードの左がある場合
+			if (move->mpLeft != nullptr)
+				//最大値ノードの左の親に、最大値ノードの親を代入
+				move->mpLeft->mpParentNode = move->mpParentNode;
+		}
+		//removeの位置に、moveを移動させる
+		Move(remove, move);
 	}
+	//左がない時は、右の最小値ノードと入替
 	else if (remove->mpRight != nullptr)
 	{
+		//右ノードの最小値をMinで取得
 		CTree* move = Min(remove->mpRight);
-
-		if (move != remove->mpRight)
-		{
-			move->mpParentNode->mpLeft = move->mpRight;
-			Move(remove, move);
-		}
-		else
+		//最小値がすぐ右の場合
+		if (move == remove->mpRight)
 		{
 			remove->mpRight = move->mpRight;
-			Move(remove, move);
 		}
-	}
-	else
-	{
-		if (remove->mpParentNode == remove)
-		{
-			CCollisionManager::Instance()->mpRoot = nullptr;
-		}
+		//最小値がすぐ右でない場合
 		else
 		{
+			//最小値の親ノードの左に、最小値ノードの右を代入
+			move->mpParentNode->mpLeft = move->mpRight;
+			//最小値ノードの右がある場合
+			if (move->mpRight != nullptr)
+				//最小値ノードの右の親に、最小値ノードの親を代入
+				move->mpRight->mpParentNode = move->mpParentNode;
+		}
+		//removeの位置に、moveを移動させる
+		Move(remove, move);
+	}
+	//子ノードがない時
+	else
+	{
+		//削除ノードがルートの場合
+		if (remove->mpParentNode == remove)
+		{
+			//ルートを初期値にする
+			CCollisionManager::Instance()->mpRoot = nullptr;
+		}
+		//削除ノードがルート以外の場合
+		else
+		{
+			//削除ノードが親ノードの左の場合
 			if (remove->mpParentNode->mpLeft == remove)
+				//削除ノードの親ノードの左を初期化する
 				remove->mpParentNode->mpLeft = nullptr;
+			//削除ノードが親ノードの右の場合
 			if (remove->mpParentNode->mpRight == remove)
+				//削除ノードの親ノードの右を初期化する
 				remove->mpParentNode->mpRight = nullptr;
 		}
 	}
+	//削除ノードの親、左、右を初期化する
 	remove->mpParentNode = remove->mpLeft = remove->mpRight = nullptr;
 }
 
 CTree* CCollisionManager::Max(CTree* task)
 {
+	//一番右にあるノードが最大値
+	//一番右にあるノードの右はnullptr
 	if (task->mpRight == nullptr)
 		return task;
 	return Max(task->mpRight);
@@ -328,6 +356,8 @@ CTree* CCollisionManager::Max(CTree* task)
 
 CTree* CCollisionManager::Min(CTree* task)
 {
+	//一番左にあるノードが最小値
+	//一番左にあるノードの左はnullptr
 	if (task->mpLeft == nullptr)
 		return task;
 	return Min(task->mpLeft);
@@ -335,19 +365,26 @@ CTree* CCollisionManager::Min(CTree* task)
 
 void CCollisionManager::Move(CTree* remove, CTree* move)
 {
-	// Parentの更新
+	// 親の更新
+	//ルートノードは、親ポインタを自身のポインタにしている
 	if (remove->mpParentNode == remove)
 	{
-		// destがRootの時
+		// 削除ノードがルートの場合
+		//ルートを移動ノードにして、移動ノードの親を自身のポインタにする
 		CCollisionManager::Instance()->mpRoot = move;
 		move->mpParentNode = move;
 	}
 	else
 	{
+		//削除ノードの親の左が、削除ノードの場合
 		if (remove->mpParentNode->mpLeft == remove)
+			//削除ノードの親の左を移動ノードにする
 			remove->mpParentNode->mpLeft = move;
+		//削除ノードの親の右が、削除ノードの場合
 		if (remove->mpParentNode->mpRight == remove)
+			//削除ノードの親の右を移動ノードにする
 			remove->mpParentNode->mpRight = move;
+		//移動ノードの親に、削除ノードの親を代入
 		move->mpParentNode = remove->mpParentNode;
 	}
 	// 左の更新
@@ -364,12 +401,12 @@ void CCollisionManager::Move(CTree* remove, CTree* move)
 	move->mpRight = remove->mpRight;
 }
 
-void CCollisionManager::UpdateAllNode(CTree* t)
-{
-	if (t->mpLeft)
-		UpdateAllNode(t->mpLeft);
-	((CCollider*)t)->Update();
-	((CCollider*)t)->UpdateCol();
-	if (t->mpRight)
-		UpdateAllNode(t->mpRight);
-}
+//void CCollisionManager::UpdateAllNode(CTree* t)
+//{
+//	if (t->mpLeft)
+//		UpdateAllNode(t->mpLeft);
+//	((CCollider*)t)->Update();
+//	((CCollider*)t)->UpdateCol();
+//	if (t->mpRight)
+//		UpdateAllNode(t->mpRight);
+//}
