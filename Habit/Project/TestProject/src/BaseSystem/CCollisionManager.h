@@ -47,11 +47,15 @@ public:
 	void Render();
 
 	//‚Q•ª’Tõ‰»
+
+	//‚Q•ª’Tõ–Ø‚Éadd‚ğ’Ç‰Á‚·‚é
 	void Add(CTree* add);
 	void Add(CTree* parent, CTree* add);
 
+	//collider‚ÌÕ“Ë”»’è‚ğs‚¤
+	void Collision(CTree* collider);
+	//o‚ª‰ºŒÀ`ãŒÀ‚Ì”ÍˆÍ‚È‚çm‚Æo‚ÌÕ“Ë”»’è‚ğs‚¤
 	void Collision(CTree* m, CTree* o, int low, int high);
-	void Collision(CTree* c);
 
 	// Remove(íœƒm[ƒh)
 	void Remove(CTree* remove);

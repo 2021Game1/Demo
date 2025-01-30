@@ -223,51 +223,59 @@ void CCollisionManager::Add(CTree* parent, CTree* add)
 	}
 }
 
-int max = 0;
-int nest = 0;
+//int max = 0;
+//int nest = 0;
 
 void CCollisionManager::Collision(CTree* m, CTree* o, int low, int high)
 {
 	if (o == nullptr) return;
 	//printf("%ld:%ld\n", m->mPriority, o->mPriority);
+	//oが下限以上の場合
 	if (low <= o->mPriority)
 	{
-		if (max < ++nest)
-		{
-			max = nest;
-			printf("max = %d\n", max);
-			if (max > 1000)
-			{
-				printf("pointer = %x\n", o);
-				getchar();
-			}
-		}
+		//if (max < ++nest)
+		//{
+		//	max = nest;
+		//	printf("max = %d\n", max);
+		//	if (max > 1000)
+		//	{
+		//		printf("pointer = %x\n", o);
+		//		getchar();
+		//	}
+		//}
+		//oの左と衝突判定
 		Collision(m, o->mpLeft, low, high);
-		nest--;
+		//nest--;
+		//戻って来てoが上限以下の場合はmと衝突判定
 		if (o->mPriority <= high)
 		{
 			if (m != o)
 				Collision((CCollider*)m, (CCollider*)o);
 		}
 	}
+	//oが上限以下の場合
 	if (o->mPriority <= high)
 	{
-		if (max < ++nest)
-		{
-			max = nest;
-			printf("max = %d\n", max);
-		}
+		//if (max < ++nest)
+		//{
+		//	max = nest;
+		//	printf("max = %d\n", max);
+		//}
+		//oの右と衝突判定
 		Collision(m, o->mpRight, low, high);
-		nest--;
+		//nest--;
 	}
 }
 
 #define COLLISION_RANGE 100 //衝突判定範囲
 void CCollisionManager::Collision(CTree* c)
 {
+	//範囲下限を設定
 	int low = c->mPriority - COLLISION_RANGE;
+	//範囲上限を設定
 	int high = c->mPriority + COLLISION_RANGE;
 
+	//ルートノードから衝突判定開始
 	Collision(c, mpRoot, low, high);
 }
 
@@ -387,17 +395,25 @@ void CCollisionManager::Move(CTree* remove, CTree* move)
 		//移動ノードの親に、削除ノードの親を代入
 		move->mpParentNode = remove->mpParentNode;
 	}
+
 	// 左の更新
+	// 削除ノードに左があれば
 	if (remove->mpLeft != nullptr)
 	{
+		//削除ノードの左の親に、移動ノードを代入
 		remove->mpLeft->mpParentNode = move;
 	}
+	//移動ノードの左に削除ノードの左を代入
 	move->mpLeft = remove->mpLeft;
+
 	// 右の更新
+	// 削除ノードに右があれば
 	if (remove->mpRight != nullptr)
 	{
+		//削除ノードの右の親に、移動ノードを代入
 		remove->mpRight->mpParentNode = move;
 	}
+	//移動ノードの右に削除ノードの右を代入
 	move->mpRight = remove->mpRight;
 }
 
