@@ -236,6 +236,11 @@ void CCollisionManager::Collision(CTree* m, CTree* o, int low, int high)
 		{
 			max = nest;
 			printf("max = %d\n", max);
+			if (max > 1000)
+			{
+				printf("pointer = %x\n", o);
+				getchar();
+			}
 		}
 		Collision(m, o->mpLeft, low, high);
 		nest--;
@@ -328,35 +333,35 @@ CTree* CCollisionManager::Min(CTree* task)
 	return Min(task->mpLeft);
 }
 
-void CCollisionManager::Move(CTree* dest, CTree* src)
+void CCollisionManager::Move(CTree* remove, CTree* move)
 {
 	// Parentの更新
-	if (dest->mpParentNode == dest)
+	if (remove->mpParentNode == remove)
 	{
 		// destがRootの時
-		CCollisionManager::Instance()->mpRoot = src;
-		src->mpParentNode = src;
+		CCollisionManager::Instance()->mpRoot = move;
+		move->mpParentNode = move;
 	}
 	else
 	{
-		if (dest->mpParentNode->mpLeft == dest)
-			dest->mpParentNode->mpLeft = src;
-		if (dest->mpParentNode->mpRight == dest)
-			dest->mpParentNode->mpRight = src;
-		src->mpParentNode = dest->mpParentNode;
+		if (remove->mpParentNode->mpLeft == remove)
+			remove->mpParentNode->mpLeft = move;
+		if (remove->mpParentNode->mpRight == remove)
+			remove->mpParentNode->mpRight = move;
+		move->mpParentNode = remove->mpParentNode;
 	}
 	// 左の更新
-	if (dest->mpLeft != nullptr)
+	if (remove->mpLeft != nullptr)
 	{
-		dest->mpLeft->mpParentNode = src;
+		remove->mpLeft->mpParentNode = move;
 	}
-	src->mpLeft = dest->mpLeft;
+	move->mpLeft = remove->mpLeft;
 	// 右の更新
-	if (dest->mpRight != nullptr)
+	if (remove->mpRight != nullptr)
 	{
-		dest->mpRight->mpParentNode = src;
+		remove->mpRight->mpParentNode = move;
 	}
-	src->mpRight = dest->mpRight;
+	move->mpRight = remove->mpRight;
 }
 
 void CCollisionManager::UpdateAllNode(CTree* t)
