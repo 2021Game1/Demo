@@ -33,7 +33,7 @@ public:
 	/// <param name="other">衝突した相手のコライダー</param>
 	/// <param name="hit">衝突した時の情報</param>
 	void Collision(CCollider* self, CCollider* other, const CHitInfo& hit) override;
-
+	void Collision();
 private:
 	// アニメーションの種類
 	enum class EAnimType

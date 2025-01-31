@@ -8,16 +8,16 @@ CClearArea::CClearArea(const CVector& pos, const CVector& angle, const CVector& 
 {	// クリアエリアのモデルデータを取得
 	mpModel = CResourceManager::Get<CModel>("Goal");
 
+	// 位置と向きとサイズを設定
+	Position(pos);
+	Rotation(angle);
+	Scale(size);
+
 	// クリアエリアのコライダーを作成
 	CColliderMesh* mpColliderMesh = new CColliderMesh(this, ELayer::eWall, mpModel, true);
 	// プレイヤーとフィールドと衝突するように設定
 	//mpColliderMesh->SetCollisionTags({ ETag::ePlayer });
 	//mpColliderMesh->SetCollisionLayers({ ELayer::ePlayer });
-
-	// 位置と向きとサイズを設定
-	Position(pos);
-	Rotation(angle);
-	Scale(size);
 }
 
 // デストラクタ

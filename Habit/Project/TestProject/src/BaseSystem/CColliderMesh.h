@@ -36,7 +36,8 @@ protected:
 private:
 	//三角コライダの配列作成
 	std::list<STVertexData> mVertices;
-	CColliderTriangle* mpTriangles;
+	std::list<CColliderTriangle*> mpTriangles;
+	 ;
 };
 
 #endif

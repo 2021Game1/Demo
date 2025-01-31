@@ -569,7 +569,7 @@ void CPlayer2::Render()
 
 void CPlayer2::Collision()
 {	
-	CCollisionManager::Instance()->Collision((CTree*)mpColliderCapsule);
+	CCollisionManager::Instance()->Collision((CTree*)mpColliderCapsule, 400);
 }
 
 // アニメーションの切り替え

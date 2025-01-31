@@ -10,6 +10,11 @@ CSwitchDoor::CSwitchDoor(const CVector& pos, const CVector& angle, const CVector
 	, mIsPlaying(false)
 	
 {
+	// 位置と向きとサイズを設定
+	Position(pos);
+	Rotation(angle);
+	Scale(size);
+
 	// 現在のシーンを取得
 	mScene = CSceneManager::Instance()->GetCurrentScene();
 	switch (mScene)
@@ -41,11 +46,6 @@ CSwitchDoor::CSwitchDoor(const CVector& pos, const CVector& angle, const CVector
 			break;
 		}
 	}
-	
-	// 位置と向きとサイズを設定
-	Position(pos);
-	Rotation(angle);
-	Scale(size);
 }
 
 // デストラクタ

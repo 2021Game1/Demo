@@ -270,10 +270,16 @@ void CCollisionManager::Collision(CTree* m, CTree* o, int low, int high)
 #define COLLISION_RANGE 100 //衝突判定範囲
 void CCollisionManager::Collision(CTree* c)
 {
+	//ルートノードから衝突判定開始
+	Collision(c, COLLISION_RANGE);
+}
+
+void CCollisionManager::Collision(CTree* c, int range)
+{
 	//範囲下限を設定
-	int low = c->mPriority - COLLISION_RANGE;
+	int low = c->mPriority - range;
 	//範囲上限を設定
-	int high = c->mPriority + COLLISION_RANGE;
+	int high = c->mPriority + range;
 
 	//ルートノードから衝突判定開始
 	Collision(c, mpRoot, low, high);

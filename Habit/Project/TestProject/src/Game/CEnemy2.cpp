@@ -9,6 +9,7 @@
 #include "CField.h"
 #include "CNavNode.h"
 #include "CNavManager.h"
+#include "CCollisionManager.h"
 
 #define FOV_ANGLE			 45.0f	// 視野範囲の角度
 #define FOV_LENGTH			100.0f	// 視野範囲の距離
@@ -286,6 +287,13 @@ void CEnemy2::Collision(CCollider* self, CCollider* other, const CHitInfo& hit)
 			}
 		}
 	}
+}
+
+void CEnemy2::Collision()
+{
+	mpColliderCapsule->Update();
+	mpColliderCapsule->UpdateCol();
+	CCollisionManager::Instance()->Collision((CTree*)mpColliderCapsule, 400);
 }
 
 // アニメーションの切り替え

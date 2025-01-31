@@ -9,6 +9,11 @@ CPushSwitch::CPushSwitch(const CVector& pos, const CVector& angle, const CVector
 	: mSwitch(false)
 	, mNum(1)
 {
+	// 位置と向きとサイズを設定
+	Position(pos);
+	Rotation(angle);
+	Scale(size);
+
 	// スイッチのモデルデータ取得
 	mpModel = CResourceManager::Get<CModel>("Switch");
 
@@ -21,11 +26,8 @@ CPushSwitch::CPushSwitch(const CVector& pos, const CVector& angle, const CVector
 	mpCollider->Position(0.0f, 2.0f, 0.0f);
 	mpCollider->SetCollisionTags({ ETag::ePlayer });
 	mpCollider->SetCollisionLayers({ ELayer::ePlayer, ELayer::eInteractSearch });
-
-	// 位置と向きとサイズを設定
-	Position(pos);
-	Rotation(angle);
-	Scale(size);
+	mpCollider->Update();
+	mpCollider->UpdateCol();
 
 	mInteractStr = "オンにする";
 }

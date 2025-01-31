@@ -13,8 +13,9 @@ CColliderMesh::CColliderMesh(CObjectBase* owner, ELayer layer, CModel* model,
 	for (auto& tri : triangles)
 	{
 		CColliderTriangle *t = new CColliderTriangle(owner, layer, tri.V0(), tri.V1(), tri.V2(), isKinematic, weight);
-		t->SetCollisionTags({ ETag::ePlayer });
-		t->SetCollisionLayers({ ELayer::ePlayer });
+		//mpTriangles.push_back(t);
+		//t->SetCollisionTags({ ETag::ePlayer });
+		//t->SetCollisionLayers({ ELayer::ePlayer });
 		t->Update();
 		t->UpdateCol();
 	}
@@ -23,6 +24,10 @@ CColliderMesh::CColliderMesh(CObjectBase* owner, ELayer layer, CModel* model,
 CColliderMesh::~CColliderMesh()
 {
 	mVertices.clear();
+	for (auto& tri : mpTriangles)
+	{
+		delete tri;
+	}
 }
 
 void CColliderMesh::Set(CModel* model)

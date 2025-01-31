@@ -54,6 +54,7 @@ public:
 
 	//collider‚ÌÕ“Ë”»’è‚ğs‚¤
 	void Collision(CTree* collider);
+	void Collision(CTree* collider, int range);
 	//o‚ª‰ºŒÀ`ãŒÀ‚Ì”ÍˆÍ‚È‚çm‚Æo‚ÌÕ“Ë”»’è‚ğs‚¤
 	void Collision(CTree* m, CTree* o, int low, int high);
 
