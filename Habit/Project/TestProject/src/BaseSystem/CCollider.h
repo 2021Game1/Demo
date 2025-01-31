@@ -42,6 +42,9 @@ class CCollider : public CTransform, public CTree
 {
 	friend CCollisionManager;
 public:
+	CCollider() {
+		return;
+	}
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>

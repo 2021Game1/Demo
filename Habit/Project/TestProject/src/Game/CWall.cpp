@@ -63,7 +63,7 @@ bool CWall::CollisionRay(const CVector& start, const CVector& end, CHitInfo* hit
 	//壁のコライダーが存在しなければ、衝突していない
 	if (mpColliderMesh == nullptr) return false;
 
-	return false;//  CCollider::CollisionRay(mpColliderMesh, start, end, hit);
+	return  CCollider::CollisionRay(mpColliderMesh, start, end, hit);
 }
 
 // 更新処理

@@ -7,7 +7,7 @@
 /*
 モデルデータから三角コライダの生成
 */
-class CColliderMesh // : public CCollider
+class CColliderMesh  : public CCollider
 {
 public:
 	/// <summary>
@@ -28,6 +28,9 @@ public:
 
 	// コライダー描画
 	void Render(); //override;
+
+	void SetCollisionTags(Tags tags);
+	void SetCollisionLayers(Layers layers);
 
 protected:
 	// コライダーの情報を更新
