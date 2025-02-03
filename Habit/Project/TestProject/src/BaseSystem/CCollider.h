@@ -42,7 +42,9 @@ class CCollider : public CTransform, public CTree
 {
 	friend CCollisionManager;
 public:
-	CCollider() {
+	CCollider()
+		: mpOwner(nullptr)
+	{
 		return;
 	}
 	/// <summary>
@@ -432,7 +434,13 @@ public:
 	static float CalcPushBackRatio(CCollider* self, CCollider* other);
 
 	// コライダーの情報を更新
-	virtual void UpdateCol() = 0;
+//	virtual void UpdateCol() = 0;
+	virtual void UpdateCol() {};
+
+	void Type(EColliderType type)
+	{
+		mType = type;
+	}
 protected:
 	// コライダーの情報を更新
 	//virtual void UpdateCol() = 0;

@@ -88,7 +88,7 @@ void CCollisionManager::Collision(CCollider* col0, CCollider* col1)
 
 	// 押し戻しの影響割合を重量で計算
 	hit.weight = CCollider::CalcPushBackRatio(col0, col1);
-	
+
 	// 各コライダーの持ち主に衝突したことを伝える
 	if (col0->Owner() != nullptr)
 	{
@@ -101,6 +101,43 @@ void CCollisionManager::Collision(CCollider* col0, CCollider* col1)
 		hit.weight = 1.0f - hit.weight;
 		col1->Owner()->Collision(col1, col0, hit);
 	}
+}
+
+// 指定した2つのコライダーの衝突処理を行う
+CCollider* CCollisionManager::CollisionTrigger(CCollider* col0, CCollider* col1)
+{
+	// 指定したコライダーが有効でなければ、衝突判定を行わない
+	if (col0 == nullptr || col1 == nullptr) return nullptr;
+	if (!col0->IsEnable() || !col1->IsEnable()) return nullptr;
+	// 両コライダーに持ち主が存在しない場合は、衝突判定を行わない
+	if (col0->Owner() == nullptr && col1->Owner() == nullptr) return nullptr;
+	// 同じ持ち主のコライダーであれば、衝突判定を行わない
+	if (col0->Owner() == col1->Owner()) return nullptr;
+	// 1つ目のコライダーの持ち主が衝突判定を行わない状態であれば、衝突判定を行わない
+	if (col0->Owner() != nullptr && !col0->Owner()->IsEnableCol()) return nullptr;
+	// 2つ目のコライダーの持ち主が衝突判定を行わない状態であれば、衝突判定を行わない
+	if (col1->Owner() != nullptr && !col1->Owner()->IsEnableCol()) return nullptr;
+
+	// 相手のコライダーと衝突判定を行うコライダーでなければ、衝突判定を行わない
+	if (!col0->IsCollision(col1))
+		return nullptr;
+	if (!col1->IsCollision(col0))
+		return nullptr;
+
+	// どちらのコライダーもメッシュコライダーでなければ、
+	if (col0->mType != EColliderType::eMesh && col1->mType != EColliderType::eMesh)
+	{
+		// バウンディングボックス同士が交差していない場合は、衝突判定を行わない
+		if (!CBounds::Intersect(col0->Bounds(), col1->Bounds())) return nullptr;
+	}
+
+	// 衝突判定を行う
+	CHitInfo hit;
+	bool collision = CCollider::Collision(col0, col1, &hit);
+	// 衝突していなければ、衝突処理を行わない
+	if (!collision) return nullptr;
+
+	return col1;
 }
 
 // 指定したコライダーと他の全てのコライダーとの衝突処理を行う
@@ -283,6 +320,53 @@ void CCollisionManager::Collision(CTree* c, int range)
 
 	//ルートノードから衝突判定開始
 	Collision(c, mpRoot, low, high);
+}
+
+CCollider* CCollisionManager::CollisionTrigger(CTree* m, CTree* o, int low, int high)
+{
+	CCollider* collider = nullptr;
+
+	if (o == nullptr) return nullptr;
+	//printf("%ld:%ld\n", m->mPriority, o->mPriority);
+	//oが下限以上の場合
+	if (low <= o->mPriority)
+	{
+		//oの左と衝突判定
+		collider = CollisionTrigger(m, o->mpLeft, low, high);
+		if (collider != nullptr) return collider;
+		//戻って来てoが上限以下の場合はmと衝突判定
+		if (o->mPriority <= high)
+		{
+			if (m != o)
+				collider = CollisionTrigger((CCollider*)m, (CCollider*)o);
+		}
+		if (collider != nullptr) return collider;
+	}
+	//oが上限以下の場合
+	if (o->mPriority <= high)
+	{
+		//oの右と衝突判定
+		collider = CollisionTrigger(m, o->mpRight, low, high);
+	}
+	if (collider != nullptr) return collider;
+}
+
+#define COLLISION_RANGE 100 //衝突判定範囲
+CCollider* CCollisionManager::CollisionTrigger(CTree* c)
+{
+	//ルートノードから衝突判定開始
+	return (CCollider*)CollisionTrigger(c, COLLISION_RANGE);
+}
+
+CCollider* CCollisionManager::CollisionTrigger(CTree* c, int range)
+{
+	//範囲下限を設定
+	int low = c->mPriority - range;
+	//範囲上限を設定
+	int high = c->mPriority + range;
+
+	//ルートノードから衝突判定開始
+	return (CCollider*)CollisionTrigger(c, mpRoot, low, high);
 }
 
 void CCollisionManager::Remove(CTree* remove)

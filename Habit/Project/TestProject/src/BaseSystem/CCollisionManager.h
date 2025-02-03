@@ -58,6 +58,12 @@ public:
 	//oが下限～上限の範囲ならmとoの衝突判定を行う
 	void Collision(CTree* m, CTree* o, int low, int high);
 
+	//
+	CCollider* CollisionTrigger(CTree* collider);
+	CCollider* CollisionTrigger(CTree* collider, int range);
+	CCollider* CollisionTrigger(CCollider* col0, CCollider* col1);
+	CCollider* CollisionTrigger(CTree* m, CTree* o, int low, int high);
+
 	// Remove(削除ノード)
 	void Remove(CTree* remove);
 	// 最大値下位ノードの取得

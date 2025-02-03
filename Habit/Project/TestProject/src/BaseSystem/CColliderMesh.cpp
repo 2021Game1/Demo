@@ -7,6 +7,7 @@ CColliderMesh::CColliderMesh(CObjectBase* owner, ELayer layer, CModel* model,
 {
 	//Set(model);
 
+	Type(EColliderType::eMesh);
 	auto triangles = model->Triangles();
 	int count = triangles.size();
 	for (auto& tri : triangles)

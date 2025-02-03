@@ -1194,6 +1194,8 @@ bool CCollider::Collision(CCollider* c0, CCollider* c1, CHitInfo* hit)
 	return false;
 }
 
+#include "CCollisionManager.h"
+
 // レイとコライダーの衝突判定
 bool CCollider::CollisionRay(CCollider* c, const CVector& start, const CVector& end, CHitInfo* hit)
 {
@@ -1202,6 +1204,13 @@ bool CCollider::CollisionRay(CCollider* c, const CVector& start, const CVector& 
 	// レイの長さが0ならば、衝突していない
 	CVector v = end - start;
 	if (v.LengthSqr() == 0.0f) return false;
+
+	//CColliderLine colLine(c->Owner(), c->Layer(), start, end);
+	//colLine.Update();
+	//colLine.UpdateCol();;
+
+	//if (CCollisionManager::Instance()->CollisionTrigger(&colLine, 400) != nullptr) return true;
+	//return false;
 
 	// コライダーの種類によって衝突判定を切り替える
 	switch(c->Type())
