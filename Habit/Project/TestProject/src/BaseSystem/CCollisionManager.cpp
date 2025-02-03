@@ -345,14 +345,17 @@ void CCollisionManager::Remove(CTree* remove)
 		//削除ノードがルート以外の場合
 		else
 		{
-			//削除ノードが親ノードの左の場合
-			if (remove->mpParentNode->mpLeft == remove)
-				//削除ノードの親ノードの左を初期化する
-				remove->mpParentNode->mpLeft = nullptr;
-			//削除ノードが親ノードの右の場合
-			if (remove->mpParentNode->mpRight == remove)
-				//削除ノードの親ノードの右を初期化する
-				remove->mpParentNode->mpRight = nullptr;
+			if (remove->mpParentNode != nullptr)
+			{
+				//削除ノードが親ノードの左の場合
+				if (remove->mpParentNode->mpLeft == remove)
+					//削除ノードの親ノードの左を初期化する
+					remove->mpParentNode->mpLeft = nullptr;
+				//削除ノードが親ノードの右の場合
+				if (remove->mpParentNode->mpRight == remove)
+					//削除ノードの親ノードの右を初期化する
+					remove->mpParentNode->mpRight = nullptr;
+			}
 		}
 	}
 	//削除ノードの親、左、右を初期化する
