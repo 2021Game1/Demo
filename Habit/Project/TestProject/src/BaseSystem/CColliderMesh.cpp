@@ -34,7 +34,6 @@ void CColliderMesh::SetCollisionLayers(Layers layers)
 {
 	for (auto& tri : mpTriangles)
 	{
-
 		tri->SetCollisionLayers({ ELayer::ePlayer });
 	}
 }

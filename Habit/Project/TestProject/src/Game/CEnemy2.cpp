@@ -294,6 +294,8 @@ void CEnemy2::Collision()
 	mpColliderCapsule->Update();
 	mpColliderCapsule->UpdateCol();
 	CCollisionManager::Instance()->Collision((CTree*)mpColliderCapsule, 400);
+	mpAttackCollider->UpdateCol();
+	CCollisionManager::Instance()->Collision((CTree*)mpAttackCollider, 400);
 }
 
 // アニメーションの切り替え
